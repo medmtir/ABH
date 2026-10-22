@@ -84,7 +84,7 @@ export default function HomePage() {
       capacity: '24 000 Litres',
       desc: 'Poche aseptique alimentaire monocouche ou multicouche certifiée COA, intégrée dans un conteneur 20 pieds standard.',
       ideal: 'Grands importateurs & raffineurs',
-      image: '/images/packaging/ibc-container.jpg',
+      image: '/images/facility/port-containers.jpg',
     },
     {
       title: 'Cuves IBC / GRV 1 000L',

@@ -320,7 +320,7 @@ export const seedData: Database = {
       id: 'pack-flexitank',
       capacity: '24 000 Litres',
       title: 'Flexitank pour Conteneur 20ft',
-      image_url: '/images/packaging/ibc-container.jpg',
+      image_url: '/images/facility/port-containers.jpg',
       badge: 'Idéal Grand Vrac Maritime',
       description: 'Poche multicouche aseptique alimentaire installée dans conteneur 20 pieds standard. Solution logistique la plus rentable pour les volumes industriels.',
       sort_order: 1,
