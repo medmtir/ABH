@@ -30,6 +30,11 @@ function checkMagicBytes(buffer: Buffer, ext: string): boolean {
 }
 
 export async function POST(request: NextRequest) {
+  const session = await validateAdminSession(request);
+  if (!session.valid) {
+    return NextResponse.json({ error: 'Non autorisé' }, { status: 401 });
+  }
+
   try {
     const formData = await request.formData();
     const file = formData.get('file') as File | null;

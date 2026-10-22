@@ -52,21 +52,38 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email.trim())) {
+      return NextResponse.json(
+        { error: 'Adresse email invalide.' },
+        { status: 400 }
+      );
+    }
+
+    // Payload length guards against DOS/exhaustion
+    if (full_name.length > 150 || company_name.length > 150 || message.length > 5000) {
+      return NextResponse.json(
+        { error: 'La longueur du message ou des champs dépasse la limite autorisée.' },
+        { status: 400 }
+      );
+    }
+
     const db = loadDatabase();
 
     const newMessage: ContactMessage = {
       id: `msg-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
-      full_name,
-      company_name,
-      country: country || 'Non spécifié',
-      email,
-      phone: phone || '',
-      product_interest: product_interest || "Huile d'Olive Vierge Extra",
-      quantity: quantity || '',
-      destination_country: destination_country || '',
-      message,
+      full_name: full_name.trim().slice(0, 150),
+      company_name: company_name.trim().slice(0, 150),
+      country: (country || 'Non spécifié').trim().slice(0, 100),
+      email: email.trim().toLowerCase().slice(0, 150),
+      phone: (phone || '').trim().slice(0, 50),
+      product_interest: (product_interest || "Huile d'Olive Vierge Extra").slice(0, 100),
+      quantity: (quantity || '').trim().slice(0, 50),
+      destination_country: (destination_country || '').trim().slice(0, 100),
+      message: message.trim().slice(0, 5000),
       privacy_consent: !!privacy_consent,
-      file_attachment: file_attachment || '',
+      file_attachment: (file_attachment || '').slice(0, 500),
       status: 'unread',
       created_at: new Date().toISOString(),
     };
