@@ -1,21 +1,25 @@
 {
-  "name": "ABH - Authentic Bio Huile Company",
-  "short_name": "ABH Company",
-  "description": "Exportation internationale d'huiles d'olive et huiles bio tunisiennes en vrac maritime.",
-  "start_url": "/",
+  "name": "ABH Admin — Authentic Bio Huile",
+  "short_name": "ABH Admin",
+  "description": "Portail d'administration et de gestion commerciale des commandes export ABH Company.",
+  "start_url": "/admin/dashboard",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#FAF7F2",
-  "theme_color": "#1B365D",
+  "orientation": "any",
+  "background_color": "#112013",
+  "theme_color": "#2B4C28",
   "icons": [
     {
       "src": "/images/logo.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
       "src": "/images/logo.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }

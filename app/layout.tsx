@@ -31,6 +31,12 @@ export const metadata: Metadata = {
   description: "Authentic Bio Huile Company (ABH), société de commerce international à Bouhajla (Kairouan). Exportation mondiale d'huiles d'olive extra vierges et biologiques en vrac.",
   keywords: "huile d'olive tunisie, export huile olive vrac, authentic bio huile company, bouhajla, kairouan, bio tunisie, flexitank",
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://abh-company.com'),
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'ABH Admin',
+  },
   openGraph: {
     title: 'ABH Company — Authentic Bio Huile Company',
     description: "Exportation internationale d'huiles végétales & oléicoles tunisiennes d'excellence.",

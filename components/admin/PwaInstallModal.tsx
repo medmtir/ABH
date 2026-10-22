@@ -47,7 +47,7 @@ export function PwaInstallModal({ isOpen, onClose }: PwaInstallModalProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-abh-midnight/80 backdrop-blur-sm animate-fade-in-up">
-      <div className="relative w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl border border-abh-border">
+      <div className="relative w-full max-w-md rounded-2xl bg-white p-5 sm:p-6 shadow-2xl border border-abh-border">
         <button
           onClick={onClose}
           className="absolute right-4 top-4 rounded-full p-1.5 text-gray-400 hover:bg-abh-pearl hover:text-abh-sapphire transition-colors"
@@ -63,7 +63,7 @@ export function PwaInstallModal({ isOpen, onClose }: PwaInstallModalProps) {
             Installer l Application ABH Admin
           </h3>
           <p className="text-xs text-abh-slate mt-1">
-            Gérez vos commandes B2B, devis et expéditions maritimes directement depuis votre smartphone.
+            Gérez vos commandes B2B, devis et expéditions maritimes directement depuis votre smartphone. L icône s ouvrira directement sur votre tableau de bord administrateur.
           </p>
         </div>
 

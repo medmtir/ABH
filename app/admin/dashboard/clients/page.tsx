@@ -568,10 +568,10 @@ export default function AdminClientsOrdersPage() {
       </div>
 
       {/* Tabs */}
-      <div className="flex border-b border-abh-border gap-6 text-xs font-semibold">
+      <div className="flex border-b border-abh-border gap-3 sm:gap-6 text-xs font-semibold overflow-x-auto no-scrollbar touch-scroll">
         <button
           onClick={() => setActiveTab('orders')}
-          className={`pb-3 border-b-2 transition-colors flex items-center gap-2 ${
+          className={`pb-3 border-b-2 transition-colors flex items-center gap-2 whitespace-nowrap shrink-0 ${
             activeTab === 'orders'
               ? 'border-abh-amber text-abh-sapphire'
               : 'border-transparent text-gray-400 hover:text-abh-sapphire'
@@ -583,7 +583,7 @@ export default function AdminClientsOrdersPage() {
 
         <button
           onClick={() => setActiveTab('clients')}
-          className={`pb-3 border-b-2 transition-colors flex items-center gap-2 ${
+          className={`pb-3 border-b-2 transition-colors flex items-center gap-2 whitespace-nowrap shrink-0 ${
             activeTab === 'clients'
               ? 'border-abh-amber text-abh-sapphire'
               : 'border-transparent text-gray-400 hover:text-abh-sapphire'
@@ -598,14 +598,14 @@ export default function AdminClientsOrdersPage() {
       {/* TAB 1: ORDERS & SHIPMENTS WITH LINE ITEMS & ACTIONS      */}
       {/* ======================================================== */}
       {activeTab === 'orders' && (
-        <div className="space-y-6">
+        <div className="space-y-5">
           {/* Financial summary KPIs */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
             {(['EUR', 'TND', 'USD'] as const).map((curr) => {
               const kpi = kpis[curr] || { total: 0, paid: 0, remaining: 0 };
               const percent = kpi.total > 0 ? Math.round((kpi.paid / kpi.total) * 100) : 0;
               return (
-                <div key={curr} className="rounded-2xl bg-white p-4 border border-abh-border shadow-xs card-hover">
+                <div key={curr} className="rounded-2xl bg-white p-3.5 sm:p-4 border border-abh-border shadow-xs card-hover">
                   <div className="flex items-center justify-between mb-1">
                     <span className="text-xs font-bold text-abh-amber uppercase tracking-wider">{curr} — Contrats</span>
                     <span className="text-[10px] text-abh-slate font-medium">{percent}% Encaissé</span>
@@ -636,7 +636,7 @@ export default function AdminClientsOrdersPage() {
           </div>
 
           {/* Search & Filter Bar */}
-          <div className="rounded-2xl bg-white p-4 border border-abh-border shadow-xs flex flex-col md:flex-row items-center gap-3">
+          <div className="rounded-2xl bg-white p-3 sm:p-4 border border-abh-border shadow-xs flex flex-col md:flex-row items-stretch md:items-center gap-2.5 sm:gap-3">
             <div className="relative flex-1 w-full">
               <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-abh-slate" />
               <input
@@ -648,13 +648,13 @@ export default function AdminClientsOrdersPage() {
               />
             </div>
 
-            <div className="flex items-center gap-2 w-full md:w-auto">
+            <div className="grid grid-cols-2 sm:flex sm:items-center gap-2 w-full md:w-auto">
               <select
                 value={orderStatusFilter}
                 onChange={(e) => setOrderStatusFilter(e.target.value)}
-                className="text-xs rounded-xl border border-abh-border px-3 py-2 bg-white text-abh-midnight focus:outline-none focus:border-abh-amber"
+                className="w-full sm:w-auto text-xs rounded-xl border border-abh-border px-3 py-2 bg-white text-abh-midnight focus:outline-none focus:border-abh-amber"
               >
-                <option value="all">Tous les statuts</option>
+                <option value="all">Tous statuts</option>
                 <option value="confirmed">Confirmé</option>
                 <option value="in_production">En production</option>
                 <option value="shipped">Expédié</option>
@@ -665,7 +665,7 @@ export default function AdminClientsOrdersPage() {
               <select
                 value={orderCurrencyFilter}
                 onChange={(e) => setOrderCurrencyFilter(e.target.value)}
-                className="text-xs rounded-xl border border-abh-border px-3 py-2 bg-white text-abh-midnight focus:outline-none focus:border-abh-amber"
+                className="w-full sm:w-auto text-xs rounded-xl border border-abh-border px-3 py-2 bg-white text-abh-midnight focus:outline-none focus:border-abh-amber"
               >
                 <option value="all">Toutes devises</option>
                 <option value="EUR">EUR (€)</option>
@@ -693,7 +693,7 @@ export default function AdminClientsOrdersPage() {
                     className="rounded-2xl bg-white border border-abh-border shadow-xs overflow-hidden transition-all duration-200"
                   >
                     {/* Order summary header card */}
-                    <div className="p-4 sm:p-5 flex flex-col lg:flex-row lg:items-center justify-between gap-4 text-xs">
+                    <div className="p-3.5 sm:p-5 flex flex-col lg:flex-row lg:items-center justify-between gap-4 text-xs">
                       <div className="space-y-2 flex-1">
                         <div className="flex flex-wrap items-center gap-2">
                           <span className="font-mono font-bold text-sm text-abh-sapphire">
@@ -768,8 +768,8 @@ export default function AdminClientsOrdersPage() {
                       </div>
 
                       {/* Action buttons on the order */}
-                      <div className="flex flex-wrap lg:flex-col items-end gap-2 self-start lg:self-center">
-                        <div className="flex items-center gap-1.5">
+                      <div className="flex flex-wrap items-center justify-between sm:justify-start lg:flex-col lg:items-end gap-2 pt-2 border-t border-gray-100 lg:border-t-0 lg:pt-0 w-full lg:w-auto">
+                        <div className="flex items-center gap-1.5 flex-wrap">
                           <button
                             onClick={() => handleOpenAddPayment(o)}
                             className="rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200 px-3 py-1.5 text-xs font-semibold hover:bg-emerald-100 transition-colors flex items-center gap-1"
@@ -789,7 +789,7 @@ export default function AdminClientsOrdersPage() {
                           </button>
                         </div>
 
-                        <div className="flex items-center gap-1.5">
+                        <div className="flex items-center gap-1.5 ml-auto lg:ml-0">
                           <button
                             onClick={() => setExpandedOrderId(isExpanded ? null : o.id)}
                             className={`rounded-xl px-3 py-1.5 text-xs font-semibold border transition-colors flex items-center gap-1 ${
@@ -799,7 +799,7 @@ export default function AdminClientsOrdersPage() {
                             }`}
                           >
                             <Layers className="h-3.5 w-3.5" />
-                            <span>Lignes de flux ({(o.payments?.length || 0) + (o.delivery_installments?.length || 0)})</span>
+                            <span>Lignes ({(o.payments?.length || 0) + (o.delivery_installments?.length || 0)})</span>
                             {isExpanded ? <ChevronUp className="h-3.5 w-3.5 ml-0.5" /> : <ChevronDown className="h-3.5 w-3.5 ml-0.5" />}
                           </button>
 
@@ -1095,11 +1095,11 @@ export default function AdminClientsOrdersPage() {
       {/* MODAL 1: ADD / EDIT CLIENT                               */}
       {/* ======================================================== */}
       {clientModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-abh-midnight/70 backdrop-blur-sm animate-fade-in-up">
-          <div className="relative w-full max-w-lg rounded-2xl bg-white p-6 shadow-2xl border border-abh-border max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-abh-midnight/70 backdrop-blur-sm animate-fade-in-up">
+          <div className="relative w-full max-w-lg rounded-2xl bg-white p-4 sm:p-6 shadow-2xl border border-abh-border max-h-[88vh] overflow-y-auto">
             <button
               onClick={() => setClientModalOpen(false)}
-              className="absolute right-4 top-4 text-gray-400 hover:text-abh-sapphire"
+              className="absolute right-4 top-4 text-gray-400 hover:text-abh-sapphire p-1"
             >
               <X className="h-5 w-5" />
             </button>
@@ -1122,7 +1122,7 @@ export default function AdminClientsOrdersPage() {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block font-medium mb-1 text-abh-midnight">Pays *</label>
                   <input
@@ -1157,7 +1157,7 @@ export default function AdminClientsOrdersPage() {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block font-medium mb-1 text-abh-midnight">Email</label>
                   <input
@@ -1219,11 +1219,11 @@ export default function AdminClientsOrdersPage() {
       {/* MODAL 2: ADD / EDIT ORDER (With Existing vs New Client)  */}
       {/* ======================================================== */}
       {orderModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-abh-midnight/70 backdrop-blur-sm animate-fade-in-up">
-          <div className="relative w-full max-w-lg rounded-2xl bg-white p-6 shadow-2xl border border-abh-border max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-abh-midnight/70 backdrop-blur-sm animate-fade-in-up">
+          <div className="relative w-full max-w-lg rounded-2xl bg-white p-4 sm:p-6 shadow-2xl border border-abh-border max-h-[88vh] overflow-y-auto">
             <button
               onClick={() => setOrderModalOpen(false)}
-              className="absolute right-4 top-4 text-gray-400 hover:text-abh-sapphire"
+              className="absolute right-4 top-4 text-gray-400 hover:text-abh-sapphire p-1"
             >
               <X className="h-5 w-5" />
             </button>
@@ -1238,9 +1238,9 @@ export default function AdminClientsOrdersPage() {
               {/* Only show client chooser when creating a new order */}
               {!editingOrder ? (
                 <div className="rounded-xl border border-abh-border bg-abh-pearl/30 p-3 space-y-3">
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                     <span className="font-bold text-abh-midnight">Client de la commande</span>
-                    <div className="flex rounded-lg bg-white border border-abh-border p-0.5 text-[11px]">
+                    <div className="flex rounded-lg bg-white border border-abh-border p-0.5 text-[11px] self-start sm:self-auto">
                       <button
                         type="button"
                         onClick={() => setOrderClientMode('existing')}
@@ -1310,7 +1310,7 @@ export default function AdminClientsOrdersPage() {
                           placeholder="ex. Global Olive Trading Ltd"
                         />
                       </div>
-                      <div className="grid grid-cols-2 gap-2">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                         <div>
                           <label className="block text-[11px] font-medium text-abh-midnight mb-1">Pays *</label>
                           <input
@@ -1333,7 +1333,7 @@ export default function AdminClientsOrdersPage() {
                           />
                         </div>
                       </div>
-                      <div className="grid grid-cols-2 gap-2">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                         <div>
                           <label className="block text-[11px] font-medium text-abh-midnight mb-1">Email</label>
                           <input
@@ -1366,7 +1366,7 @@ export default function AdminClientsOrdersPage() {
               )}
 
               {/* Product & Packaging */}
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block font-medium mb-1 text-abh-midnight">Produit *</label>
                   <select
@@ -1394,7 +1394,7 @@ export default function AdminClientsOrdersPage() {
               </div>
 
               {/* Quantities & Pricing */}
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div>
                   <label className="block font-medium mb-1 text-abh-midnight">Quantité ({orderForm.unit}) *</label>
                   <input
@@ -1440,7 +1440,7 @@ export default function AdminClientsOrdersPage() {
               </div>
 
               {/* Date & Status */}
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block font-medium mb-1 text-abh-midnight">Date de Commande</label>
                   <input
@@ -1494,11 +1494,11 @@ export default function AdminClientsOrdersPage() {
       {/* MODAL 3: ADD PAYMENT LINE                                */}
       {/* ======================================================== */}
       {paymentModalOpen && selectedOrder && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-abh-midnight/70 backdrop-blur-sm animate-fade-in-up">
-          <div className="relative w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl border border-abh-border">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-abh-midnight/70 backdrop-blur-sm animate-fade-in-up">
+          <div className="relative w-full max-w-md rounded-2xl bg-white p-4 sm:p-6 shadow-2xl border border-abh-border max-h-[88vh] overflow-y-auto">
             <button
               onClick={() => setPaymentModalOpen(false)}
-              className="absolute right-4 top-4 text-gray-400 hover:text-abh-sapphire"
+              className="absolute right-4 top-4 text-gray-400 hover:text-abh-sapphire p-1"
             >
               <X className="h-5 w-5" />
             </button>
@@ -1512,7 +1512,7 @@ export default function AdminClientsOrdersPage() {
             </p>
 
             <form onSubmit={handleAddPayment} className="space-y-3 text-xs">
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block font-medium mb-1 text-abh-midnight">Date du Versement *</label>
                   <input
@@ -1590,11 +1590,11 @@ export default function AdminClientsOrdersPage() {
       {/* MODAL 4: ADD DELIVERY LINE (B/L)                         */}
       {/* ======================================================== */}
       {deliveryModalOpen && selectedOrder && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-abh-midnight/70 backdrop-blur-sm animate-fade-in-up">
-          <div className="relative w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl border border-abh-border">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-abh-midnight/70 backdrop-blur-sm animate-fade-in-up">
+          <div className="relative w-full max-w-md rounded-2xl bg-white p-4 sm:p-6 shadow-2xl border border-abh-border max-h-[88vh] overflow-y-auto">
             <button
               onClick={() => setDeliveryModalOpen(false)}
-              className="absolute right-4 top-4 text-gray-400 hover:text-abh-sapphire"
+              className="absolute right-4 top-4 text-gray-400 hover:text-abh-sapphire p-1"
             >
               <X className="h-5 w-5" />
             </button>
@@ -1608,7 +1608,7 @@ export default function AdminClientsOrdersPage() {
             </p>
 
             <form onSubmit={handleAddDelivery} className="space-y-3 text-xs">
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block font-medium mb-1 text-abh-midnight">Date d Expédition *</label>
                   <input
@@ -1673,8 +1673,8 @@ export default function AdminClientsOrdersPage() {
       {/* MODAL 5: DELETE CONFIRMATION                             */}
       {/* ======================================================== */}
       {deleteConfirm.open && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-abh-midnight/70 backdrop-blur-sm animate-fade-in-up">
-          <div className="relative w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl border border-abh-border text-center space-y-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-abh-midnight/70 backdrop-blur-sm animate-fade-in-up">
+          <div className="relative w-full max-w-sm rounded-2xl bg-white p-5 sm:p-6 shadow-2xl border border-abh-border text-center space-y-4">
             <div className="w-12 h-12 rounded-full bg-red-100 text-red-600 flex items-center justify-center mx-auto">
               <Trash2 className="h-6 w-6" />
             </div>

@@ -111,9 +111,9 @@ export default function AdminDashboardLayout({
   ];
 
   return (
-    <div className="min-h-screen bg-[#F4F6F9] flex flex-col lg:flex-row">
+    <div className="min-h-screen bg-[#F4F6F9] flex flex-col lg:flex-row overflow-x-hidden">
       {/* Mobile Header Bar */}
-      <div className="lg:hidden bg-abh-midnight text-white px-4 py-3 flex items-center justify-between border-b border-white/10 sticky top-0 z-30">
+      <div className="lg:hidden bg-abh-midnight text-white px-3.5 py-2.5 flex items-center justify-between border-b border-white/10 sticky top-0 z-30 shadow-sm">
         <ABHLogo variant="dark" size="sm" />
         <div className="flex items-center gap-2">
           {unreadCount > 0 && (
@@ -127,33 +127,44 @@ export default function AdminDashboardLayout({
           )}
           <button
             onClick={() => setMobileSidebarOpen(!mobileSidebarOpen)}
-            className="p-1.5 rounded-lg bg-white/10 text-white"
+            className="p-2 rounded-xl bg-white/10 text-white hover:bg-white/15 transition-colors"
+            aria-label="Menu administration"
           >
             {mobileSidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
       </div>
 
+      {/* Mobile Sidebar Backdrop */}
+      {mobileSidebarOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/60 backdrop-blur-xs lg:hidden animate-fade-in"
+          onClick={() => setMobileSidebarOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+
       {/* Sidebar Desktop & Mobile */}
       <aside
-        className={`fixed inset-y-0 left-0 z-40 w-64 bg-abh-midnight text-gray-300 flex flex-col justify-between border-r border-white/10 transition-transform duration-300 lg:static lg:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-50 w-72 max-w-[85vw] bg-abh-midnight text-gray-300 flex flex-col justify-between border-r border-white/10 transition-transform duration-300 lg:static lg:w-64 lg:translate-x-0 ${
           mobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         <div>
           {/* Logo area */}
-          <div className="p-5 border-b border-white/10 flex items-center justify-between">
+          <div className="p-4 sm:p-5 border-b border-white/10 flex items-center justify-between">
             <ABHLogo variant="dark" size="sm" />
             <button
               onClick={() => setMobileSidebarOpen(false)}
-              className="lg:hidden text-gray-400 hover:text-white"
+              className="lg:hidden p-1.5 rounded-lg text-gray-400 hover:text-white hover:bg-white/10"
+              aria-label="Fermer"
             >
               <X className="h-5 w-5" />
             </button>
           </div>
 
           {/* Navigation Links */}
-          <nav className="p-3 space-y-1 max-h-[calc(100vh-210px)] overflow-y-auto">
+          <nav className="p-3 space-y-1 max-h-[calc(100vh-210px)] overflow-y-auto touch-scroll">
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = pathname === item.href;
@@ -187,7 +198,10 @@ export default function AdminDashboardLayout({
         <div className="p-3 border-t border-white/10 space-y-2">
           <button
             type="button"
-            onClick={() => setPwaModalOpen(true)}
+            onClick={() => {
+              setMobileSidebarOpen(false);
+              setPwaModalOpen(true);
+            }}
             className="w-full flex items-center justify-center gap-2 rounded-xl bg-white/5 px-3 py-2 text-xs font-medium text-abh-amber hover:bg-white/10 transition-colors border border-white/10"
           >
             <Smartphone className="h-3.5 w-3.5" />
@@ -215,8 +229,8 @@ export default function AdminDashboardLayout({
       </aside>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
+      <div className="flex-1 flex flex-col min-w-0 overflow-y-auto overflow-x-hidden">
+        <main className="flex-1 p-3.5 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
           {children}
         </main>
       </div>

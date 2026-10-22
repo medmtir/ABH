@@ -118,14 +118,14 @@ export function QuoteModal({ isOpen, onClose, defaultProduct }: QuoteModalProps)
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-abh-midnight/70 backdrop-blur-sm animate-fade-in-up">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-abh-midnight/70 backdrop-blur-sm animate-fade-in-up">
       <div
-        className="relative w-full max-w-2xl max-h-[92vh] overflow-y-auto rounded-2xl bg-white shadow-2xl border border-abh-border p-6 sm:p-8"
+        className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl bg-white shadow-2xl border border-abh-border p-4 sm:p-8"
         role="dialog"
       >
         <button
           onClick={onClose}
-          className="absolute right-5 top-5 rounded-full p-2 text-gray-400 hover:bg-abh-pearl hover:text-abh-sapphire transition-colors"
+          className="absolute right-4 top-4 sm:right-5 sm:top-5 rounded-full p-2 text-gray-400 hover:bg-abh-pearl hover:text-abh-sapphire transition-colors"
           aria-label="Fermer"
         >
           <X className="h-5 w-5" />

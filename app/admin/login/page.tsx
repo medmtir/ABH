@@ -42,14 +42,14 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-abh-midnight via-[#132238] to-abh-sapphire p-4 sm:p-6">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-abh-midnight via-[#182e1a] to-abh-sapphire p-3.5 sm:p-6">
       <div className="w-full max-w-md">
         {/* Logo container */}
-        <div className="text-center mb-8">
-          <div className="inline-block p-2 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 mb-4 shadow-xl">
+        <div className="text-center mb-6 sm:mb-8">
+          <div className="inline-block p-2 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 mb-3 sm:mb-4 shadow-xl">
             <ABHLogo variant="dark" size="lg" />
           </div>
-          <h1 className="text-2xl font-heading font-bold text-white tracking-wide">
+          <h1 className="text-xl sm:text-2xl font-heading font-bold text-white tracking-wide">
             Espace Direction & Gestion Commerciale
           </h1>
           <p className="text-xs text-gray-400 mt-1">
@@ -58,7 +58,7 @@ export default function AdminLoginPage() {
         </div>
 
         {/* Card */}
-        <div className="rounded-2xl bg-white/95 backdrop-blur-xl p-8 shadow-2xl border border-white/20">
+        <div className="rounded-2xl bg-white/95 backdrop-blur-xl p-5 sm:p-8 shadow-2xl border border-white/20">
           <div className="flex items-center gap-2 rounded-xl bg-abh-sand/40 p-3 text-xs text-abh-sapphire mb-6 border border-abh-border">
             <ShieldCheck className="h-4 w-4 text-abh-amber shrink-0" />
             <span>Session chiffrée SSL / Protection anti-brute-force active</span>

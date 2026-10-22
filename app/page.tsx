@@ -136,9 +136,9 @@ export default function HomePage() {
     <>
       <Header />
 
-      <main className="min-h-screen pt-20">
+      <main className="min-h-screen pt-16 sm:pt-20 overflow-x-hidden">
         {/* ================= HERO SECTION ================= */}
-        <section className="relative overflow-hidden bg-gradient-to-b from-abh-sapphire via-abh-midnight to-[#0a160b] text-white pt-16 pb-24 sm:pt-24 sm:pb-32">
+        <section className="relative overflow-hidden bg-gradient-to-b from-abh-sapphire via-abh-midnight to-[#0a160b] text-white pt-14 pb-20 sm:pt-24 sm:pb-32">
           {/* Subtle geometric background overlay */}
           <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#D4930D_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
 
@@ -147,27 +147,27 @@ export default function HomePage() {
           <div className="absolute -bottom-40 -left-40 h-96 w-96 rounded-full bg-abh-sapphire/40 blur-3xl pointer-events-none" />
 
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
               {/* Left Column: Headlines */}
-              <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-                <div className="inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur-md px-3.5 py-1.5 text-xs font-semibold text-abh-amber border border-white/15">
-                  <Sparkles className="h-3.5 w-3.5 text-abh-amber" />
-                  <span>Société de Commerce International — RNE 1956962P</span>
+              <div className="lg:col-span-7 space-y-5 sm:space-y-6 text-center lg:text-left">
+                <div className="inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur-md px-3 py-1 sm:px-3.5 sm:py-1.5 text-[11px] sm:text-xs font-semibold text-abh-amber border border-white/15">
+                  <Sparkles className="h-3.5 w-3.5 text-abh-amber shrink-0" />
+                  <span className="truncate">Société de Commerce International — RNE 1956962P</span>
                 </div>
 
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-heading font-bold tracking-tight text-white leading-[1.15]">
+                <h1 className="text-3xl sm:text-5xl lg:text-6xl font-heading font-bold tracking-tight text-white leading-[1.15]">
                   L Excellence des Huiles Bio & d Olive Tunisiennes en <span className="text-gradient-gold">Vrac Maritime</span>
                 </h1>
 
-                <p className="text-base sm:text-lg text-gray-300 max-w-2xl mx-auto lg:mx-0 font-light leading-relaxed">
+                <p className="text-sm sm:text-lg text-gray-300 max-w-2xl mx-auto lg:mx-0 font-light leading-relaxed">
                   Basée à Bouhajla au cœur du gouvernorat de Kairouan, <b>Authentic Bio Huile Company (ABH)</b> sélectionne, stocke sous azote et exporte des huiles d exception en Flexitanks 24 000L et fûts vers les cinq continents.
                 </p>
 
-                <div className="pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                <div className="pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4">
                   <button
                     type="button"
                     onClick={() => setQuoteModalOpen(true)}
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-abh-amber to-abh-copper px-8 py-3.5 text-sm font-bold text-white shadow-lg shadow-abh-amber/25 hover:shadow-xl hover:scale-[1.02] transition-all"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-abh-amber to-abh-copper px-7 py-3.5 text-xs sm:text-sm font-bold text-white shadow-lg shadow-abh-amber/25 hover:shadow-xl hover:scale-[1.02] transition-all"
                   >
                     <span>Demander une Cotation (RFQ)</span>
                     <ArrowRight className="h-4 w-4" />
@@ -175,24 +175,24 @@ export default function HomePage() {
 
                   <Link
                     href="/products"
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-white/10 backdrop-blur-md px-7 py-3.5 text-sm font-semibold text-white hover:bg-white/15 border border-white/20 transition-colors"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-white/10 backdrop-blur-md px-7 py-3.5 text-xs sm:text-sm font-semibold text-white hover:bg-white/15 border border-white/20 transition-colors"
                   >
                     <span>Découvrir le Catalogue</span>
                   </Link>
                 </div>
 
                 {/* Trust badges */}
-                <div className="pt-6 border-t border-white/10 flex flex-wrap items-center justify-center lg:justify-start gap-6 text-xs text-gray-400">
+                <div className="pt-4 sm:pt-6 border-t border-white/10 flex flex-wrap items-center justify-center lg:justify-start gap-4 sm:gap-6 text-xs text-gray-400">
                   <div className="flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-abh-amber" />
+                    <CheckCircle2 className="h-4 w-4 text-abh-amber shrink-0" />
                     <span>Conformité COI Garantie</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-abh-amber" />
+                    <CheckCircle2 className="h-4 w-4 text-abh-amber shrink-0" />
                     <span>Contrôle Qualité Lot par Lot</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-abh-amber" />
+                    <CheckCircle2 className="h-4 w-4 text-abh-amber shrink-0" />
                     <span>Départs Maritimes Hebdomadaires</span>
                   </div>
                 </div>
@@ -229,22 +229,22 @@ export default function HomePage() {
         </section>
 
         {/* ================= STATS SECTION ================= */}
-        <section className="relative -mt-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-20">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <section className="relative -mt-8 sm:-mt-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-20">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             {stats.map((stat, i) => {
               const Icon = stat.icon;
               return (
                 <div
                   key={i}
-                  className="rounded-2xl bg-white p-6 shadow-premium border border-abh-border text-center card-hover"
+                  className="rounded-2xl bg-white p-3.5 sm:p-6 shadow-premium border border-abh-border text-center card-hover"
                 >
-                  <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-abh-sand/40 text-abh-sapphire mb-3">
-                    <Icon className="h-6 w-6 text-abh-amber" />
+                  <div className="mx-auto flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-xl bg-abh-sand/40 text-abh-sapphire mb-2.5 sm:mb-3">
+                    <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-abh-amber" />
                   </div>
-                  <div className="text-3xl font-heading font-bold text-abh-sapphire mb-1">
+                  <div className="text-2xl sm:text-3xl font-heading font-bold text-abh-sapphire mb-0.5 sm:mb-1">
                     {stat.value}
                   </div>
-                  <div className="text-xs font-medium text-abh-slate">
+                  <div className="text-[11px] sm:text-xs font-medium text-abh-slate leading-tight">
                     {stat.label}
                   </div>
                 </div>

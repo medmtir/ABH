@@ -38,14 +38,17 @@ export function Header() {
       <header
         className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
           scrolled
-            ? 'bg-white/90 backdrop-blur-md shadow-sm border-b border-abh-border/80 py-3'
-            : 'bg-transparent py-4 sm:py-5'
+            ? 'bg-white/95 backdrop-blur-md shadow-sm border-b border-abh-border/80 py-2.5 sm:py-3'
+            : 'bg-white/80 sm:bg-transparent backdrop-blur-xs sm:backdrop-blur-none py-3 sm:py-5 border-b border-abh-border/40 sm:border-transparent'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
-            {/* Logo */}
-            <ABHLogo size="md" />
+            {/* Logo: Compact on mobile, standard on desktop */}
+            <div className="shrink-0">
+              <ABHLogo size="sm" className="sm:hidden" />
+              <ABHLogo size="md" className="hidden sm:inline-flex" />
+            </div>
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center gap-1 rounded-full bg-white/70 backdrop-blur-md px-4 py-1.5 border border-abh-border/70 shadow-xs">
@@ -96,10 +99,18 @@ export function Header() {
           </div>
         </div>
 
+        {/* Mobile menu drawer backdrop */}
+        {mobileMenuOpen && (
+          <div
+            className="lg:hidden fixed inset-0 top-[60px] bg-black/40 backdrop-blur-xs z-30 animate-fade-in"
+            onClick={() => setMobileMenuOpen(false)}
+          />
+        )}
+
         {/* Mobile menu drawer */}
         {mobileMenuOpen && (
-          <div className="lg:hidden fixed inset-x-0 top-[65px] bg-white/95 backdrop-blur-xl border-b border-abh-border shadow-2xl p-6 transition-all animate-fade-in-up">
-            <nav className="flex flex-col space-y-2 mb-6">
+          <div className="lg:hidden fixed inset-x-0 top-[60px] z-40 bg-white/98 backdrop-blur-xl border-b border-abh-border shadow-2xl p-5 max-h-[calc(100vh-65px)] overflow-y-auto pb-safe transition-all animate-fade-in-up">
+            <nav className="flex flex-col space-y-1.5 mb-5">
               {navLinks.map((link) => {
                 const isActive = pathname === link.href;
                 return (
