@@ -38,8 +38,8 @@ export function Header() {
       <header
         className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
           scrolled
-            ? 'bg-white/95 backdrop-blur-md shadow-sm border-b border-abh-border/80 py-2.5 sm:py-3'
-            : 'bg-white/80 sm:bg-transparent backdrop-blur-xs sm:backdrop-blur-none py-3 sm:py-5 border-b border-abh-border/40 sm:border-transparent'
+            ? 'bg-white/95 backdrop-blur-md shadow-sm border-b border-abh-border/80 pt-[max(env(safe-area-inset-top,0px),0.625rem)] pb-2.5 sm:py-3'
+            : 'bg-white/80 sm:bg-transparent backdrop-blur-xs sm:backdrop-blur-none pt-[max(env(safe-area-inset-top,0px),0.75rem)] pb-3 sm:py-5 border-b border-abh-border/40 sm:border-transparent'
         }`}
       >
         <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8">
@@ -102,14 +102,14 @@ export function Header() {
         {/* Mobile menu drawer backdrop */}
         {mobileMenuOpen && (
           <div
-            className="lg:hidden fixed inset-0 top-[60px] bg-black/40 backdrop-blur-xs z-30 animate-fade-in"
+            className="lg:hidden fixed inset-0 top-[calc(56px+env(safe-area-inset-top,0px))] bg-black/40 backdrop-blur-xs z-30 animate-fade-in"
             onClick={() => setMobileMenuOpen(false)}
           />
         )}
 
         {/* Mobile menu drawer */}
         {mobileMenuOpen && (
-          <div className="lg:hidden fixed inset-x-0 top-[60px] z-40 bg-white/98 backdrop-blur-xl border-b border-abh-border shadow-2xl p-5 max-h-[calc(100vh-65px)] overflow-y-auto pb-safe transition-all animate-fade-in-up">
+          <div className="lg:hidden fixed inset-x-0 top-[calc(56px+env(safe-area-inset-top,0px))] z-40 bg-white/98 backdrop-blur-xl border-b border-abh-border shadow-2xl p-5 max-h-[calc(100vh-70px-env(safe-area-inset-top,0px))] overflow-y-auto pb-safe transition-all animate-fade-in-up">
             <nav className="flex flex-col space-y-1.5 mb-5">
               {navLinks.map((link) => {
                 const isActive = pathname === link.href;

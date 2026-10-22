@@ -113,13 +113,21 @@
   }
 }
 
-/* Safe areas for mobile devices */
+/* Safe areas for mobile devices (Notch & Dynamic Island support) */
 .pt-safe {
-  padding-top: env(safe-area-inset-top, 0px);
+  padding-top: max(env(safe-area-inset-top, 0px), 0px);
+}
+
+.pt-safe-top {
+  padding-top: max(env(safe-area-inset-top, 0px), 12px);
 }
 
 .pb-safe {
-  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-bottom: max(env(safe-area-inset-bottom, 0px), 12px);
+}
+
+.top-safe {
+  top: max(env(safe-area-inset-top, 0px), 0px);
 }
 
 /* Smooth momentum touch scrolling for tables and containers */
