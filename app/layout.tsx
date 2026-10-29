@@ -109,6 +109,9 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
+  verification: {
+    google: 'PacvfmgpfL3RHU_nUfD71l0u93l3GzzzVxgTSYNMBOQ',
+  },
   icons: {
     icon: [
       { url: '/favicon.ico' },
@@ -219,6 +222,9 @@ export default function RootLayout({
       className={`${cormorant.variable} ${inter.variable} ${cairo.variable} scroll-smooth`}
     >
       <head>
+        {/* Google Site Verification */}
+        <meta name="google-site-verification" content="PacvfmgpfL3RHU_nUfD71l0u93l3GzzzVxgTSYNMBOQ" />
+
         {/* GEO & Local Location Tags */}
         <meta name="geo.region" content="TN-41" />
         <meta name="geo.placename" content="Bouhajla, Kairouan, Tunisie" />
