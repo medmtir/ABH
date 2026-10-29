@@ -114,7 +114,7 @@ export default function ContactPage() {
                     Siège Social & Exploitation
                   </h3>
                   <p className="text-xs text-abh-slate">
-                    Authentic Bio Huile Company (SARL)
+                    Authentic Bio Huile Company
                   </p>
                 </div>
 
@@ -163,8 +163,8 @@ export default function ContactPage() {
                       <span className="font-mono font-bold text-abh-sapphire">1956962P</span>
                     </div>
                     <div className="p-2 rounded-lg bg-abh-pearl/50 border border-abh-border/40">
-                      <span className="text-gray-400 block text-[9px]">Capital Social :</span>
-                      <span className="font-bold text-abh-sapphire">20 000 TND</span>
+                      <span className="text-gray-400 block text-[9px]">Statut :</span>
+                      <span className="font-bold text-abh-sapphire">Commerce International</span>
                     </div>
                   </div>
                 </div>

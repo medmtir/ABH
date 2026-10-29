@@ -28,10 +28,6 @@ export function Footer() {
                 <span className="font-mono text-abh-amber font-semibold">1956962P</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Forme juridique :</span>
-                <span>SARL (Cap. 20 000 TND)</span>
-              </div>
-              <div className="flex justify-between">
                 <span className="text-gray-400">Gérance :</span>
                 <span>بديع عماري (Badi Ammari)</span>
               </div>

@@ -68,8 +68,8 @@ export default function AboutPage() {
                     <span className="font-mono font-bold text-abh-amber">1956962P</span>
                   </div>
                   <div className="p-2.5 rounded-xl bg-abh-pearl/50 border border-abh-border/40">
-                    <span className="text-gray-400 block text-[10px]">Forme & Capital :</span>
-                    <span className="font-semibold text-abh-midnight">SARL — 20 000 TND</span>
+                    <span className="text-gray-400 block text-[10px]">Activité :</span>
+                    <span className="font-semibold text-abh-midnight">Société de Commerce International</span>
                   </div>
                   <div className="p-2.5 rounded-xl bg-abh-pearl/50 border border-abh-border/40">
                     <span className="text-gray-400 block text-[10px]">Gérance Exécutive :</span>
