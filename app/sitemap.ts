@@ -2,21 +2,21 @@ import { MetadataRoute } from 'next';
 import { loadDatabase } from '@/lib/db/db';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://abh-company.com';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.abh-company.com';
   const now = new Date();
 
   const staticRoutes = [
-    '',
-    '/about',
-    '/products',
-    '/export',
-    '/certifications',
-    '/contact',
-  ].map((route) => ({
+    { route: '', priority: 1.0, changeFrequency: 'daily' as const },
+    { route: '/products', priority: 0.9, changeFrequency: 'weekly' as const },
+    { route: '/export', priority: 0.9, changeFrequency: 'weekly' as const },
+    { route: '/about', priority: 0.8, changeFrequency: 'monthly' as const },
+    { route: '/certifications', priority: 0.8, changeFrequency: 'monthly' as const },
+    { route: '/contact', priority: 0.8, changeFrequency: 'monthly' as const },
+  ].map(({ route, priority, changeFrequency }) => ({
     url: `${baseUrl}${route}`,
     lastModified: now,
-    changeFrequency: 'weekly' as const,
-    priority: route === '' ? 1.0 : 0.8,
+    changeFrequency,
+    priority,
   }));
 
   try {
@@ -26,8 +26,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
       .map((p) => ({
         url: `${baseUrl}/products/${p.slug}`,
         lastModified: new Date(p.created_at || now),
-        changeFrequency: 'monthly' as const,
-        priority: 0.9,
+        changeFrequency: 'weekly' as const,
+        priority: 0.85,
       }));
 
     return [...staticRoutes, ...productRoutes];

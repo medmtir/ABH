@@ -156,6 +156,9 @@ export default function HomePage() {
                 </div>
 
                 <h1 className="text-3xl sm:text-5xl lg:text-6xl font-heading font-bold tracking-tight text-white leading-[1.15]">
+                  <span className="block text-abh-amber text-lg sm:text-2xl font-serif font-medium mb-2 tracking-normal">
+                    ABH Company — Authentic Bio Huile
+                  </span>
                   L Excellence des Huiles Bio & d Olive Tunisiennes en <span className="text-gradient-gold">Vrac Maritime</span>
                 </h1>
 
