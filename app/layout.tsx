@@ -72,7 +72,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: 'ABH Company',
+    title: 'ABH Admin',
   },
   openGraph: {
     title: "ABH Company | Authentic Bio Huile — Export Huile d'Olive Tunisie",

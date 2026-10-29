@@ -2,11 +2,10 @@ import { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'ABH Company — Authentic Bio Huile',
-    short_name: 'ABH Company',
-    description:
-      "Authentic Bio Huile Company (ABH) — Société d'exportation internationale d'huiles d'olive extra vierges et biologiques de Tunisie.",
-    start_url: '/',
+    name: 'ABH Admin — Authentic Bio Huile',
+    short_name: 'ABH Admin',
+    description: "Portail d'administration et de gestion commerciale des commandes export ABH Company.",
+    start_url: '/admin/dashboard',
     scope: '/',
     display: 'standalone',
     orientation: 'any',
