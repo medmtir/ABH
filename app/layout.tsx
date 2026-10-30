@@ -84,10 +84,16 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/images/logo.png',
+        url: '/images/facility/storage-tanks.jpg',
         width: 1200,
         height: 630,
-        alt: 'ABH Company — Authentic Bio Huile Tunisie',
+        alt: 'ABH Company — Stockage sous azote et exportation huile d olive Tunisie',
+      },
+      {
+        url: '/images/logo.png',
+        width: 512,
+        height: 512,
+        alt: 'ABH Company — Authentic Bio Huile Tunisie Logo',
       },
     ],
   },
@@ -96,7 +102,7 @@ export const metadata: Metadata = {
     title: 'ABH Company — Authentic Bio Huile Company',
     description:
       "Exportation internationale d'huiles d'olive extra vierges et biologiques tunisiennes d'excellence en vrac.",
-    images: ['/images/logo.png'],
+    images: ['/images/facility/storage-tanks.jpg', '/images/logo.png'],
   },
   robots: {
     index: true,
@@ -114,10 +120,16 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/favicon.ico' },
-      { url: '/favicon.png', type: 'image/png' },
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon.png', type: 'image/png', sizes: '48x48' },
+      { url: '/favicon.png', type: 'image/png', sizes: '96x96' },
+      { url: '/images/logo.png', type: 'image/png', sizes: '192x192' },
+      { url: '/images/logo.png', type: 'image/png', sizes: '512x512' },
     ],
-    apple: '/images/logo.png',
+    apple: [
+      { url: '/images/logo.png', sizes: '180x180', type: 'image/png' },
+    ],
+    shortcut: '/favicon.ico',
   },
 };
 
@@ -222,6 +234,13 @@ export default function RootLayout({
       className={`${cormorant.variable} ${inter.variable} ${cairo.variable} scroll-smooth`}
     >
       <head>
+        {/* Favicon & Logo explicit tags for Googlebot-Image & Search results */}
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="48x48" href="/favicon.png" />
+        <link rel="icon" type="image/png" sizes="96x96" href="/favicon.png" />
+        <link rel="icon" type="image/png" sizes="192x192" href="/images/logo.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/images/logo.png" />
+
         {/* Google Site Verification */}
         <meta name="google-site-verification" content="PacvfmgpfL3RHU_nUfD71l0u93l3GzzzVxgTSYNMBOQ" />
 
