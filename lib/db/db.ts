@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { Pool } from 'pg';
-import { Database } from '@/lib/types';
+import { Database, ContactMessage } from '@/lib/types';
 import { seedData } from '@/lib/db/seed-data';
 
 const DATA_DIR = path.join(process.cwd(), 'data');
@@ -20,10 +20,13 @@ let lastSyncTime = 0;
 const CACHE_TTL = 3000;
 
 // ----- Neon PostgreSQL Connection Pool -----
+const DEFAULT_DATABASE_URL =
+  'postgresql://neondb_owner:npg_Gqvw5E1aHiWB@ep-frosty-rice-b5wogudu-pooler.c-7.us-east-2.aws.neon.tech/neondb?sslmode=require';
+
 let neonPool: Pool | null = null;
 
-function getNeonPool(): Pool | null {
-  const url = process.env.DATABASE_URL || process.env.POSTGRES_URL;
+export function getNeonPool(): Pool | null {
+  const url = process.env.DATABASE_URL || process.env.POSTGRES_URL || DEFAULT_DATABASE_URL;
   if (!url) return null;
   if (!neonPool) {
     try {
@@ -41,7 +44,7 @@ function getNeonPool(): Pool | null {
 }
 
 // Background sync to Neon PostgreSQL
-async function persistToNeon(db: Database) {
+export async function persistToNeon(db: Database) {
   const pool = getNeonPool();
   if (!pool) return;
 
@@ -129,11 +132,48 @@ async function persistToNeon(db: Database) {
         );
       }
     }
+
+    // 4. Keep contact_messages table in sync
+    if (Array.isArray(db.messages)) {
+      for (const msg of db.messages) {
+        await pool.query(
+          `INSERT INTO contact_messages (
+             id, full_name, company_name, country, email, phone,
+             product_interest, quantity, destination_country, message,
+             privacy_consent, file_attachment, status, admin_notes, created_at, trashed_at
+           )
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
+           ON CONFLICT (id) DO UPDATE SET
+             full_name = $2, company_name = $3, country = $4, email = $5, phone = $6,
+             product_interest = $7, quantity = $8, destination_country = $9, message = $10,
+             privacy_consent = $11, file_attachment = $12, status = $13, admin_notes = $14, trashed_at = $16;`,
+          [
+            msg.id,
+            msg.full_name,
+            msg.company_name,
+            msg.country,
+            msg.email,
+            msg.phone,
+            msg.product_interest,
+            msg.quantity,
+            msg.destination_country,
+            msg.message,
+            msg.privacy_consent,
+            msg.file_attachment || null,
+            msg.status,
+            msg.admin_notes || null,
+            msg.created_at || new Date(),
+            msg.trashed_at || null,
+          ]
+        );
+      }
+    }
   } catch (err) {
     console.error('[Neon PostgreSQL Background Sync Warning]:', err);
   }
 }
 
+// Synchronous load for build-time or static routes
 export function loadDatabase(): Database {
   const now = Date.now();
   if (memoryCache && now - lastSyncTime < CACHE_TTL) {
@@ -169,6 +209,37 @@ export function loadDatabase(): Database {
   return memoryCache;
 }
 
+// Real-time asynchronous load that hydrates from Neon PostgreSQL
+export async function loadDatabaseAsync(): Promise<Database> {
+  const now = Date.now();
+  if (memoryCache && now - lastSyncTime < CACHE_TTL) {
+    return memoryCache;
+  }
+
+  const pool = getNeonPool();
+  if (pool) {
+    try {
+      const res = await pool.query(
+        "SELECT data, updated_at FROM app_database_sync WHERE key = 'abh_master'"
+      );
+      if (res.rows.length > 0) {
+        const raw = res.rows[0].data;
+        const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;
+        if (parsed && Array.isArray(parsed.products) && Array.isArray(parsed.admins)) {
+          memoryCache = parsed as Database;
+          lastSyncTime = now;
+          return parsed as Database;
+        }
+      }
+    } catch (err) {
+      console.error('Failed to load database from Neon PostgreSQL, falling back to disk:', err);
+    }
+  }
+
+  return loadDatabase();
+}
+
+// Synchronous save
 export function saveDatabase(db: Database): boolean {
   try {
     ensureDirectoryExists(DATA_DIR);
@@ -188,6 +259,278 @@ export function saveDatabase(db: Database): boolean {
   }
 }
 
+// Asynchronous save that awaits Neon PostgreSQL persistence
+export async function saveDatabaseAsync(db: Database): Promise<boolean> {
+  memoryCache = JSON.parse(JSON.stringify(db));
+  lastSyncTime = Date.now();
+
+  try {
+    ensureDirectoryExists(DATA_DIR);
+    fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2), 'utf-8');
+  } catch (err) {
+    // Expected on Vercel where filesystem is read-only
+  }
+
+  const pool = getNeonPool();
+  if (pool) {
+    try {
+      await persistToNeon(db);
+      return true;
+    } catch (err) {
+      console.error('Neon persistence error in saveDatabaseAsync:', err);
+    }
+  }
+
+  return true;
+}
+
 export function getDatabase(): Database {
   return loadDatabase();
+}
+
+// ============================================================
+// Direct High-Performance Operations for RFQ / Contact Messages
+// ============================================================
+
+export interface ContactMessageCounts {
+  all: number;
+  unread: number;
+  contacted: number;
+  archived: number;
+  trash: number;
+}
+
+export async function insertContactMessageDirect(newMessage: ContactMessage): Promise<void> {
+  const pool = getNeonPool();
+  if (pool) {
+    try {
+      await pool.query(
+        `INSERT INTO contact_messages (
+           id, full_name, company_name, country, email, phone,
+           product_interest, quantity, destination_country, message,
+           privacy_consent, file_attachment, status, admin_notes, created_at, trashed_at
+         )
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
+         ON CONFLICT (id) DO UPDATE SET
+           full_name = $2, company_name = $3, country = $4, email = $5, phone = $6,
+           product_interest = $7, quantity = $8, destination_country = $9, message = $10,
+           privacy_consent = $11, file_attachment = $12, status = $13, admin_notes = $14, trashed_at = $16;`,
+        [
+          newMessage.id,
+          newMessage.full_name,
+          newMessage.company_name,
+          newMessage.country,
+          newMessage.email,
+          newMessage.phone,
+          newMessage.product_interest,
+          newMessage.quantity,
+          newMessage.destination_country,
+          newMessage.message,
+          newMessage.privacy_consent,
+          newMessage.file_attachment || null,
+          newMessage.status || 'unread',
+          newMessage.admin_notes || null,
+          newMessage.created_at || new Date(),
+          newMessage.trashed_at || null,
+        ]
+      );
+    } catch (err) {
+      console.error('Neon direct insertContactMessage error:', err);
+    }
+  }
+
+  // Update in memory and sync master document
+  try {
+    const db = await loadDatabaseAsync();
+    if (!Array.isArray(db.messages)) {
+      db.messages = [];
+    }
+    const existingIdx = db.messages.findIndex((m) => m.id === newMessage.id);
+    if (existingIdx >= 0) {
+      db.messages[existingIdx] = newMessage;
+    } else {
+      db.messages.unshift(newMessage);
+    }
+    saveDatabase(db);
+  } catch (err) {
+    console.error('Error updating local db cache for message:', err);
+  }
+}
+
+export async function getContactMessagesDirect(statusFilter?: string): Promise<{
+  messages: ContactMessage[];
+  counts: ContactMessageCounts;
+}> {
+  const pool = getNeonPool();
+  if (pool) {
+    try {
+      // 1. Auto-purge trash older than 7 days
+      await pool.query(
+        "DELETE FROM contact_messages WHERE status = 'trash' AND trashed_at < NOW() - INTERVAL '7 days'"
+      );
+
+      // 2. Fetch counts
+      const countsRes = await pool.query(`
+        SELECT
+          COUNT(*) FILTER (WHERE status != 'trash') as count_all,
+          COUNT(*) FILTER (WHERE status = 'unread') as count_unread,
+          COUNT(*) FILTER (WHERE status = 'contacted') as count_contacted,
+          COUNT(*) FILTER (WHERE status = 'archived') as count_archived,
+          COUNT(*) FILTER (WHERE status = 'trash') as count_trash
+        FROM contact_messages
+      `);
+
+      const counts: ContactMessageCounts = {
+        all: parseInt(countsRes.rows[0]?.count_all || '0', 10),
+        unread: parseInt(countsRes.rows[0]?.count_unread || '0', 10),
+        contacted: parseInt(countsRes.rows[0]?.count_contacted || '0', 10),
+        archived: parseInt(countsRes.rows[0]?.count_archived || '0', 10),
+        trash: parseInt(countsRes.rows[0]?.count_trash || '0', 10),
+      };
+
+      // 3. Fetch messages for the requested filter
+      let query = '';
+      let params: any[] = [];
+
+      if (!statusFilter || statusFilter === 'all') {
+        query = "SELECT * FROM contact_messages WHERE status != 'trash' ORDER BY created_at DESC";
+      } else if (statusFilter === 'trash') {
+        query = "SELECT * FROM contact_messages WHERE status = 'trash' ORDER BY trashed_at DESC NULLS LAST, created_at DESC";
+      } else {
+        query = 'SELECT * FROM contact_messages WHERE status = $1 ORDER BY created_at DESC';
+        params = [statusFilter];
+      }
+
+      const res = await pool.query(query, params);
+      const messages: ContactMessage[] = res.rows.map((row) => ({
+        id: row.id,
+        full_name: row.full_name,
+        company_name: row.company_name,
+        country: row.country,
+        email: row.email,
+        phone: row.phone || '',
+        product_interest: row.product_interest,
+        quantity: row.quantity || '',
+        destination_country: row.destination_country || '',
+        message: row.message,
+        privacy_consent: !!row.privacy_consent,
+        file_attachment: row.file_attachment || '',
+        status: row.status,
+        admin_notes: row.admin_notes || '',
+        created_at: new Date(row.created_at).toISOString(),
+        trashed_at: row.trashed_at ? new Date(row.trashed_at).toISOString() : undefined,
+      }));
+
+      return { messages, counts };
+    } catch (err) {
+      console.error('Neon direct getContactMessages error, falling back to JSON:', err);
+    }
+  }
+
+  // Fallback to memory / disk db
+  const db = await loadDatabaseAsync();
+  const allMsgs = db.messages || [];
+
+  const counts: ContactMessageCounts = {
+    all: allMsgs.filter((m) => m.status !== 'trash').length,
+    unread: allMsgs.filter((m) => m.status === 'unread').length,
+    contacted: allMsgs.filter((m) => m.status === 'contacted').length,
+    archived: allMsgs.filter((m) => m.status === 'archived').length,
+    trash: allMsgs.filter((m) => m.status === 'trash').length,
+  };
+
+  let messages = allMsgs;
+  if (!statusFilter || statusFilter === 'all') {
+    messages = allMsgs.filter((m) => m.status !== 'trash');
+  } else if (statusFilter === 'trash') {
+    messages = allMsgs.filter((m) => m.status === 'trash');
+  } else {
+    messages = allMsgs.filter((m) => m.status === statusFilter);
+  }
+
+  return { messages, counts };
+}
+
+export async function updateContactMessageDirect(
+  id: string,
+  updates: { status?: string; admin_notes?: string }
+): Promise<ContactMessage | null> {
+  const pool = getNeonPool();
+  if (pool) {
+    try {
+      if (updates.status !== undefined) {
+        if (updates.status === 'trash') {
+          await pool.query(
+            "UPDATE contact_messages SET status = 'trash', trashed_at = NOW() WHERE id = $1",
+            [id]
+          );
+        } else {
+          await pool.query(
+            'UPDATE contact_messages SET status = $1, trashed_at = NULL WHERE id = $2',
+            [updates.status, id]
+          );
+        }
+      }
+
+      if (updates.admin_notes !== undefined) {
+        await pool.query('UPDATE contact_messages SET admin_notes = $1 WHERE id = $2', [
+          updates.admin_notes,
+          id,
+        ]);
+      }
+    } catch (err) {
+      console.error('Neon direct updateContactMessage error:', err);
+    }
+  }
+
+  // Sync memory cache & file
+  const db = await loadDatabaseAsync();
+  const msg = (db.messages || []).find((m) => m.id === id);
+  if (msg) {
+    if (updates.status !== undefined) {
+      msg.status = updates.status as any;
+      if (updates.status === 'trash') {
+        msg.trashed_at = new Date().toISOString();
+      } else {
+        msg.trashed_at = undefined;
+      }
+    }
+    if (updates.admin_notes !== undefined) {
+      msg.admin_notes = updates.admin_notes;
+    }
+    saveDatabase(db);
+    return msg;
+  }
+  return null;
+}
+
+export async function deleteContactMessageDirect(id: string, permanent: boolean): Promise<boolean> {
+  const pool = getNeonPool();
+  if (pool) {
+    try {
+      if (permanent) {
+        await pool.query('DELETE FROM contact_messages WHERE id = $1', [id]);
+      } else {
+        await pool.query(
+          "UPDATE contact_messages SET status = 'trash', trashed_at = NOW() WHERE id = $1",
+          [id]
+        );
+      }
+    } catch (err) {
+      console.error('Neon direct deleteContactMessage error:', err);
+    }
+  }
+
+  const db = await loadDatabaseAsync();
+  if (permanent) {
+    db.messages = (db.messages || []).filter((m) => m.id !== id);
+  } else {
+    const msg = (db.messages || []).find((m) => m.id === id);
+    if (msg) {
+      msg.status = 'trash';
+      msg.trashed_at = new Date().toISOString();
+    }
+  }
+  saveDatabase(db);
+  return true;
 }

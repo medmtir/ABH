@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { loadDatabase, saveDatabase } from '@/lib/db/db';
+import { loadDatabaseAsync, saveDatabaseAsync } from '@/lib/db/db';
 import { validateAdminSession } from '@/lib/auth';
 import { Certification } from '@/lib/types';
 
 export async function GET() {
-  const db = loadDatabase();
+  const db = await loadDatabaseAsync();
   return NextResponse.json(db.certifications || []);
 }
 
@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { slug, logo, active = true, expiry_date, pdf_url, translations } = body;
 
-    const db = loadDatabase();
+    const db = await loadDatabaseAsync();
     const newCert: Certification = {
       id: `cert-${Date.now()}`,
       slug: slug || `cert-${Date.now()}`,
@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
     }
 
     db.certifications.push(newCert);
-    saveDatabase(db);
+    await saveDatabaseAsync(db);
 
     return NextResponse.json({ success: true, certification: newCert });
   } catch (error) {
@@ -55,7 +55,7 @@ export async function PUT(request: NextRequest) {
     const body = await request.json();
     const { id, ...updates } = body;
 
-    const db = loadDatabase();
+    const db = await loadDatabaseAsync();
     const cert = (db.certifications || []).find((c) => c.id === id);
 
     if (!cert) {
@@ -63,7 +63,7 @@ export async function PUT(request: NextRequest) {
     }
 
     Object.assign(cert, updates);
-    saveDatabase(db);
+    await saveDatabaseAsync(db);
 
     return NextResponse.json({ success: true, certification: cert });
   } catch (error) {
@@ -81,9 +81,9 @@ export async function DELETE(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
 
-    const db = loadDatabase();
+    const db = await loadDatabaseAsync();
     db.certifications = (db.certifications || []).filter((c) => c.id !== id);
-    saveDatabase(db);
+    await saveDatabaseAsync(db);
 
     return NextResponse.json({ success: true });
   } catch (error) {

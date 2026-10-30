@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { loadDatabase, saveDatabase } from '@/lib/db/db';
+import { loadDatabaseAsync, saveDatabaseAsync } from '@/lib/db/db';
 import { validateAdminSession } from '@/lib/auth';
 import { Packaging } from '@/lib/types';
 
 export async function GET() {
-  const db = loadDatabase();
+  const db = await loadDatabaseAsync();
   return NextResponse.json(db.packagings || []);
 }
 
@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { capacity, title, image_url, badge, description, sort_order, is_active = true, translations } = body;
 
-    const db = loadDatabase();
+    const db = await loadDatabaseAsync();
     const newPack: Packaging = {
       id: `pack-${Date.now()}`,
       capacity: capacity || '',
@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
     }
 
     db.packagings.push(newPack);
-    saveDatabase(db);
+    await saveDatabaseAsync(db);
 
     return NextResponse.json({ success: true, packaging: newPack });
   } catch (error) {
@@ -56,7 +56,7 @@ export async function PUT(request: NextRequest) {
     const body = await request.json();
     const { id, ...updates } = body;
 
-    const db = loadDatabase();
+    const db = await loadDatabaseAsync();
     const pack = (db.packagings || []).find((p) => p.id === id);
 
     if (!pack) {
@@ -64,7 +64,7 @@ export async function PUT(request: NextRequest) {
     }
 
     Object.assign(pack, updates);
-    saveDatabase(db);
+    await saveDatabaseAsync(db);
 
     return NextResponse.json({ success: true, packaging: pack });
   } catch (error) {
@@ -82,9 +82,9 @@ export async function DELETE(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
 
-    const db = loadDatabase();
+    const db = await loadDatabaseAsync();
     db.packagings = (db.packagings || []).filter((p) => p.id !== id);
-    saveDatabase(db);
+    await saveDatabaseAsync(db);
 
     return NextResponse.json({ success: true });
   } catch (error) {

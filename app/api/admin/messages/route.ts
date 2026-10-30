@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { loadDatabase, saveDatabase } from '@/lib/db/db';
+import {
+  getContactMessagesDirect,
+  updateContactMessageDirect,
+  deleteContactMessageDirect,
+} from '@/lib/db/db';
 import { validateAdminSession } from '@/lib/auth';
-
-const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
 
 export async function GET(request: NextRequest) {
   const session = await validateAdminSession(request);
@@ -11,30 +13,16 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const db = loadDatabase();
-    const now = Date.now();
-
-    // Auto-purge trash older than 7 days
-    if (Array.isArray(db.messages)) {
-      db.messages = db.messages.filter((msg) => {
-        if (msg.status === 'trash' && msg.trashed_at) {
-          const trashedTime = new Date(msg.trashed_at).getTime();
-          return now - trashedTime < SEVEN_DAYS_MS;
-        }
-        return true;
-      });
-      saveDatabase(db);
-    }
-
     const { searchParams } = new URL(request.url);
-    const status = searchParams.get('status');
+    const status = searchParams.get('status') || 'all';
 
-    let messages = db.messages || [];
-    if (status && status !== 'all') {
-      messages = messages.filter((m) => m.status === status);
-    }
+    const result = await getContactMessagesDirect(status);
 
-    return NextResponse.json(messages);
+    // Return both formatted object and backward-compatible properties
+    return NextResponse.json({
+      messages: result.messages,
+      counts: result.counts,
+    });
   } catch (error) {
     console.error('Error fetching messages:', error);
     return NextResponse.json({ error: 'Erreur lors du chargement des messages' }, { status: 500 });
@@ -51,29 +39,18 @@ export async function PUT(request: NextRequest) {
     const body = await request.json();
     const { id, status, admin_notes } = body;
 
-    const db = loadDatabase();
-    const message = (db.messages || []).find((m) => m.id === id);
+    if (!id) {
+      return NextResponse.json({ error: 'Identifiant message manquant' }, { status: 400 });
+    }
 
-    if (!message) {
+    const updated = await updateContactMessageDirect(id, { status, admin_notes });
+    if (!updated) {
       return NextResponse.json({ error: 'Message introuvable' }, { status: 404 });
     }
 
-    if (status) {
-      message.status = status;
-      if (status === 'trash') {
-        message.trashed_at = new Date().toISOString();
-      } else {
-        message.trashed_at = undefined;
-      }
-    }
-
-    if (admin_notes !== undefined) {
-      message.admin_notes = admin_notes;
-    }
-
-    saveDatabase(db);
-    return NextResponse.json({ success: true, message });
+    return NextResponse.json({ success: true, message: updated });
   } catch (error) {
+    console.error('Error updating message:', error);
     return NextResponse.json({ error: 'Erreur lors de la mise à jour' }, { status: 500 });
   }
 }
@@ -89,20 +66,14 @@ export async function DELETE(request: NextRequest) {
     const id = searchParams.get('id');
     const permanent = searchParams.get('permanent') === 'true';
 
-    const db = loadDatabase();
-    if (permanent) {
-      db.messages = (db.messages || []).filter((m) => m.id !== id);
-    } else {
-      const msg = (db.messages || []).find((m) => m.id === id);
-      if (msg) {
-        msg.status = 'trash';
-        msg.trashed_at = new Date().toISOString();
-      }
+    if (!id) {
+      return NextResponse.json({ error: 'Identifiant message manquant' }, { status: 400 });
     }
 
-    saveDatabase(db);
+    await deleteContactMessageDirect(id, permanent);
     return NextResponse.json({ success: true });
   } catch (error) {
+    console.error('Error deleting message:', error);
     return NextResponse.json({ error: 'Erreur de suppression' }, { status: 500 });
   }
 }

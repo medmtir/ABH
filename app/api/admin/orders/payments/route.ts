@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { loadDatabase, saveDatabase } from '@/lib/db/db';
+import { loadDatabaseAsync, saveDatabaseAsync } from '@/lib/db/db';
 import { validateAdminSession } from '@/lib/auth';
 import { Payment } from '@/lib/types';
 
@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Montant valide requis' }, { status: 400 });
     }
 
-    const db = loadDatabase();
+    const db = await loadDatabaseAsync();
     const order = (db.orders || []).find((o) => o.id === order_id);
 
     if (!order) {
@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
       order.payment_status = 'partial';
     }
 
-    saveDatabase(db);
+    await saveDatabaseAsync(db);
     return NextResponse.json({ success: true, order });
   } catch (error) {
     return NextResponse.json({ error: 'Erreur enregistrement acompte' }, { status: 500 });
@@ -76,7 +76,7 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: 'order_id et payment_id requis' }, { status: 400 });
     }
 
-    const db = loadDatabase();
+    const db = await loadDatabaseAsync();
     const order = (db.orders || []).find((o) => o.id === order_id);
 
     if (!order) {
@@ -96,7 +96,7 @@ export async function DELETE(request: NextRequest) {
       order.payment_status = 'partial';
     }
 
-    saveDatabase(db);
+    await saveDatabaseAsync(db);
     return NextResponse.json({ success: true, order });
   } catch (error) {
     return NextResponse.json({ error: 'Erreur suppression ligne de paiement' }, { status: 500 });

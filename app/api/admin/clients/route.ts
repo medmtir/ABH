@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { loadDatabase, saveDatabase } from '@/lib/db/db';
+import { loadDatabaseAsync, saveDatabaseAsync } from '@/lib/db/db';
 import { validateAdminSession } from '@/lib/auth';
 import { Client } from '@/lib/types';
 
@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Non autorisé' }, { status: 401 });
   }
 
-  const db = loadDatabase();
+  const db = await loadDatabaseAsync();
   const { searchParams } = new URL(request.url);
   const includeDeleted = searchParams.get('trash') === 'true';
 
@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Nom et pays obligatoires' }, { status: 400 });
     }
 
-    const db = loadDatabase();
+    const db = await loadDatabaseAsync();
     const newClient: Client = {
       id: `cli-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
       name,
@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
     }
 
     db.clients.unshift(newClient);
-    saveDatabase(db);
+    await saveDatabaseAsync(db);
 
     return NextResponse.json({ success: true, client: newClient });
   } catch (error) {
@@ -75,7 +75,7 @@ export async function PUT(request: NextRequest) {
     const body = await request.json();
     const { id, restore, ...updates } = body;
 
-    const db = loadDatabase();
+    const db = await loadDatabaseAsync();
     const client = (db.clients || []).find((c) => c.id === id);
 
     if (!client) {
@@ -89,7 +89,7 @@ export async function PUT(request: NextRequest) {
       Object.assign(client, updates);
     }
 
-    saveDatabase(db);
+    await saveDatabaseAsync(db);
     return NextResponse.json({ success: true, client });
   } catch (error) {
     return NextResponse.json({ error: 'Erreur mise à jour client' }, { status: 500 });
@@ -107,7 +107,7 @@ export async function DELETE(request: NextRequest) {
     const id = searchParams.get('id');
     const permanent = searchParams.get('permanent') === 'true';
 
-    const db = loadDatabase();
+    const db = await loadDatabaseAsync();
 
     if (permanent) {
       db.clients = (db.clients || []).filter((c) => c.id !== id);
@@ -119,7 +119,7 @@ export async function DELETE(request: NextRequest) {
       }
     }
 
-    saveDatabase(db);
+    await saveDatabaseAsync(db);
     return NextResponse.json({ success: true });
   } catch (error) {
     return NextResponse.json({ error: 'Erreur suppression' }, { status: 500 });

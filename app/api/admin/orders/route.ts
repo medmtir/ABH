@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { loadDatabase, saveDatabase } from '@/lib/db/db';
+import { loadDatabaseAsync, saveDatabaseAsync } from '@/lib/db/db';
 import { validateAdminSession } from '@/lib/auth';
 import { Order, Currency } from '@/lib/types';
 
@@ -9,8 +9,10 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Non autorisé' }, { status: 401 });
   }
 
-  const db = loadDatabase();
-  const orders = (db.orders || []).filter((o) => !o.is_deleted);
+  const db = await loadDatabaseAsync();
+  const allOrders = db.orders || [];
+  const orders = allOrders.filter((o) => !o.is_deleted);
+  const trashedOrders = allOrders.filter((o) => !!o.is_deleted);
 
   // Compute financial KPIs strictly by currency
   const kpis: Record<Currency, { total: number; paid: number; remaining: number }> = {
@@ -30,8 +32,10 @@ export async function GET(request: NextRequest) {
 
   return NextResponse.json({
     orders,
+    trashed_orders: trashedOrders,
     kpis,
     total_orders: orders.length,
+    total_trashed: trashedOrders.length,
   });
 }
 
@@ -64,8 +68,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const db = loadDatabase();
-    const total_amount = Number(quantity) * Number(unit_price);
+    const db = await loadDatabaseAsync();
+    const total_amount = Number((Number(quantity) * Number(unit_price)).toFixed(2));
     const year = new Date().getFullYear();
     const count = (db.orders || []).length + 1;
     const order_number = `CMD-${year}-${String(count).padStart(3, '0')}`;
@@ -103,7 +107,7 @@ export async function POST(request: NextRequest) {
     }
 
     db.orders.unshift(newOrder);
-    saveDatabase(db);
+    await saveDatabaseAsync(db);
 
     return NextResponse.json({ success: true, order: newOrder });
   } catch (error) {
@@ -119,13 +123,21 @@ export async function PUT(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { id, ...updates } = body;
+    const { id, action, ...updates } = body;
 
-    const db = loadDatabase();
+    const db = await loadDatabaseAsync();
     const order = (db.orders || []).find((o) => o.id === id);
 
     if (!order) {
       return NextResponse.json({ error: 'Commande introuvable' }, { status: 404 });
+    }
+
+    // Support restoring from trash
+    if (action === 'restore') {
+      order.is_deleted = false;
+      delete (order as any).deleted_at;
+      await saveDatabaseAsync(db);
+      return NextResponse.json({ success: true, order, restored: true });
     }
 
     Object.assign(order, updates);
@@ -155,7 +167,7 @@ export async function PUT(request: NextRequest) {
       }
     }
 
-    saveDatabase(db);
+    await saveDatabaseAsync(db);
     return NextResponse.json({ success: true, order });
   } catch (error) {
     return NextResponse.json({ error: 'Erreur mise à jour commande' }, { status: 500 });
@@ -171,16 +183,21 @@ export async function DELETE(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
+    const permanent = searchParams.get('permanent') === 'true';
 
-    const db = loadDatabase();
-    const order = (db.orders || []).find((o) => o.id === id);
+    const db = await loadDatabaseAsync();
 
-    if (order) {
-      order.is_deleted = true;
-      order.deleted_at = new Date().toISOString();
-      saveDatabase(db);
+    if (permanent) {
+      db.orders = (db.orders || []).filter((o) => o.id !== id);
+    } else {
+      const order = (db.orders || []).find((o) => o.id === id);
+      if (order) {
+        order.is_deleted = true;
+        order.deleted_at = new Date().toISOString();
+      }
     }
 
+    await saveDatabaseAsync(db);
     return NextResponse.json({ success: true });
   } catch (error) {
     return NextResponse.json({ error: 'Erreur suppression commande' }, { status: 500 });

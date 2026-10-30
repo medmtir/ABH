@@ -27,9 +27,10 @@ import {
 import { Client, Order, Currency, OrderStatus, Payment, DeliveryInstallment } from '@/lib/types';
 
 export default function AdminClientsOrdersPage() {
-  const [activeTab, setActiveTab] = useState<'orders' | 'clients'>('orders');
+  const [activeTab, setActiveTab] = useState<'orders' | 'clients' | 'trash'>('orders');
   const [clients, setClients] = useState<Client[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
+  const [trashedOrders, setTrashedOrders] = useState<Order[]>([]);
   const [kpis, setKpis] = useState<Record<Currency, { total: number; paid: number; remaining: number }>>({
     EUR: { total: 0, paid: 0, remaining: 0 },
     TND: { total: 0, paid: 0, remaining: 0 },
@@ -63,6 +64,7 @@ export default function AdminClientsOrdersPage() {
     id: string;
     parentOrderId?: string;
     title: string;
+    permanent?: boolean;
   }>({ open: false, type: 'client', id: '', title: '' });
 
   // Client mode in order creation: 'existing' or 'new'
@@ -126,8 +128,9 @@ export default function AdminClientsOrdersPage() {
     ])
       .then(([clientData, orderData]) => {
         if (Array.isArray(clientData)) setClients(clientData);
-        if (orderData && Array.isArray(orderData.orders)) {
-          setOrders(orderData.orders);
+        if (orderData) {
+          if (Array.isArray(orderData.orders)) setOrders(orderData.orders);
+          if (Array.isArray(orderData.trashed_orders)) setTrashedOrders(orderData.trashed_orders);
           if (orderData.kpis) setKpis(orderData.kpis);
         }
       })
@@ -418,11 +421,28 @@ export default function AdminClientsOrdersPage() {
     }
   };
 
-  const handleDeleteOrder = async (id: string) => {
+  const handleDeleteOrder = async (id: string, permanent = false) => {
     try {
-      const res = await fetch(`/api/admin/orders?id=${id}`, { method: 'DELETE' });
+      const res = await fetch(`/api/admin/orders?id=${id}${permanent ? '&permanent=true' : ''}`, {
+        method: 'DELETE',
+      });
       if (res.ok) {
         setDeleteConfirm({ open: false, type: 'order', id: '', title: '' });
+        loadData();
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleRestoreOrder = async (id: string) => {
+    try {
+      const res = await fetch('/api/admin/orders', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, action: 'restore' }),
+      });
+      if (res.ok) {
         loadData();
       }
     } catch (err) {
@@ -591,6 +611,18 @@ export default function AdminClientsOrdersPage() {
         >
           <Users className="h-4 w-4" />
           <span>Répertoire Clients ({clients.length})</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('trash')}
+          className={`pb-3 border-b-2 transition-colors flex items-center gap-2 whitespace-nowrap shrink-0 ${
+            activeTab === 'trash'
+              ? 'border-red-500 text-red-600'
+              : 'border-transparent text-gray-400 hover:text-red-500'
+          }`}
+        >
+          <Trash2 className="h-4 w-4" />
+          <span>Corbeille ({trashedOrders.length})</span>
         </button>
       </div>
 
@@ -804,26 +836,31 @@ export default function AdminClientsOrdersPage() {
                           </button>
 
                           <button
+                            type="button"
                             onClick={() => handleOpenEditOrder(o)}
-                            className="p-1.5 rounded-xl border border-gray-200 text-gray-500 hover:text-abh-sapphire hover:border-abh-sapphire transition-colors"
+                            className="px-2.5 py-1.5 rounded-xl border border-gray-200 text-gray-600 hover:text-abh-sapphire hover:border-abh-sapphire transition-colors flex items-center gap-1 text-xs"
                             title="Modifier la commande"
                           >
                             <Edit2 className="h-3.5 w-3.5" />
+                            <span className="hidden sm:inline font-medium">Modifier</span>
                           </button>
 
                           <button
+                            type="button"
                             onClick={() =>
                               setDeleteConfirm({
                                 open: true,
                                 type: 'order',
                                 id: o.id,
                                 title: `Commande ${o.order_number} (${o.client_name})`,
+                                permanent: false,
                               })
                             }
-                            className="p-1.5 rounded-xl border border-red-200 text-red-500 hover:bg-red-50 transition-colors"
-                            title="Supprimer la commande"
+                            className="px-3 py-1.5 rounded-xl bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 hover:border-red-300 transition-colors flex items-center gap-1.5 font-semibold text-xs shadow-2xs"
+                            title="Mettre cette commande à la corbeille"
                           >
-                            <Trash2 className="h-3.5 w-3.5" />
+                            <Trash2 className="h-3.5 w-3.5 text-red-500" />
+                            <span>Supprimer</span>
                           </button>
                         </div>
                       </div>
@@ -1088,6 +1125,83 @@ export default function AdminClientsOrdersPage() {
               </div>
             )}
           </div>
+        </div>
+      )}
+
+      {/* ======================================================== */}
+      {/* TAB 3: TRASH (CORBEILLE DES COMMANDES)                   */}
+      {/* ======================================================== */}
+      {activeTab === 'trash' && (
+        <div className="space-y-4">
+          <div className="rounded-2xl bg-amber-50/60 p-4 border border-amber-200/80 text-xs text-amber-900 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Trash2 className="h-4 w-4 text-amber-700 shrink-0" />
+              <span>
+                Les commandes mises à la corbeille ne sont plus comptabilisées dans vos statistiques financières. Vous pouvez les restaurer ou les supprimer définitivement.
+              </span>
+            </div>
+          </div>
+
+          {trashedOrders.length === 0 ? (
+            <div className="rounded-2xl bg-white p-12 text-center border border-abh-border">
+              <Trash2 className="h-10 w-10 text-gray-300 mx-auto mb-3" />
+              <h4 className="text-sm font-bold text-abh-midnight">La corbeille est vide</h4>
+              <p className="text-xs text-abh-slate mt-1">Aucune commande n&apos;a été mise à la corbeille.</p>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {trashedOrders.map((o) => (
+                <div
+                  key={o.id}
+                  className="rounded-2xl bg-white p-4 sm:p-5 border border-red-100 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                >
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="font-mono text-xs font-bold text-red-600 bg-red-50 px-2 py-0.5 rounded-lg border border-red-200">
+                        {o.order_number}
+                      </span>
+                      <span className="font-bold text-sm text-abh-midnight">{o.client_name}</span>
+                      <span className="text-xs text-gray-400">• Mis à la corbeille</span>
+                    </div>
+                    <p className="text-xs text-abh-slate">
+                      Produit : <span className="font-medium text-abh-midnight">{o.product_name}</span> ({o.quantity} {o.unit}) • Montant : <span className="font-bold">{o.total_amount.toLocaleString()} {o.currency}</span>
+                    </p>
+                    {o.notes && (
+                      <p className="text-[11px] text-gray-500 italic">Note : {o.notes}</p>
+                    )}
+                  </div>
+
+                  <div className="flex items-center gap-2 self-end sm:self-center">
+                    <button
+                      type="button"
+                      onClick={() => handleRestoreOrder(o.id)}
+                      className="rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200 px-3.5 py-2 text-xs font-semibold hover:bg-emerald-100 transition-colors flex items-center gap-1.5"
+                    >
+                      <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />
+                      <span>Restaurer</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setDeleteConfirm({
+                          open: true,
+                          type: 'order',
+                          id: o.id,
+                          title: `Définitivement : Commande ${o.order_number} (${o.client_name})`,
+                          permanent: true,
+                        })
+                      }
+                      className="rounded-xl bg-red-600 text-white px-3.5 py-2 text-xs font-semibold hover:bg-red-700 transition-colors flex items-center gap-1.5 shadow-xs"
+                    >
+                      <Trash2 className="h-3.5 w-3.5" />
+                      <span>Supprimer Définitivement</span>
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
 
@@ -1702,7 +1816,7 @@ export default function AdminClientsOrdersPage() {
                   if (deleteConfirm.type === 'client') {
                     handleDeleteClient(deleteConfirm.id);
                   } else if (deleteConfirm.type === 'order') {
-                    handleDeleteOrder(deleteConfirm.id);
+                    handleDeleteOrder(deleteConfirm.id, !!deleteConfirm.permanent);
                   } else if (deleteConfirm.type === 'payment' && deleteConfirm.parentOrderId) {
                     handleDeletePaymentLine(deleteConfirm.parentOrderId, deleteConfirm.id);
                   } else if (deleteConfirm.type === 'delivery' && deleteConfirm.parentOrderId) {

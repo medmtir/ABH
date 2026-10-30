@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
-import { loadDatabase } from '@/lib/db/db';
+import { loadDatabaseAsync } from '@/lib/db/db';
 
 export async function GET() {
   try {
-    const db = loadDatabase();
+    const db = await loadDatabaseAsync();
     const activePackagings = (db.packagings || [])
       .filter((p) => p.is_active)
       .sort((a, b) => a.sort_order - b.sort_order);

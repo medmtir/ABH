@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { loadDatabase, saveDatabase } from '@/lib/db/db';
+import { loadDatabaseAsync, saveDatabaseAsync } from '@/lib/db/db';
 import { validateAdminSession } from '@/lib/auth';
 import { Product } from '@/lib/types';
 
 export async function GET() {
-  const db = loadDatabase();
+  const db = await loadDatabaseAsync();
   return NextResponse.json(db.products || []);
 }
 
@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Le slug du produit est obligatoire' }, { status: 400 });
     }
 
-    const db = loadDatabase();
+    const db = await loadDatabaseAsync();
     const newProduct: Product = {
       id: `prod-${Date.now()}`,
       slug,
@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
     }
 
     db.products.push(newProduct);
-    saveDatabase(db);
+    await saveDatabaseAsync(db);
 
     return NextResponse.json({ success: true, product: newProduct });
   } catch (error) {
@@ -68,7 +68,7 @@ export async function PUT(request: NextRequest) {
     const body = await request.json();
     const { id, ...updates } = body;
 
-    const db = loadDatabase();
+    const db = await loadDatabaseAsync();
     const product = (db.products || []).find((p) => p.id === id);
 
     if (!product) {
@@ -76,7 +76,7 @@ export async function PUT(request: NextRequest) {
     }
 
     Object.assign(product, updates);
-    saveDatabase(db);
+    await saveDatabaseAsync(db);
 
     return NextResponse.json({ success: true, product });
   } catch (error) {
@@ -94,9 +94,9 @@ export async function DELETE(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
 
-    const db = loadDatabase();
+    const db = await loadDatabaseAsync();
     db.products = (db.products || []).filter((p) => p.id !== id);
-    saveDatabase(db);
+    await saveDatabaseAsync(db);
 
     return NextResponse.json({ success: true });
   } catch (error) {

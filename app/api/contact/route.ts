@@ -1,15 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { loadDatabase, saveDatabase } from '@/lib/db/db';
+import { insertContactMessageDirect } from '@/lib/db/db';
 import { ContactMessage } from '@/lib/types';
 
 // Rate limiting in-memory map: IP -> timestamp array
 const ipRequests = new Map<string, number[]>();
 const RATE_LIMIT_WINDOW = 10 * 60 * 1000; // 10 minutes
-const MAX_REQUESTS = 5;
+const MAX_REQUESTS = process.env.NODE_ENV === 'production' ? 20 : 100;
 
 export async function POST(request: NextRequest) {
   try {
-    const ip = request.headers.get('x-forwarded-for')?.split(',')[0].trim() || 'unknown-ip';
+    const forwarded = request.headers.get('x-forwarded-for');
+    const realIp = request.headers.get('x-real-ip');
+    const ip = forwarded?.split(',')[0].trim() || realIp || 'localhost-dev';
     const now = Date.now();
 
     // Check rate limit
@@ -69,8 +71,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const db = loadDatabase();
-
     const newMessage: ContactMessage = {
       id: `msg-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
       full_name: full_name.trim().slice(0, 150),
@@ -88,17 +88,14 @@ export async function POST(request: NextRequest) {
       created_at: new Date().toISOString(),
     };
 
-    if (!Array.isArray(db.messages)) {
-      db.messages = [];
-    }
-
-    db.messages.unshift(newMessage);
-    saveDatabase(db);
+    // Instant insertion directly into Neon and memory sync
+    await insertContactMessageDirect(newMessage);
 
     return NextResponse.json({
       success: true,
       message: 'Votre demande a bien été envoyée.',
       id: newMessage.id,
+      data: newMessage,
     });
   } catch (error) {
     console.error('Error in /api/contact:', error);

@@ -54,14 +54,16 @@ export default function ContactPage() {
       if (file) {
         const uploadData = new FormData();
         uploadData.append('file', file);
-        const uploadRes = await fetch('/api/admin/upload', {
+        const uploadRes = await fetch('/api/upload', {
           method: 'POST',
           body: uploadData,
         });
-        if (uploadRes.ok) {
-          const resJson = await uploadRes.json();
-          attachmentUrl = resJson.url || '';
+        if (!uploadRes.ok) {
+          const errData = await uploadRes.json().catch(() => ({}));
+          throw new Error(errData.error || 'Erreur lors du téléversement de la pièce jointe');
         }
+        const resJson = await uploadRes.json();
+        attachmentUrl = resJson.url || '';
       }
 
       const res = await fetch('/api/contact', {

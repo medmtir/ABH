@@ -62,9 +62,35 @@ export function QuoteModal({ isOpen, onClose, defaultProduct }: QuoteModalProps)
   });
 
   const [file, setFile] = useState<File | null>(null);
+  const [filePreview, setFilePreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const selected = e.target.files[0];
+      if (selected.size > 15 * 1024 * 1024) {
+        setError('Le fichier sélectionné est trop volumineux (maximum 15 Mo).');
+        return;
+      }
+      setFile(selected);
+      setError(null);
+      if (selected.type.startsWith('image/')) {
+        setFilePreview(URL.createObjectURL(selected));
+      } else {
+        setFilePreview(null);
+      }
+    }
+  };
+
+  const removeFile = () => {
+    setFile(null);
+    if (filePreview) {
+      URL.revokeObjectURL(filePreview);
+      setFilePreview(null);
+    }
+  };
 
   if (!isOpen) return null;
 
@@ -85,14 +111,16 @@ export function QuoteModal({ isOpen, onClose, defaultProduct }: QuoteModalProps)
       if (file) {
         const uploadData = new FormData();
         uploadData.append('file', file);
-        const uploadRes = await fetch('/api/admin/upload', {
+        const uploadRes = await fetch('/api/upload', {
           method: 'POST',
           body: uploadData,
         });
-        if (uploadRes.ok) {
-          const resJson = await uploadRes.json();
-          attachmentUrl = resJson.url || '';
+        if (!uploadRes.ok) {
+          const errJson = await uploadRes.json().catch(() => ({}));
+          throw new Error(errJson.error || 'Erreur lors du téléversement de la pièce jointe.');
         }
+        const resJson = await uploadRes.json();
+        attachmentUrl = resJson.url || '';
       }
 
       const res = await fetch('/api/contact', {
@@ -110,6 +138,7 @@ export function QuoteModal({ isOpen, onClose, defaultProduct }: QuoteModalProps)
       }
 
       setSuccess(true);
+      removeFile();
     } catch (err: any) {
       setError(err.message || 'Impossible d envoyer la demande. Veuillez réessayer.');
     } finally {
@@ -337,33 +366,48 @@ export function QuoteModal({ isOpen, onClose, defaultProduct }: QuoteModalProps)
               {/* Optional File Attachment */}
               <div>
                 <label className="block text-xs font-medium text-abh-midnight mb-1">
-                  Pièce Jointe / Cahier des charges (Optionnel — PDF, DOC, Image ≤ 10Mo)
+                  Pièce Jointe / Cahier des charges / Photo (Optionnel — Image, PDF, DOC ≤ 15Mo)
                 </label>
-                <div className="flex items-center gap-3">
-                  <label className="flex cursor-pointer items-center gap-2 rounded-xl border border-dashed border-abh-border bg-abh-pearl/30 px-4 py-2 text-xs text-abh-slate hover:bg-abh-sand/20 hover:border-abh-amber transition-colors">
+
+                {!file ? (
+                  <label className="flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-dashed border-abh-border bg-abh-pearl/30 p-3 text-xs text-abh-slate hover:bg-abh-sand/20 hover:border-abh-amber transition-colors">
                     <FileUp className="h-4 w-4 text-abh-amber" />
-                    <span>{file ? file.name : 'Joindre un fichier'}</span>
+                    <span>Cliquez pour joindre une photo ou un document</span>
                     <input
                       type="file"
                       className="hidden"
-                      accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-                      onChange={(e) => {
-                        if (e.target.files && e.target.files[0]) {
-                          setFile(e.target.files[0]);
-                        }
-                      }}
+                      accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.webp,.svg"
+                      onChange={handleFileChange}
                     />
                   </label>
-                  {file && (
+                ) : (
+                  <div className="flex items-center justify-between rounded-xl border border-abh-amber/40 bg-abh-sand/15 p-2.5">
+                    <div className="flex items-center gap-2.5 overflow-hidden">
+                      {filePreview ? (
+                        <img
+                          src={filePreview}
+                          alt="Aperçu"
+                          className="h-10 w-10 rounded-lg object-cover border border-abh-border shadow-xs shrink-0"
+                        />
+                      ) : (
+                        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-abh-sapphire/10 text-abh-sapphire shrink-0">
+                          <FileUp className="h-5 w-5 text-abh-amber" />
+                        </div>
+                      )}
+                      <div className="truncate">
+                        <p className="text-xs font-semibold text-abh-sapphire truncate">{file.name}</p>
+                        <p className="text-[10px] text-gray-500">{(file.size / (1024 * 1024)).toFixed(2)} Mo</p>
+                      </div>
+                    </div>
                     <button
                       type="button"
-                      onClick={() => setFile(null)}
-                      className="text-xs text-red-500 hover:underline"
+                      onClick={removeFile}
+                      className="rounded-lg px-2.5 py-1 text-xs font-semibold text-red-600 hover:bg-red-50 transition-colors shrink-0"
                     >
-                      Supprimer
+                      Retirer
                     </button>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
 
               <div className="pt-2">

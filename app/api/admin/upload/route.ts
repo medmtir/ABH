@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { validateAdminSession } from '@/lib/auth';
+import { getNeonPool } from '@/lib/db/db';
 import fs from 'fs';
 import path from 'path';
 
@@ -24,7 +25,6 @@ function checkMagicBytes(buffer: Buffer, ext: string): boolean {
       const text = buffer.subarray(0, 100).toString().toLowerCase();
       return text.includes('<svg') || text.includes('<?xml');
     default:
-      // Allow docs with basic check
       return true;
   }
 }
@@ -63,20 +63,39 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Save to public/uploads
-    const uploadDir = path.join(process.cwd(), 'public', 'uploads');
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true });
-    }
-
     const sanitizedBase = path
       .basename(file.name, ext)
       .replace(/[^a-zA-Z0-9_-]/g, '_')
       .toLowerCase();
     const fileName = `${sanitizedBase}-${Date.now()}${ext}`;
-    const filePath = path.join(uploadDir, fileName);
 
-    fs.writeFileSync(filePath, buffer);
+    // 1. Persist directly to Neon PostgreSQL (Reliable on Vercel Serverless)
+    const pool = getNeonPool();
+    if (pool) {
+      try {
+        const base64Data = buffer.toString('base64');
+        await pool.query(
+          `INSERT INTO uploaded_files (id, filename, mime_type, data_base64, size_bytes, created_at)
+           VALUES ($1, $2, $3, $4, $5, NOW())
+           ON CONFLICT (id) DO UPDATE SET data_base64 = $4, size_bytes = $5;`,
+          [fileName, fileName, file.type || 'application/octet-stream', base64Data, buffer.length]
+        );
+      } catch (dbErr) {
+        console.error('Neon uploaded_files save error:', dbErr);
+      }
+    }
+
+    // 2. Also try writing to local disk (for dev environment)
+    try {
+      const uploadDir = path.join(process.cwd(), 'public', 'uploads');
+      if (!fs.existsSync(uploadDir)) {
+        fs.mkdirSync(uploadDir, { recursive: true });
+      }
+      const filePath = path.join(uploadDir, fileName);
+      fs.writeFileSync(filePath, buffer);
+    } catch (diskErr) {
+      // Expected on Vercel where file system is read-only
+    }
 
     const fileUrl = `/uploads/${fileName}`;
     return NextResponse.json({ success: true, url: fileUrl, name: fileName });
@@ -93,22 +112,49 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const uploadDir = path.join(process.cwd(), 'public', 'uploads');
-    if (!fs.existsSync(uploadDir)) {
-      return NextResponse.json([]);
+    const fileMap = new Map<string, any>();
+
+    // 1. Fetch from Neon PostgreSQL
+    const pool = getNeonPool();
+    if (pool) {
+      try {
+        const res = await pool.query(
+          'SELECT filename, size_bytes, created_at FROM uploaded_files ORDER BY created_at DESC'
+        );
+        for (const row of res.rows) {
+          fileMap.set(row.filename, {
+            name: row.filename,
+            url: `/uploads/${row.filename}`,
+            size: `${(row.size_bytes / 1024).toFixed(1)} KB`,
+            created_at: new Date(row.created_at).toISOString(),
+          });
+        }
+      } catch (err) {
+        console.error('Neon uploaded_files fetch error:', err);
+      }
     }
 
-    const files = fs.readdirSync(uploadDir).map((name) => {
-      const stats = fs.statSync(path.join(uploadDir, name));
-      return {
-        name,
-        url: `/uploads/${name}`,
-        size: `${(stats.size / 1024).toFixed(1)} KB`,
-        created_at: stats.birthtime.toISOString(),
-      };
-    });
+    // 2. Merge local disk files if present
+    try {
+      const uploadDir = path.join(process.cwd(), 'public', 'uploads');
+      if (fs.existsSync(uploadDir)) {
+        const diskFiles = fs.readdirSync(uploadDir);
+        for (const name of diskFiles) {
+          if (!fileMap.has(name)) {
+            const stats = fs.statSync(path.join(uploadDir, name));
+            fileMap.set(name, {
+              name,
+              url: `/uploads/${name}`,
+              size: `${(stats.size / 1024).toFixed(1)} KB`,
+              created_at: stats.birthtime.toISOString(),
+            });
+          }
+        }
+      }
+    } catch {}
 
-    return NextResponse.json(files);
+    const result = Array.from(fileMap.values());
+    return NextResponse.json(result);
   } catch (error) {
     return NextResponse.json({ error: 'Erreur lecture médias' }, { status: 500 });
   }

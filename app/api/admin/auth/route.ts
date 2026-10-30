@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { loadDatabase, saveDatabase } from '@/lib/db/db';
+import { loadDatabaseAsync, saveDatabaseAsync } from '@/lib/db/db';
 import {
   verifyPassword,
   hashPassword,
@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const db = loadDatabase();
+    const db = await loadDatabaseAsync();
     const admin = (db.admins || []).find(
       (a) => a.email.toLowerCase() === email.toLowerCase().trim()
     );
@@ -138,7 +138,7 @@ export async function PUT(request: NextRequest) {
       );
     }
 
-    const db = loadDatabase();
+    const db = await loadDatabaseAsync();
     const admin = db.admins.find((a) => a.id === session.admin!.id);
 
     if (!admin) {
@@ -154,7 +154,7 @@ export async function PUT(request: NextRequest) {
     }
 
     admin.password_hash = await hashPassword(new_password);
-    saveDatabase(db);
+    await saveDatabaseAsync(db);
 
     return NextResponse.json({
       success: true,

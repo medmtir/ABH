@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { loadDatabase, saveDatabase } from '@/lib/db/db';
+import { loadDatabaseAsync, saveDatabaseAsync } from '@/lib/db/db';
 import { validateAdminSession } from '@/lib/auth';
 import { Publication } from '@/lib/types';
 
 export async function GET() {
-  const db = loadDatabase();
+  const db = await loadDatabaseAsync();
   return NextResponse.json(db.publications || []);
 }
 
@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { category = 'report', date, download_url, file_size, translations } = body;
 
-    const db = loadDatabase();
+    const db = await loadDatabaseAsync();
     const newPub: Publication = {
       id: `pub-${Date.now()}`,
       category,
@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
     }
 
     db.publications.unshift(newPub);
-    saveDatabase(db);
+    await saveDatabaseAsync(db);
 
     return NextResponse.json({ success: true, publication: newPub });
   } catch (error) {
@@ -54,7 +54,7 @@ export async function PUT(request: NextRequest) {
     const body = await request.json();
     const { id, ...updates } = body;
 
-    const db = loadDatabase();
+    const db = await loadDatabaseAsync();
     const pub = (db.publications || []).find((p) => p.id === id);
 
     if (!pub) {
@@ -62,7 +62,7 @@ export async function PUT(request: NextRequest) {
     }
 
     Object.assign(pub, updates);
-    saveDatabase(db);
+    await saveDatabaseAsync(db);
 
     return NextResponse.json({ success: true, publication: pub });
   } catch (error) {
@@ -80,9 +80,9 @@ export async function DELETE(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
 
-    const db = loadDatabase();
+    const db = await loadDatabaseAsync();
     db.publications = (db.publications || []).filter((p) => p.id !== id);
-    saveDatabase(db);
+    await saveDatabaseAsync(db);
 
     return NextResponse.json({ success: true });
   } catch (error) {

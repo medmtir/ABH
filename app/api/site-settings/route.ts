@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
-import { loadDatabase } from '@/lib/db/db';
+import { loadDatabaseAsync } from '@/lib/db/db';
 
 export async function GET() {
   try {
-    const db = loadDatabase();
+    const db = await loadDatabaseAsync();
     return NextResponse.json(db.settings);
   } catch (error) {
     console.error('Error fetching site settings:', error);

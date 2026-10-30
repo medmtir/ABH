@@ -1,33 +1,182 @@
 {
+  "media": [],
   "admins": [
     {
       "id": "admin-abh-001",
-      "email": "admin@abh-company.com",
-      "password_hash": "$2a$12$UOLQL.IPmL8fK5h5F8IqpuuLWyxZOfikGll6gi4aUfynMUzQs/u8y",
       "name": "Direction Générale ABH",
       "role": "superadmin",
-      "created_at": "2026-10-21T19:24:21.072Z"
+      "email": "admin@abh-company.com",
+      "created_at": "2026-10-21T19:24:21.072Z",
+      "password_hash": "$2a$12$UOLQL.IPmL8fK5h5F8IqpuuLWyxZOfikGll6gi4aUfynMUzQs/u8y"
+    }
+  ],
+  "orders": [
+    {
+      "id": "ord-1792668738047-g04h",
+      "unit": "tonnes",
+      "notes": "",
+      "currency": "EUR",
+      "payments": [],
+      "quantity": 21,
+      "client_id": "",
+      "packaging": "Flexitank 24 000L",
+      "created_at": "2026-10-22T11:32:18.047Z",
+      "is_deleted": false,
+      "order_date": "2026-10-22",
+      "product_id": "",
+      "unit_price": 6500,
+      "client_name": "sotudal",
+      "paid_amount": 0,
+      "order_number": "CMD-2026-002",
+      "order_status": "confirmed",
+      "product_name": "Huile d'Olive Vierge Extra",
+      "total_amount": 136500,
+      "payment_status": "unpaid",
+      "delivery_status": "pending",
+      "remaining_amount": 136500,
+      "delivered_quantity": 0,
+      "remaining_quantity": 21,
+      "delivery_installments": []
+    },
+    {
+      "id": "ord-1792614847329-eo5s",
+      "unit": "tonnes",
+      "notes": "",
+      "currency": "EUR",
+      "payments": [
+        {
+          "id": "pay-1792614878990-cz49",
+          "date": "2026-10-21",
+          "notes": "",
+          "amount": 136500,
+          "method": "wire_transfer",
+          "reference": "sqdqsdqs"
+        }
+      ],
+      "quantity": 21,
+      "client_id": "",
+      "packaging": "Flexitank 24 000L",
+      "created_at": "2026-10-21T20:34:07.329Z",
+      "is_deleted": false,
+      "order_date": "2026-10-21",
+      "product_id": "",
+      "unit_price": 6500,
+      "client_name": "sotrudal",
+      "paid_amount": 136500,
+      "order_number": "CMD-2026-001",
+      "order_status": "delivered",
+      "product_name": "Huile d'Olive Vierge Extra",
+      "total_amount": 136500,
+      "payment_status": "paid",
+      "delivery_status": "delivered",
+      "remaining_amount": 0,
+      "delivered_quantity": 1136,
+      "remaining_quantity": 0,
+      "delivery_installments": [
+        {
+          "id": "del-1792614861284-i5vb",
+          "date": "2026-10-21",
+          "notes": "",
+          "quantity": 24,
+          "bl_number": "qsdqsd"
+        },
+        {
+          "id": "del-1792614888117-sqb1",
+          "date": "2026-10-21",
+          "notes": "",
+          "quantity": 1,
+          "bl_number": "dfsdfsdf"
+        },
+        {
+          "id": "del-1792614894282-ctrm",
+          "date": "2026-10-21",
+          "notes": "",
+          "quantity": 1111,
+          "bl_number": "qsdsqd"
+        }
+      ]
+    }
+  ],
+  "clients": [
+    {
+      "id": "cli-1792668729021-nxor",
+      "name": "med",
+      "email": "medmtir80@gmail.com",
+      "notes": "",
+      "phone": "97836606",
+      "tax_id": "sqdqsd",
+      "address": "",
+      "country": "Tunisie",
+      "created_at": "2026-10-22T11:32:09.021Z",
+      "is_deleted": false,
+      "contact_person": ""
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg-1792610871633-7fb8h",
+      "email": "client@test-import.fr",
+      "phone": "+33 6 12 34 56 78",
+      "status": "read",
+      "country": "France (+33)",
+      "message": "Demande de cotation CIF Marseille pour la campagne 2025/2026.",
+      "quantity": "2 Conteneurs Flexitank (42 Tonnes)",
+      "full_name": "Client Test International",
+      "created_at": "2026-10-21T19:27:51.633Z",
+      "company_name": "Mediterranean Oil Imports SARL",
+      "file_attachment": "",
+      "privacy_consent": true,
+      "product_interest": "Huile d'Olive Vierge Extra",
+      "destination_country": "Port de Marseille"
     }
   ],
   "products": [
     {
       "id": "prod-extra-vierge",
       "slug": "huile-olive-extra-vierge",
-      "active": true,
-      "acidity_max": 0.8,
-      "hero_image": "/images/products/extra-vierge.jpg",
-      "gallery_images": [
-        "/images/products/extra-vierge.jpg",
-        "/images/facility/storage-tanks.jpg",
-        "/images/facility/port-containers.jpg"
-      ],
       "specs": {
+        "moq": "1 Conteneur 20ft (~21 Tonnes)",
+        "origin": "Bouhajla, Kairouan — Tunisie",
         "acidity": "≤ 0.8%",
         "variety": "Chemlali & Chétoui",
-        "extraction": "Extraction à froid (< 27°C)",
-        "origin": "Bouhajla, Kairouan — Tunisie",
         "packaging": "Flexitank 24 000L, IBC 1 000L, Fûts 208L",
-        "moq": "1 Conteneur 20ft (~21 Tonnes)"
+        "extraction": "Extraction à froid (< 27°C)"
+      },
+      "active": true,
+      "created_at": "2026-10-21T19:24:21.073Z",
+      "hero_image": "/images/products/extra-vierge.jpg",
+      "acidity_max": 0.8,
+      "translations": {
+        "ar": {
+          "title": "زيت زيتون بكر ممتاز",
+          "subtitle": "نقاء وتوازن مثالي من تونس الخضراء",
+          "description": "يستخرج زيت الزيتون البكر الممتاز لشركة الأصالة من أجود مزارع القيروان وبوحجلة، معصور على البارد وبنسبة حموضة لا تتجاوز 0.8%، مطابق للمعايير الدولية للمجلس الدولي للزيتون.",
+          "short_description": "زيت زيتون تونسي بكر ممتاز معصور على البارد مخصص للتصدير الدولي بالجملة."
+        },
+        "en": {
+          "title": "Extra Virgin Olive Oil",
+          "subtitle": "Mediterranean purity & aromatic richness",
+          "description": "Our Extra Virgin Olive Oil comes from the historic olive groves of Kairouan. Extracted cold within 12 hours of harvest, it features a balanced, mild-to-medium fruity profile with subtle almond notes, with acidity strictly under 0.8%. Dedicated to bottling companies and global food distributors.",
+          "short_description": "Cold-extracted Tunisian extra virgin olive oil crafted for bulk international B2B export."
+        },
+        "es": {
+          "title": "Aceite de Oliva Virgen Extra",
+          "subtitle": "Pureza mediterránea y equilibrio sensorial",
+          "description": "Aceite de oliva virgen extra tunecino seleccionado rigurosamente para importadores y envasadores de todo el mundo.",
+          "short_description": "Aceite de oliva virgen extra de extracción en frío para exportación a granel."
+        },
+        "fr": {
+          "title": "Huile d'Olive Vierge Extra",
+          "subtitle": "Pureté méditerranéenne & intensité aromatique",
+          "description": "Notre Huile d'Olive Vierge Extra est issue des vergers ensoleillés du gouvernorat de Kairouan. Récoltée mécaniquement et pressée à froid dans les 12 heures suivant la cueillette, elle offre un profil organoleptique équilibré, fruité vert avec des notes d'amande douce et d'artichaut, et une acidité strictement inférieure à 0.8%. Destinée aux industriels, embouteilleurs et grossistes internationaux.",
+          "short_description": "Huile d'olive vierge extra tunisienne de première extraction à froid, sélectionnée pour l'export agroalimentaire de gros."
+        },
+        "it": {
+          "title": "Olio Extra Vergine di Oliva",
+          "subtitle": "Purezza mediterranea ed armonia aromatica",
+          "description": "Olio EVO tunisino di eccellente fattura analitica e sensoriale, disponibile in flexitank e cisterne IBC per l industria.",
+          "short_description": "Olio extra vergine di oliva estratto a freddo per esportazione B2B sfuso."
+        }
       },
       "certifications": [
         "ISO 22000",
@@ -36,58 +185,58 @@
         "Halal",
         "Kosher"
       ],
-      "translations": {
-        "fr": {
-          "title": "Huile d'Olive Vierge Extra",
-          "subtitle": "Pureté méditerranéenne & intensité aromatique",
-          "short_description": "Huile d'olive vierge extra tunisienne de première extraction à froid, sélectionnée pour l'export agroalimentaire de gros.",
-          "description": "Notre Huile d'Olive Vierge Extra est issue des vergers ensoleillés du gouvernorat de Kairouan. Récoltée mécaniquement et pressée à froid dans les 12 heures suivant la cueillette, elle offre un profil organoleptique équilibré, fruité vert avec des notes d'amande douce et d'artichaut, et une acidité strictement inférieure à 0.8%. Destinée aux industriels, embouteilleurs et grossistes internationaux."
-        },
-        "en": {
-          "title": "Extra Virgin Olive Oil",
-          "subtitle": "Mediterranean purity & aromatic richness",
-          "short_description": "Cold-extracted Tunisian extra virgin olive oil crafted for bulk international B2B export.",
-          "description": "Our Extra Virgin Olive Oil comes from the historic olive groves of Kairouan. Extracted cold within 12 hours of harvest, it features a balanced, mild-to-medium fruity profile with subtle almond notes, with acidity strictly under 0.8%. Dedicated to bottling companies and global food distributors."
-        },
-        "ar": {
-          "title": "زيت زيتون بكر ممتاز",
-          "subtitle": "نقاء وتوازن مثالي من تونس الخضراء",
-          "short_description": "زيت زيتون تونسي بكر ممتاز معصور على البارد مخصص للتصدير الدولي بالجملة.",
-          "description": "يستخرج زيت الزيتون البكر الممتاز لشركة الأصالة من أجود مزارع القيروان وبوحجلة، معصور على البارد وبنسبة حموضة لا تتجاوز 0.8%، مطابق للمعايير الدولية للمجلس الدولي للزيتون."
-        },
-        "es": {
-          "title": "Aceite de Oliva Virgen Extra",
-          "subtitle": "Pureza mediterránea y equilibrio sensorial",
-          "short_description": "Aceite de oliva virgen extra de extracción en frío para exportación a granel.",
-          "description": "Aceite de oliva virgen extra tunecino seleccionado rigurosamente para importadores y envasadores de todo el mundo."
-        },
-        "it": {
-          "title": "Olio Extra Vergine di Oliva",
-          "subtitle": "Purezza mediterranea ed armonia aromatica",
-          "short_description": "Olio extra vergine di oliva estratto a freddo per esportazione B2B sfuso.",
-          "description": "Olio EVO tunisino di eccellente fattura analitica e sensoriale, disponibile in flexitank e cisterne IBC per l industria."
-        }
-      },
-      "created_at": "2026-10-21T19:24:21.073Z"
+      "gallery_images": [
+        "/images/products/extra-vierge.jpg",
+        "/images/facility/storage-tanks.jpg",
+        "/images/facility/port-containers.jpg"
+      ]
     },
     {
       "id": "prod-bio-certifiee",
       "slug": "huile-olive-biologique",
-      "active": true,
-      "acidity_max": 0.5,
-      "hero_image": "/images/products/olive-bio.jpg",
-      "gallery_images": [
-        "/images/products/olive-bio.jpg",
-        "/images/facility/olive-grove.jpg",
-        "/images/facility/storage-tanks.jpg"
-      ],
       "specs": {
+        "moq": "1 Conteneur 20ft (~21 Tonnes)",
+        "origin": "Oliveraies certifiées Bio, Bouhajla (Kairouan)",
         "acidity": "≤ 0.5%",
         "variety": "Chemlali Biologique",
-        "extraction": "Première pression à froid mécanique",
-        "origin": "Oliveraies certifiées Bio, Bouhajla (Kairouan)",
         "packaging": "Flexitank 24 000L, IBC 1 000L, Fûts 208L",
-        "moq": "1 Conteneur 20ft (~21 Tonnes)"
+        "extraction": "Première pression à froid mécanique"
+      },
+      "active": true,
+      "created_at": "2026-10-21T19:24:21.073Z",
+      "hero_image": "/images/products/olive-bio.jpg",
+      "acidity_max": 0.5,
+      "translations": {
+        "ar": {
+          "title": "زيت زيتون بيولوجي عضوي",
+          "subtitle": "شهادات عضوية دولية ونقاء طبيعي مطلق",
+          "description": "فخر إنتاج شركة الأصالة، زيت زيتون عضوي طبيعي 100% خالٍ من أي مواد كيميائية أو مبيدات، مع تتبع كامل من الشجرة إلى الميناء.",
+          "short_description": "زيت زيتون عضوي معتمد وفق معايير الاتحاد الأوروبي ووزارة الزراعة الأمريكية."
+        },
+        "en": {
+          "title": "Certified Organic Olive Oil",
+          "subtitle": "The pinnacle of Tunisian organic excellence",
+          "description": "Certified Organic extra virgin olive oil cultivated in chemical-free estates in Kairouan. Max acidity 0.5%, premium polyphenol content, certified by EU and USDA organic standards for discerning global buyers.",
+          "short_description": "Certified EU Bio & USDA Organic, pesticide-free, full grove-to-port traceability."
+        },
+        "es": {
+          "title": "Aceite de Oliva Virgen Extra Ecológico",
+          "subtitle": "Certificación ecológica europea y americana",
+          "description": "Aceite orgánico certificado de la máxima pureza cultivado bajo el sol tunecino sin pesticidas.",
+          "short_description": "Aceite de oliva ecológico con acidez inferior al 0.5% para el mercado internacional."
+        },
+        "fr": {
+          "title": "Huile d'Olive Biologique Certifiée",
+          "subtitle": "Le fleuron de l'agriculture biologique tunisienne",
+          "description": "ABH Company s'engage pour une agriculture durable. Notre huile d'olive biologique certifiée est issue d'oliveraies conduites sans le moindre intrant chimique. Acidité garantie ≤ 0.5%, riche en polyphénols antioxydants, certifiée par des organismes indépendants accrédités pour l'Union Européenne, les USA et l'Asie.",
+          "short_description": "Certifiée BIO UE & USDA, sans engrais chimiques ni pesticides, traçabilité intégrale."
+        },
+        "it": {
+          "title": "Olio Extra Vergine di Oliva Biologico",
+          "subtitle": "Eccellenza bio certificata UE & USDA",
+          "description": "Massima espressione della produzione biologica tunisina, con acidità inferiore allo 0,5% e ricco di antiossidanti.",
+          "short_description": "Olio biologico privo di pesticidi con tracciabilità totale per l esportazione."
+        }
       },
       "certifications": [
         "BIO UE",
@@ -97,368 +246,235 @@
         "Halal",
         "Kosher"
       ],
-      "translations": {
-        "fr": {
-          "title": "Huile d'Olive Biologique Certifiée",
-          "subtitle": "Le fleuron de l'agriculture biologique tunisienne",
-          "short_description": "Certifiée BIO UE & USDA, sans engrais chimiques ni pesticides, traçabilité intégrale.",
-          "description": "ABH Company s'engage pour une agriculture durable. Notre huile d'olive biologique certifiée est issue d'oliveraies conduites sans le moindre intrant chimique. Acidité garantie ≤ 0.5%, riche en polyphénols antioxydants, certifiée par des organismes indépendants accrédités pour l'Union Européenne, les USA et l'Asie."
-        },
-        "en": {
-          "title": "Certified Organic Olive Oil",
-          "subtitle": "The pinnacle of Tunisian organic excellence",
-          "short_description": "Certified EU Bio & USDA Organic, pesticide-free, full grove-to-port traceability.",
-          "description": "Certified Organic extra virgin olive oil cultivated in chemical-free estates in Kairouan. Max acidity 0.5%, premium polyphenol content, certified by EU and USDA organic standards for discerning global buyers."
-        },
-        "ar": {
-          "title": "زيت زيتون بيولوجي عضوي",
-          "subtitle": "شهادات عضوية دولية ونقاء طبيعي مطلق",
-          "short_description": "زيت زيتون عضوي معتمد وفق معايير الاتحاد الأوروبي ووزارة الزراعة الأمريكية.",
-          "description": "فخر إنتاج شركة الأصالة، زيت زيتون عضوي طبيعي 100% خالٍ من أي مواد كيميائية أو مبيدات، مع تتبع كامل من الشجرة إلى الميناء."
-        },
-        "es": {
-          "title": "Aceite de Oliva Virgen Extra Ecológico",
-          "subtitle": "Certificación ecológica europea y americana",
-          "short_description": "Aceite de oliva ecológico con acidez inferior al 0.5% para el mercado internacional.",
-          "description": "Aceite orgánico certificado de la máxima pureza cultivado bajo el sol tunecino sin pesticidas."
-        },
-        "it": {
-          "title": "Olio Extra Vergine di Oliva Biologico",
-          "subtitle": "Eccellenza bio certificata UE & USDA",
-          "short_description": "Olio biologico privo di pesticidi con tracciabilità totale per l esportazione.",
-          "description": "Massima espressione della produzione biologica tunisina, con acidità inferiore allo 0,5% e ricco di antiossidanti."
-        }
-      },
-      "created_at": "2026-10-21T19:24:21.073Z"
+      "gallery_images": [
+        "/images/products/olive-bio.jpg",
+        "/images/facility/olive-grove.jpg",
+        "/images/facility/storage-tanks.jpg"
+      ]
     },
     {
       "id": "prod-raffinee",
       "slug": "huile-olive-raffinee",
-      "active": true,
-      "acidity_max": 0.3,
-      "hero_image": "/images/products/raffine.jpg",
-      "gallery_images": [
-        "/images/products/raffine.jpg",
-        "/images/facility/industrial-plant.jpg",
-        "/images/facility/storage-tanks.jpg"
-      ],
       "specs": {
+        "moq": "20 Tonnes",
+        "origin": "Tunisie",
         "acidity": "≤ 0.3%",
         "variety": "Olives tunisiennes sélectionnées",
-        "extraction": "Raffinage physique sous vide de pointe",
-        "origin": "Tunisie",
         "packaging": "Flexitank 24 000L, IBC 1 000L",
-        "moq": "20 Tonnes"
+        "extraction": "Raffinage physique sous vide de pointe"
+      },
+      "active": true,
+      "created_at": "2026-10-21T19:24:21.073Z",
+      "hero_image": "/images/products/raffine.jpg",
+      "acidity_max": 0.3,
+      "translations": {
+        "ar": {
+          "title": "زيت زيتون مكرر",
+          "subtitle": "مثالي للصناعات الغذائية والتعليب",
+          "description": "زيت زيتون مكرر بمعايير عالمية متقدمة، يوفر ثباتاً فائقاً عند الطهي والتعليب الصناعي بدون روائح غير مرغوبة.",
+          "short_description": "حموضة منخفضة جداً ≤ 0.3% ونقاء حراري عالٍ لمصانع الأغذية."
+        },
+        "en": {
+          "title": "Refined Olive Oil",
+          "subtitle": "Neutral, thermal-stable solution for food processing",
+          "description": "Obtained through modern physical refining, ABH Refined Olive Oil provides high thermal stability, neutral sensory profile, and ultra-low acidity for food factories, canneries, and culinary blends.",
+          "short_description": "Max acidity 0.3%, high smoke point, ideal for industrial food manufacturing and canning."
+        },
+        "es": {
+          "title": "Aceite de Oliva Refinado",
+          "subtitle": "Estabilidad y neutralidad para la industria alimentaria",
+          "description": "Aceite refinado de alta calidad ideal para formulaciones culinarias y procesos industriales continuos.",
+          "short_description": "Acidez ≤ 0.3%, alto punto de humo para conserveras e industrias alimentarias."
+        },
+        "fr": {
+          "title": "Huile d'Olive Raffinée",
+          "subtitle": "Neutre, stable et adaptée aux processus industriels",
+          "description": "L'Huile d'Olive Raffinée ABH est obtenue par raffinage physique d'huiles d'olive vierges sans altérer leur structure glycéridique. Sa neutralité de goût, sa couleur dorée claire et son point de fumée élevé en font l'ingrédient de prédilection pour la conserverie, les sauces et mélanges industriels.",
+          "short_description": "Acidité ≤ 0.3%, odeur et goût neutres, stabilité thermique exceptionnelle pour agro-industrie."
+        },
+        "it": {
+          "title": "Olio di Oliva Raffinato",
+          "subtitle": "Neutralità e stabilità termica per uso industriale",
+          "description": "Raffinato secondo i più severi standard fisici per garantire un ingrediente stabile e neutro.",
+          "short_description": "Acidità inferiore allo 0.3% per l industria conserviera e alimentare."
+        }
       },
       "certifications": [
         "ISO 22000",
         "Halal",
         "Kosher"
       ],
-      "translations": {
-        "fr": {
-          "title": "Huile d'Olive Raffinée",
-          "subtitle": "Neutre, stable et adaptée aux processus industriels",
-          "short_description": "Acidité ≤ 0.3%, odeur et goût neutres, stabilité thermique exceptionnelle pour agro-industrie.",
-          "description": "L'Huile d'Olive Raffinée ABH est obtenue par raffinage physique d'huiles d'olive vierges sans altérer leur structure glycéridique. Sa neutralité de goût, sa couleur dorée claire et son point de fumée élevé en font l'ingrédient de prédilection pour la conserverie, les sauces et mélanges industriels."
-        },
-        "en": {
-          "title": "Refined Olive Oil",
-          "subtitle": "Neutral, thermal-stable solution for food processing",
-          "short_description": "Max acidity 0.3%, high smoke point, ideal for industrial food manufacturing and canning.",
-          "description": "Obtained through modern physical refining, ABH Refined Olive Oil provides high thermal stability, neutral sensory profile, and ultra-low acidity for food factories, canneries, and culinary blends."
-        },
-        "ar": {
-          "title": "زيت زيتون مكرر",
-          "subtitle": "مثالي للصناعات الغذائية والتعليب",
-          "short_description": "حموضة منخفضة جداً ≤ 0.3% ونقاء حراري عالٍ لمصانع الأغذية.",
-          "description": "زيت زيتون مكرر بمعايير عالمية متقدمة، يوفر ثباتاً فائقاً عند الطهي والتعليب الصناعي بدون روائح غير مرغوبة."
-        },
-        "es": {
-          "title": "Aceite de Oliva Refinado",
-          "subtitle": "Estabilidad y neutralidad para la industria alimentaria",
-          "short_description": "Acidez ≤ 0.3%, alto punto de humo para conserveras e industrias alimentarias.",
-          "description": "Aceite refinado de alta calidad ideal para formulaciones culinarias y procesos industriales continuos."
-        },
-        "it": {
-          "title": "Olio di Oliva Raffinato",
-          "subtitle": "Neutralità e stabilità termica per uso industriale",
-          "short_description": "Acidità inferiore allo 0.3% per l industria conserviera e alimentare.",
-          "description": "Raffinato secondo i più severi standard fisici per garantire un ingrediente stabile e neutro."
-        }
-      },
-      "created_at": "2026-10-21T19:24:21.073Z"
+      "gallery_images": [
+        "/images/products/raffine.jpg",
+        "/images/facility/industrial-plant.jpg",
+        "/images/facility/storage-tanks.jpg"
+      ]
     },
     {
       "id": "prod-grignons",
       "slug": "huile-grignons-olive",
-      "active": true,
-      "acidity_max": 1,
-      "hero_image": "/images/products/grignons.jpg",
-      "gallery_images": [
-        "/images/products/grignons.jpg",
-        "/images/facility/semis.jpg",
-        "/images/facility/industrial-plant.jpg"
-      ],
       "specs": {
+        "moq": "20 Tonnes",
+        "origin": "Tunisie",
         "acidity": "≤ 1.0%",
         "variety": "Grignons d olives tunisiennes",
-        "extraction": "Extraction par solvant & raffinage puis coupage vierge",
-        "origin": "Tunisie",
         "packaging": "Flexitank 24 000L, IBC 1 000L",
-        "moq": "20 Tonnes"
+        "extraction": "Extraction par solvant & raffinage puis coupage vierge"
+      },
+      "active": true,
+      "created_at": "2026-10-21T19:24:21.073Z",
+      "hero_image": "/images/products/grignons.jpg",
+      "acidity_max": 1,
+      "translations": {
+        "ar": {
+          "title": "زيت متبقي الزيتون (فيتور / غريغنون)",
+          "subtitle": "خيار اقتصادي فائق الجودة للقلي والصناعات الصابونية",
+          "description": "زيت غريغنون مخصص للأسواق العالمية الباحثة عن توازن فريد بين السعر الاقتصادي والأداء الحراري في القلي والتصنيع.",
+          "short_description": "مزيج مكرر مع زيت بكر ذو مقاومة عالية لدرجات الحرارة."
+        },
+        "en": {
+          "title": "Olive Pomace Oil",
+          "subtitle": "Cost-effective high-heat oil for frying and cosmetics",
+          "description": "A blend of refined pomace oil and virgin olive oil. Offering remarkable thermal stability and competitive pricing, it is perfect for industrial frying, snack manufacturing, and cosmetic formulation.",
+          "short_description": "Refined olive pomace blend with virgin olive oil, excellent resistance to oxidation."
+        },
+        "es": {
+          "title": "Aceite de Orujo de Oliva",
+          "subtitle": "Solución económica y resistente para fritura industrial",
+          "description": "Excelente rendimiento a altas temperaturas para frituras continuas y aplicaciones jaboneras.",
+          "short_description": "Mezcla de orujo refinado y oliva virgen para restauración e industria."
+        },
+        "fr": {
+          "title": "Huile de Grignons d'Olive",
+          "subtitle": "Économique, performante et idéale pour la friture & cosmétique",
+          "description": "Composée d'huile de grignons raffinée et coupée avec de l'huile d'olive vierge, cette huile est hautement économique tout en conservant les qualités du profil d'acides gras de l'olive. Très recherchée pour la friture industrielle, la savonnerie traditionnelle et les cosmétiques de grande consommation.",
+          "short_description": "Mélange raffiné et huile d olive vierge, haute résistance thermique et rapport qualité-prix optimal."
+        },
+        "it": {
+          "title": "Olio di Sansa di Oliva",
+          "subtitle": "Resistente ed economico per frittura e cosmetica",
+          "description": "Ottimo rapporto qualità-prezzo per l industria conserviera, la frittura professionale e i saponi.",
+          "short_description": "Miscela di sansa raffinata e olio vergine per l industria alimentare e saponi."
+        }
       },
       "certifications": [
         "ISO 22000",
         "Halal"
       ],
-      "translations": {
-        "fr": {
-          "title": "Huile de Grignons d'Olive",
-          "subtitle": "Économique, performante et idéale pour la friture & cosmétique",
-          "short_description": "Mélange raffiné et huile d olive vierge, haute résistance thermique et rapport qualité-prix optimal.",
-          "description": "Composée d'huile de grignons raffinée et coupée avec de l'huile d'olive vierge, cette huile est hautement économique tout en conservant les qualités du profil d'acides gras de l'olive. Très recherchée pour la friture industrielle, la savonnerie traditionnelle et les cosmétiques de grande consommation."
-        },
-        "en": {
-          "title": "Olive Pomace Oil",
-          "subtitle": "Cost-effective high-heat oil for frying and cosmetics",
-          "short_description": "Refined olive pomace blend with virgin olive oil, excellent resistance to oxidation.",
-          "description": "A blend of refined pomace oil and virgin olive oil. Offering remarkable thermal stability and competitive pricing, it is perfect for industrial frying, snack manufacturing, and cosmetic formulation."
-        },
-        "ar": {
-          "title": "زيت متبقي الزيتون (فيتور / غريغنون)",
-          "subtitle": "خيار اقتصادي فائق الجودة للقلي والصناعات الصابونية",
-          "short_description": "مزيج مكرر مع زيت بكر ذو مقاومة عالية لدرجات الحرارة.",
-          "description": "زيت غريغنون مخصص للأسواق العالمية الباحثة عن توازن فريد بين السعر الاقتصادي والأداء الحراري في القلي والتصنيع."
-        },
-        "es": {
-          "title": "Aceite de Orujo de Oliva",
-          "subtitle": "Solución económica y resistente para fritura industrial",
-          "short_description": "Mezcla de orujo refinado y oliva virgen para restauración e industria.",
-          "description": "Excelente rendimiento a altas temperaturas para frituras continuas y aplicaciones jaboneras."
-        },
-        "it": {
-          "title": "Olio di Sansa di Oliva",
-          "subtitle": "Resistente ed economico per frittura e cosmetica",
-          "short_description": "Miscela di sansa raffinata e olio vergine per l industria alimentare e saponi.",
-          "description": "Ottimo rapporto qualità-prezzo per l industria conserviera, la frittura professionale e i saponi."
-        }
-      },
-      "created_at": "2026-10-21T19:24:21.073Z"
+      "gallery_images": [
+        "/images/products/grignons.jpg",
+        "/images/facility/semis.jpg",
+        "/images/facility/industrial-plant.jpg"
+      ]
     }
   ],
-  "certifications": [
-    {
-      "id": "cert-brc",
-      "slug": "brc-food",
-      "logo": "/images/certs/brc.svg",
-      "active": true,
-      "translations": {
-        "fr": {
-          "name": "BRC Global Standard for Food Safety",
-          "issuer": "British Retail Consortium",
-          "description": "Norme internationale de sécurité sanitaire et de traçabilité agroalimentaire."
-        },
-        "en": {
-          "name": "BRC Food Safety",
-          "issuer": "British Retail Consortium",
-          "description": "Global benchmark for food safety and operational quality management."
-        },
-        "ar": {
-          "name": "شهادة BRC العالمية لسلامة الأغذية",
-          "issuer": "المعهد البريطاني للتجزئة",
-          "description": "معيار دولي صارم لسلامة الغذاء وضمان سلامة السلسلة التوريدية."
-        },
-        "es": {
-          "name": "BRC Food Safety",
-          "issuer": "British Retail Consortium",
-          "description": "Certificación global de seguridad y trazabilidad alimentaria."
-        },
-        "it": {
-          "name": "BRC Food Safety",
-          "issuer": "British Retail Consortium",
-          "description": "Standard globale per la sicurezza alimentare e la conformità produttiva."
-        }
+  "settings": {
+    "seo": {
+      "ar": {
+        "title": "شركة الأصالة للزيوت الحيوية (ABH) | تصدير زيت الزيتون التونسي بالجملة",
+        "keywords": "تصدير زيت زيتون تونسي, زيت زيتون بيولوجي, شركة الأصالة للزيوت, حاويات فليكسي تانك, زيت زيتون القيروان",
+        "og_image": "/images/logo.png",
+        "description": "شركة تجارة دولية متخصصة في تصدير أجود أنواع زيت الزيتون التونسي البكر الممتاز والعضوي بكميات كبرى وحاويات بحرية لجميع أنحاء العالم."
       },
-      "created_at": "2026-10-21T19:24:21.073Z"
+      "en": {
+        "title": "ABH Company | Bulk Tunisian Olive Oil & Organic International Export",
+        "keywords": "tunisian olive oil bulk, organic olive oil export, authentic bio huile, flexitank olive oil tunisia, bulk olive oil suppliers kairouan",
+        "og_image": "/images/logo.png",
+        "description": "International trading company exporting premium bulk extra virgin and certified organic olive oil from Tunisia in Flexitanks, IBC totes, and steel drums."
+      },
+      "es": {
+        "title": "ABH Company | Aceite de Oliva a Granel y Exportación Túnez",
+        "keywords": "aceite de oliva granel tunez, exportacion aceite oliva bio, flexitank aceite tunez",
+        "og_image": "/images/logo.png",
+        "description": "Exportador internacional de aceite de oliva virgen extra y ecológico tunecino a granel en flexitanks y bidones."
+      },
+      "fr": {
+        "title": "ABH Company | Huile d'Olive Vrac & Export International Tunisie",
+        "keywords": "huile d'olive tunisie, export huile olive vrac, authentic bio huile, flexitank huile olive, grossiste huile olive kairouan, bio tunisie",
+        "og_image": "/images/logo.png",
+        "description": "Société de commerce international spécialisée dans l'exportation d'huile d'olive extra vierge et biologique tunisienne en vrac (Flexitank, IBC, Fûts). Certifiée BRC, ISO, BIO."
+      },
+      "it": {
+        "title": "ABH Company | Olio di Oliva Tunisino Sfuso ed Export Internazionale",
+        "keywords": "olio oliva tunisia sfuso, esportazione olio extravergine, flexitank olio tunisia",
+        "og_image": "/images/logo.png",
+        "description": "Società di commercio internazionale specializzata nell esportazione di olio EVO e biologico tunisino in flexitank e cisterne."
+      }
     },
-    {
-      "id": "cert-iso22000",
-      "slug": "iso-22000",
-      "logo": "/images/certs/iso22000.svg",
-      "active": true,
-      "translations": {
-        "fr": {
-          "name": "ISO 22000:2018",
-          "issuer": "Organisation Internationale de Normalisation",
-          "description": "Système de management de la sécurité des denrées alimentaires de la source au port."
-        },
-        "en": {
-          "name": "ISO 22000:2018",
-          "issuer": "International Organization for Standardization",
-          "description": "Food safety management system covering our entire processing and shipping chain."
-        },
-        "ar": {
-          "name": "أيزو 22000:2018",
-          "issuer": "المنظمة الدولية للمعايير",
-          "description": "نظام إدارة سلامة الأغذية عبر كامل مراحل الاستخلاص والتخزين والتصدير."
-        },
-        "es": {
-          "name": "ISO 22000:2018",
-          "issuer": "ISO",
-          "description": "Sistema de gestión de la inocuidad de los alimentos."
-        },
-        "it": {
-          "name": "ISO 22000:2018",
-          "issuer": "ISO",
-          "description": "Sistema di gestione della sicurezza alimentare lungo l intera catena di fornitura."
-        }
+    "address": "N°46, Rue Tahar Sfar, Bouhajla 3180 - Kairouan, Tunisie",
+    "country": "Tunisie",
+    "tagline": "L'Excellence et la Pureté des Huiles Végétales & Oléicoles Tunisiennes",
+    "partners": [
+      {
+        "name": "بديع عماري (Badi Ammari)",
+        "role": "Gérant & Directeur Général",
+        "email": "badi@abh-company.com",
+        "phone": "+216 50 000 000",
+        "photo": "/images/cards/badie-amarie.jpg",
+        "active": true
+      }
+    ],
+    "whatsapp": "+216 50 000 000",
+    "updated_at": "2026-10-21T19:24:21.073Z",
+    "company_name": "Authentic Bio Huile Company (ABH)",
+    "social_links": {
+      "youtube": {
+        "url": "https://youtube.com/@abh-company",
+        "active": false
       },
-      "created_at": "2026-10-21T19:24:21.073Z"
+      "facebook": {
+        "url": "https://facebook.com/abh.bio.huile",
+        "active": true
+      },
+      "linkedin": {
+        "url": "https://linkedin.com/company/abh-bio-huile",
+        "active": true
+      },
+      "whatsapp": {
+        "url": "https://wa.me/21650000000",
+        "active": true
+      },
+      "instagram": {
+        "url": "https://instagram.com/abh_bio_huile",
+        "active": true
+      }
     },
-    {
-      "id": "cert-ifs",
-      "slug": "ifs-food",
-      "logo": "/images/certs/ifs.svg",
-      "active": true,
-      "translations": {
-        "fr": {
-          "name": "IFS Food Standard",
-          "issuer": "International Featured Standards",
-          "description": "Audit d excellence pour les fabricants et conditionneurs de produits alimentaires."
-        },
-        "en": {
-          "name": "IFS Food Standard",
-          "issuer": "International Featured Standards",
-          "description": "Benchmark quality and safety certification for international distribution."
-        },
-        "ar": {
-          "name": "معيار IFS Food",
-          "issuer": "المعايير الدولية المميزة",
-          "description": "اعتماد دولي للجودة ومراقبة العمليات الإنتاجية للأسواق الأوروبية."
-        },
-        "es": {
-          "name": "IFS Food Standard",
-          "issuer": "IFS",
-          "description": "Auditoría de excelencia para la industria alimentaria."
-        },
-        "it": {
-          "name": "IFS Food Standard",
-          "issuer": "IFS",
-          "description": "Certificazione di qualità per la trasformazione e il confezionamento alimentare."
-        }
-      },
-      "created_at": "2026-10-21T19:24:21.073Z"
+    "general_email": "contact@abh-company.com",
+    "general_phone": "+216 70 248 170",
+    "developer_credit": {
+      "name": "ABH Tech Studio",
+      "email": "tech@abh-company.com",
+      "whatsapp": "+216 50 000 000"
     },
-    {
-      "id": "cert-bio",
-      "slug": "bio-organic",
-      "logo": "/images/certs/organic.svg",
-      "active": true,
-      "translations": {
-        "fr": {
-          "name": "Certificat Agriculture Biologique (UE / USDA)",
-          "issuer": "Organismes Agréés & Ecocert",
-          "description": "Certification attestant de l absence d intrants de synthèse et du respect des cycles naturels."
-        }
-      },
-      "created_at": "2026-10-21T19:24:21.073Z"
-    },
-    {
-      "id": "cert-halal",
-      "slug": "halal",
-      "logo": "/images/certs/halal.svg",
-      "active": true,
-      "translations": {
-        "fr": {
-          "name": "Certification Halal",
-          "issuer": "Autorités Islamiques Internationales",
-          "description": "Conformité stricte aux préceptes de la loi islamique pour les marchés musulmans mondiaux."
-        },
-        "en": {
-          "name": "Halal Certification",
-          "issuer": "International Islamic Authorities",
-          "description": "Full compliance with Islamic dietary guidelines for global Muslim markets."
-        },
-        "ar": {
-          "name": "شهادة حلال الدولية",
-          "issuer": "الهيئات الإسلامية المعتمدة",
-          "description": "مطابقة تامة لمتطلبات الشريعة الإسلامية ومناسبة لكافة الأسواق العالمية."
-        },
-        "es": {
-          "name": "Certificación Halal",
-          "issuer": "Autoridades Halal Internacionales",
-          "description": "Cumplimiento de las normas alimentarias islámicas."
-        },
-        "it": {
-          "name": "Certificazione Halal",
-          "issuer": "Autorità Halal Internazionali",
-          "description": "Piena conformità ai requisiti alimentari islamici."
-        }
-      },
-      "created_at": "2026-10-21T19:24:21.073Z"
-    },
-    {
-      "id": "cert-kosher",
-      "slug": "kosher",
-      "logo": "/images/certs/kosher.svg",
-      "active": true,
-      "translations": {
-        "fr": {
-          "name": "Certification Casher (Kosher)",
-          "issuer": "Organismes Rabbiniques Internationaux",
-          "description": "Vérification méticuleuse de la pureté du produit selon la cacherout."
-        },
-        "en": {
-          "name": "Kosher Certification",
-          "issuer": "International Rabbinical Agencies",
-          "description": "Certified purity and strict adherence to kosher food laws."
-        },
-        "ar": {
-          "name": "شهادة كوشير (Kosher)",
-          "issuer": "هيئات الاعتماد الدينية الدولية",
-          "description": "اعتماد النقاء والامتثال للمعايير الغذائية المعتمدة للمستهلكين حول العالم."
-        },
-        "es": {
-          "name": "Certificación Kosher",
-          "issuer": "Agencias Rabínicas",
-          "description": "Certificación de pureza bajo las leyes dietéticas kosher."
-        },
-        "it": {
-          "name": "Certificazione Kosher",
-          "issuer": "Agenzie Rabbiniche Internazionali",
-          "description": "Garanzia di purezza e conformità agli standard alimentari kosher."
-        }
-      },
-      "created_at": "2026-10-21T19:24:21.073Z"
-    }
-  ],
+    "bing_site_verification": "",
+    "google_site_verification": "PacvfmgpfL3RHU_nUfD71l0u93l3GzzzVxgTSYNMBOQ"
+  },
   "packagings": [
     {
       "id": "pack-flexitank",
-      "capacity": "24 000 Litres",
-      "title": "Flexitank pour Conteneur 20ft",
-      "image_url": "/images/facility/port-containers.jpg",
       "badge": "Idéal Grand Vrac Maritime",
-      "description": "Poche multicouche aseptique alimentaire installée dans conteneur 20 pieds standard. Solution logistique la plus rentable pour les volumes industriels.",
-      "sort_order": 1,
+      "title": "Flexitank pour Conteneur 20ft",
+      "capacity": "24 000 Litres",
+      "image_url": "/images/facility/port-containers.jpg",
       "is_active": true,
+      "sort_order": 1,
+      "description": "Poche multicouche aseptique alimentaire installée dans conteneur 20 pieds standard. Solution logistique la plus rentable pour les volumes industriels.",
       "translations": {
-        "fr": {
-          "title": "Flexitank pour Conteneur 20ft",
-          "description": "Poche multicouche aseptique alimentaire dans un conteneur maritime standard de 20 pieds. Rendement maximal à l export."
+        "ar": {
+          "title": "أكياس فليكسي تانك في حاوية 20 قدم",
+          "description": "قربة معقمة متعددة الطبقات مخصصة للأغذية داخل حاوية شحن 20 قدم، الخيار الأمثل للشحن البحري السائب."
         },
         "en": {
           "title": "20ft Container Flexitank",
           "description": "Multi-layer food-grade aseptic bladder in a standard 20-foot maritime container. Maximum cargo efficiency."
         },
-        "ar": {
-          "title": "أكياس فليكسي تانك في حاوية 20 قدم",
-          "description": "قربة معقمة متعددة الطبقات مخصصة للأغذية داخل حاوية شحن 20 قدم، الخيار الأمثل للشحن البحري السائب."
-        },
         "es": {
           "title": "Flexitank en Contenedor 20ft",
           "description": "Bolsa alimentaria aséptica multicapa para contenedores estándar de 20 pies."
+        },
+        "fr": {
+          "title": "Flexitank pour Conteneur 20ft",
+          "description": "Poche multicouche aseptique alimentaire dans un conteneur maritime standard de 20 pieds. Rendement maximal à l export."
         },
         "it": {
           "title": "Flexitank per Container 20ft",
@@ -468,29 +484,29 @@
     },
     {
       "id": "pack-ibc",
-      "capacity": "1 000 Litres (≈ 920 kg)",
-      "title": "Cuves IBC / GRV Agréées",
-      "image_url": "/images/packaging/ibc-container.jpg",
       "badge": "Standard Industriel",
-      "description": "Conteneur rigide en PEHD protégé par cage métallique galvanisée avec vanne de vidange. Facile à manutentionner par chariot élévateur.",
-      "sort_order": 2,
+      "title": "Cuves IBC / GRV Agréées",
+      "capacity": "1 000 Litres (≈ 920 kg)",
+      "image_url": "/images/packaging/ibc-container.jpg",
       "is_active": true,
+      "sort_order": 2,
+      "description": "Conteneur rigide en PEHD protégé par cage métallique galvanisée avec vanne de vidange. Facile à manutentionner par chariot élévateur.",
       "translations": {
-        "fr": {
-          "title": "Cuves IBC / GRV 1 000L",
-          "description": "Cuves rigides certifiées alimentaires montées sur palette bois ou composite, idéales pour usines de conditionnement."
+        "ar": {
+          "title": "خزانات IBC سعة 1000 لتر",
+          "description": "حاويات بلاستيكية صلبة مع قفص معدني مجلفن وصمام أمان، سهلة التحميل والتوزيع للمصانع."
         },
         "en": {
           "title": "1,000L IBC Totes",
           "description": "Rigid HDPE intermediate bulk container with galvanized steel cage, food-certified, easy forklift handling."
         },
-        "ar": {
-          "title": "خزانات IBC سعة 1000 لتر",
-          "description": "حاويات بلاستيكية صلبة مع قفص معدني مجلفن وصمام أمان، سهلة التحميل والتوزيع للمصانع."
-        },
         "es": {
           "title": "Contenedores IBC 1.000L",
           "description": "Contenedores rígidos certificados para uso alimentario con jaula de acero galvanizado."
+        },
+        "fr": {
+          "title": "Cuves IBC / GRV 1 000L",
+          "description": "Cuves rigides certifiées alimentaires montées sur palette bois ou composite, idéales pour usines de conditionnement."
         },
         "it": {
           "title": "Cisterne IBC 1.000L",
@@ -500,29 +516,29 @@
     },
     {
       "id": "pack-drum",
-      "capacity": "208 Litres (≈ 190 kg)",
-      "title": "Fûts Métalliques Revêtus",
-      "image_url": "/images/packaging/steel-drum.jpg",
       "badge": "Flexibilité & Robustesse",
-      "description": "Fûts en acier laminé à froid avec vernis intérieur alimentaire spécifique aux corps gras. Idéal pour commandes modulables ou réexpédition par route.",
-      "sort_order": 3,
+      "title": "Fûts Métalliques Revêtus",
+      "capacity": "208 Litres (≈ 190 kg)",
+      "image_url": "/images/packaging/steel-drum.jpg",
       "is_active": true,
+      "sort_order": 3,
+      "description": "Fûts en acier laminé à froid avec vernis intérieur alimentaire spécifique aux corps gras. Idéal pour commandes modulables ou réexpédition par route.",
       "translations": {
-        "fr": {
-          "title": "Fûts Métalliques 208L",
-          "description": "Fûts en acier alimentaire verni intérieur, gerbables sur palette, parfaits pour les distributeurs régionaux."
+        "ar": {
+          "title": "براميل معدنية سعة 208 لتر",
+          "description": "براميل فولاذية بطلاء داخلي غذائي مخصص للزيوت النباتية، محكمة الإغلاق وقابلة للتخزين المريح."
         },
         "en": {
           "title": "208L Steel Drums",
           "description": "Cold-rolled steel drums with food-grade epoxy inner coating, palletized for secure sea freight."
         },
-        "ar": {
-          "title": "براميل معدنية سعة 208 لتر",
-          "description": "براميل فولاذية بطلاء داخلي غذائي مخصص للزيوت النباتية، محكمة الإغلاق وقابلة للتخزين المريح."
-        },
         "es": {
           "title": "Bidones Metálicos 208L",
           "description": "Bidones de acero con revestimiento interior epoxi de calidad alimentaria."
+        },
+        "fr": {
+          "title": "Fûts Métalliques 208L",
+          "description": "Fûts en acier alimentaire verni intérieur, gerbables sur palette, parfaits pour les distributeurs régionaux."
         },
         "it": {
           "title": "Fusti Metallici 208L",
@@ -532,29 +548,29 @@
     },
     {
       "id": "pack-pail",
-      "capacity": "10 à 25 Litres",
-      "title": "Seaux et Jerricans PEHD",
-      "image_url": "/images/packaging/pails-buckets.jpg",
       "badge": "Restauration & Horeca",
-      "description": "Emballages semi-gros pour traiteurs, réseaux de restauration et fabricants d épicerie fine. Bec verseur anti-goutte étanche.",
-      "sort_order": 4,
+      "title": "Seaux et Jerricans PEHD",
+      "capacity": "10 à 25 Litres",
+      "image_url": "/images/packaging/pails-buckets.jpg",
       "is_active": true,
+      "sort_order": 4,
+      "description": "Emballages semi-gros pour traiteurs, réseaux de restauration et fabricants d épicerie fine. Bec verseur anti-goutte étanche.",
       "translations": {
-        "fr": {
-          "title": "Seaux & Jerricans PEHD 10-25L",
-          "description": "Conditionnements pratiques pour la restauration collective, hôtellerie et laboratoires artisanaux."
+        "ar": {
+          "title": "عبوات وجالونات 10 إلى 25 لتر",
+          "description": "أوعية مخصصة لقطاع الفنادق والمطاعم والمصانع الحرفية الصغيرة مع فوهة سكب آمنة."
         },
         "en": {
           "title": "10-25L HDPE Pails & Jerricans",
           "description": "Convenient semi-bulk containers for commercial kitchens, hospitality networks, and food service."
         },
-        "ar": {
-          "title": "عبوات وجالونات 10 إلى 25 لتر",
-          "description": "أوعية مخصصة لقطاع الفنادق والمطاعم والمصانع الحرفية الصغيرة مع فوهة سكب آمنة."
-        },
         "es": {
           "title": "Cubos y Garrafas 10-25L",
           "description": "Envases para restauración, hostelería y obradores artesanales."
+        },
+        "fr": {
+          "title": "Seaux & Jerricans PEHD 10-25L",
+          "description": "Conditionnements pratiques pour la restauration collective, hôtellerie et laboratoires artisanaux."
         },
         "it": {
           "title": "Secchi e Taniche 10-25L",
@@ -563,277 +579,261 @@
       }
     }
   ],
-  "settings": {
-    "company_name": "Authentic Bio Huile Company (ABH)",
-    "tagline": "L'Excellence et la Pureté des Huiles Végétales & Oléicoles Tunisiennes",
-    "country": "Tunisie",
-    "address": "N°46, Rue Tahar Sfar, Bouhajla 3180 - Kairouan, Tunisie",
-    "general_email": "contact@abh-company.com",
-    "general_phone": "+216 70 248 170",
-    "whatsapp": "+216 50 000 000",
-    "developer_credit": {
-      "name": "ABH Tech Studio",
-      "whatsapp": "+216 50 000 000",
-      "email": "tech@abh-company.com"
-    },
-    "partners": [
-      {
-        "name": "بديع عماري (Badi Ammari)",
-        "role": "Gérant & Directeur Général",
-        "phone": "+216 50 000 000",
-        "email": "badi@abh-company.com",
-        "photo": "/images/cards/badie-amarie.jpg",
-        "active": true
-      }
-    ],
-    "social_links": {
-      "linkedin": {
-        "url": "https://linkedin.com/company/abh-bio-huile",
-        "active": true
-      },
-      "instagram": {
-        "url": "https://instagram.com/abh_bio_huile",
-        "active": true
-      },
-      "facebook": {
-        "url": "https://facebook.com/abh.bio.huile",
-        "active": true
-      },
-      "youtube": {
-        "url": "https://youtube.com/@abh-company",
-        "active": false
-      },
-      "whatsapp": {
-        "url": "https://wa.me/21650000000",
-        "active": true
-      }
-    },
-    "seo": {
-      "fr": {
-        "title": "ABH Company | Huile d'Olive Vrac & Export International Tunisie",
-        "description": "Société de commerce international spécialisée dans l'exportation d'huile d'olive extra vierge et biologique tunisienne en vrac (Flexitank, IBC, Fûts). Certifiée BRC, ISO, BIO.",
-        "keywords": "huile d'olive tunisie, export huile olive vrac, authentic bio huile, flexitank huile olive, grossiste huile olive kairouan, bio tunisie",
-        "og_image": "/images/logo.png"
-      },
-      "en": {
-        "title": "ABH Company | Bulk Tunisian Olive Oil & Organic International Export",
-        "description": "International trading company exporting premium bulk extra virgin and certified organic olive oil from Tunisia in Flexitanks, IBC totes, and steel drums.",
-        "keywords": "tunisian olive oil bulk, organic olive oil export, authentic bio huile, flexitank olive oil tunisia, bulk olive oil suppliers kairouan",
-        "og_image": "/images/logo.png"
-      },
-      "ar": {
-        "title": "شركة الأصالة للزيوت الحيوية (ABH) | تصدير زيت الزيتون التونسي بالجملة",
-        "description": "شركة تجارة دولية متخصصة في تصدير أجود أنواع زيت الزيتون التونسي البكر الممتاز والعضوي بكميات كبرى وحاويات بحرية لجميع أنحاء العالم.",
-        "keywords": "تصدير زيت زيتون تونسي, زيت زيتون بيولوجي, شركة الأصالة للزيوت, حاويات فليكسي تانك, زيت زيتون القيروان",
-        "og_image": "/images/logo.png"
-      },
-      "es": {
-        "title": "ABH Company | Aceite de Oliva a Granel y Exportación Túnez",
-        "description": "Exportador internacional de aceite de oliva virgen extra y ecológico tunecino a granel en flexitanks y bidones.",
-        "keywords": "aceite de oliva granel tunez, exportacion aceite oliva bio, flexitank aceite tunez",
-        "og_image": "/images/logo.png"
-      },
-      "it": {
-        "title": "ABH Company | Olio di Oliva Tunisino Sfuso ed Export Internazionale",
-        "description": "Società di commercio internazionale specializzata nell esportazione di olio EVO e biologico tunisino in flexitank e cisterne.",
-        "keywords": "olio oliva tunisia sfuso, esportazione olio extravergine, flexitank olio tunisia",
-        "og_image": "/images/logo.png"
-      }
-    },
-    "google_site_verification": "PacvfmgpfL3RHU_nUfD71l0u93l3GzzzVxgTSYNMBOQ",
-    "bing_site_verification": "",
-    "updated_at": "2026-10-21T19:24:21.073Z"
-  },
-  "content_blocks": [
-    {
-      "locale": "fr",
-      "hero_title": "L'Excellence Oléicole Tunisienne au Service du Marché Mondial",
-      "hero_subtitle": "Authentic Bio Huile Company (ABH) sélectionne, conditionne et exporte des huiles d'olive extra vierges et biologiques d'exception en vrac maritime vers plus de 25 pays.",
-      "hero_badge": "Commerce International & Huiles Bio Certifiées",
-      "hero_cta_primary": "Demander une Cotation (RFQ)",
-      "hero_cta_secondary": "Découvrir nos Spécifications",
-      "about_title": "Notre Histoire & Nos Terroirs",
-      "about_subtitle": "De Bouhajla au cœur du gouvernorat de Kairouan, berceau de l olivier méditerranéen",
-      "about_text": "Fondée sur une rigueur d'ingénierie agroalimentaire et le respect des traditions oléicoles ancestrales, la société Authentic Bio Huile Company s'impose comme un acteur de confiance pour l'approvisionnement des industriels, embouteilleurs et négociants internationaux.",
-      "why_choose_title": "Pourquoi Choisir ABH Company ?",
-      "why_choose_subtitle": "Des standards physico-chimiques inflexibles et une logistique portuaire sans faille",
-      "export_title": "Logistique & Export Maritime Mondial",
-      "export_subtitle": "Flexitanks 24 000L, départs hebdomadaires depuis Radès, Sousse et Bizerte",
-      "export_text": "De la validation de lot en laboratoire accrédité COI jusqu au scellage des conteneurs au port d embarquement, ABH gère l intégralité de la chaîne documentaire et sanitaire.",
-      "about_who_we_are": "Immatriculée au Registre National des Entreprises (RNE 1956962P), ABH est une société à responsabilité limitée de commerce international spécialisée dans le négoce et l'exportation de produits oléicoles et d'huiles biologiques à haute valeur ajoutée.",
-      "about_mission": "Garantir aux importateurs du monde entier une huile d'olive tunisienne d'une pureté absolue, aux taux d'acidité maîtrisés, accompagnée de toute la certification internationale requise.",
-      "about_vision": "Devenir la référence tunisienne de référence pour l'approvisionnement B2B en huiles végétales pures et biologiques certifiées.",
-      "about_mill_heritage": "Située à Bouhajla dans la plaine fertile de Kairouan, notre structure bénéficie d'un microclimat sec et ensoleillé qui confère à la variété Chemlali une concentration exceptionnelle en polyphénols protecteurs.",
-      "updated_at": "2026-10-21T19:24:21.073Z"
-    },
-    {
-      "locale": "en",
-      "hero_title": "Tunisian Olive Oil Excellence for the Global Market",
-      "hero_subtitle": "Authentic Bio Huile Company (ABH) sources, processes, and ships exceptional bulk virgin and organic olive oils in maritime containers across 25+ countries worldwide.",
-      "hero_badge": "International Trading & Certified Organic Oils",
-      "hero_cta_primary": "Request a Quote (RFQ)",
-      "hero_cta_secondary": "View Bulk Catalog",
-      "about_title": "Our Heritage & Terroirs",
-      "about_subtitle": "From Bouhajla in Kairouan, the cradle of Mediterranean olive cultivation",
-      "about_text": "Authentic Bio Huile Company stands as a trusted international partner for industrial food manufacturers, bottle packers, and global commodity traders.",
-      "why_choose_title": "Why Partner with ABH Company?",
-      "why_choose_subtitle": "Uncompromising quality standards and seamless maritime logistics",
-      "export_title": "Worldwide Bulk Maritime Logistics",
-      "export_subtitle": "24,000L Flexitanks with weekly sailings from Rades, Sousse, and Bizerte ports",
-      "export_text": "From certified laboratory batch verification to customs clearance, ABH manages end-to-end export documentation: EUR.1, COI, and phytosanitary certificates.",
-      "about_who_we_are": "Registered with the National Business Registry (RNE 1956962P), ABH is an international trading SARL dedicated to high-grade organic and vegetable oils.",
-      "about_mission": "To deliver pristine Tunisian olive oil with guaranteed chemical parameters and complete international compliance.",
-      "about_vision": "To be the premier Mediterranean partner for reliable bulk bio oil procurement.",
-      "about_mill_heritage": "Bouhajla enjoys optimal sunshine and arid conditions, giving our Chemlali olives unparalleled polyphenol density and stability.",
-      "updated_at": "2026-10-21T19:24:21.073Z"
-    }
-  ],
   "publications": [
     {
       "id": "pub-recolte-2025-2026",
-      "category": "report",
       "date": "2026-01-15",
-      "download_url": "",
+      "category": "report",
       "file_size": "1.8 MB",
+      "created_at": "2026-10-21T19:24:21.073Z",
+      "download_url": "",
       "translations": {
-        "fr": {
-          "title": "Bilan Préliminaire de la Récolte Oléicole 2025/2026 en Tunisie",
-          "summary": "Analyse des rendements, des profils organoleptiques et des perspectives d'exportation pour les huiles Chemlali et Chétoui.",
-          "content": "La campagne oléicole tunisienne 2025/2026 se distingue par une excellente qualité sanitaire des fruits grâce à une météo favorable durant la véraison. Les teneurs en polyphénols dépassent les moyennes décennales."
+        "ar": {
+          "title": "التقرير التحليلي لموسم جني الزيتون 2025/2026 في تونس",
+          "content": "تميز الموسم الحالي بجودة استثنائية للثمار بفضل الظروف المناخية الملائمة في جهة القيروان وبوحجلة.",
+          "summary": "قراءة شاملة في مؤشرات الجودة ومستويات الحموضة وتوقعات التصدير للأسواق العالمية."
         },
         "en": {
           "title": "2025/2026 Tunisian Olive Harvest Analytical Overview",
-          "summary": "Comprehensive review of regional yields, acidity levels, and export forecasts for Chemlali cultivars.",
-          "content": "The 2025/2026 harvest demonstrates exceptional fruit health and high polyphenol concentrations across central Tunisia."
+          "content": "The 2025/2026 harvest demonstrates exceptional fruit health and high polyphenol concentrations across central Tunisia.",
+          "summary": "Comprehensive review of regional yields, acidity levels, and export forecasts for Chemlali cultivars."
         },
-        "ar": {
-          "title": "التقرير التحليلي لموسم جني الزيتون 2025/2026 في تونس",
-          "summary": "قراءة شاملة في مؤشرات الجودة ومستويات الحموضة وتوقعات التصدير للأسواق العالمية.",
-          "content": "تميز الموسم الحالي بجودة استثنائية للثمار بفضل الظروف المناخية الملائمة في جهة القيروان وبوحجلة."
+        "fr": {
+          "title": "Bilan Préliminaire de la Récolte Oléicole 2025/2026 en Tunisie",
+          "content": "La campagne oléicole tunisienne 2025/2026 se distingue par une excellente qualité sanitaire des fruits grâce à une météo favorable durant la véraison. Les teneurs en polyphénols dépassent les moyennes décennales.",
+          "summary": "Analyse des rendements, des profils organoleptiques et des perspectives d'exportation pour les huiles Chemlali et Chétoui."
         }
-      },
-      "created_at": "2026-10-21T19:24:21.073Z"
+      }
     }
   ],
-  "messages": [
+  "certifications": [
     {
-      "id": "msg-1792610871633-7fb8h",
-      "full_name": "Client Test International",
-      "company_name": "Mediterranean Oil Imports SARL",
-      "country": "France (+33)",
-      "email": "client@test-import.fr",
-      "phone": "+33 6 12 34 56 78",
-      "product_interest": "Huile d'Olive Vierge Extra",
-      "quantity": "2 Conteneurs Flexitank (42 Tonnes)",
-      "destination_country": "Port de Marseille",
-      "message": "Demande de cotation CIF Marseille pour la campagne 2025/2026.",
-      "privacy_consent": true,
-      "file_attachment": "",
-      "status": "read",
-      "created_at": "2026-10-21T19:27:51.633Z"
-    }
-  ],
-  "clients": [
-    {
-      "id": "cli-1792668729021-nxor",
-      "name": "med",
-      "tax_id": "sqdqsd",
-      "contact_person": "",
-      "email": "medmtir80@gmail.com",
-      "phone": "97836606",
-      "country": "Tunisie",
-      "address": "",
-      "notes": "",
-      "is_deleted": false,
-      "created_at": "2026-10-22T11:32:09.021Z"
-    }
-  ],
-  "orders": [
-    {
-      "id": "ord-1792668738047-g04h",
-      "order_number": "CMD-2026-002",
-      "client_id": "",
-      "client_name": "sotudal",
-      "product_id": "",
-      "product_name": "Huile d'Olive Vierge Extra",
-      "packaging": "Flexitank 24 000L",
-      "quantity": 21,
-      "unit": "tonnes",
-      "unit_price": 6500,
-      "currency": "EUR",
-      "total_amount": 136500,
-      "paid_amount": 0,
-      "remaining_amount": 136500,
-      "payment_status": "unpaid",
-      "order_status": "confirmed",
-      "order_date": "2026-10-22",
-      "payments": [],
-      "delivery_installments": [],
-      "delivered_quantity": 0,
-      "remaining_quantity": 21,
-      "delivery_status": "pending",
-      "is_deleted": false,
-      "notes": "",
-      "created_at": "2026-10-22T11:32:18.047Z"
+      "id": "cert-brc",
+      "logo": "/images/certs/brc.svg",
+      "slug": "brc-food",
+      "active": true,
+      "created_at": "2026-10-21T19:24:21.073Z",
+      "translations": {
+        "ar": {
+          "name": "شهادة BRC العالمية لسلامة الأغذية",
+          "issuer": "المعهد البريطاني للتجزئة",
+          "description": "معيار دولي صارم لسلامة الغذاء وضمان سلامة السلسلة التوريدية."
+        },
+        "en": {
+          "name": "BRC Food Safety",
+          "issuer": "British Retail Consortium",
+          "description": "Global benchmark for food safety and operational quality management."
+        },
+        "es": {
+          "name": "BRC Food Safety",
+          "issuer": "British Retail Consortium",
+          "description": "Certificación global de seguridad y trazabilidad alimentaria."
+        },
+        "fr": {
+          "name": "BRC Global Standard for Food Safety",
+          "issuer": "British Retail Consortium",
+          "description": "Norme internationale de sécurité sanitaire et de traçabilité agroalimentaire."
+        },
+        "it": {
+          "name": "BRC Food Safety",
+          "issuer": "British Retail Consortium",
+          "description": "Standard globale per la sicurezza alimentare e la conformità produttiva."
+        }
+      }
     },
     {
-      "id": "ord-1792614847329-eo5s",
-      "order_number": "CMD-2026-001",
-      "client_id": "",
-      "client_name": "sotrudal",
-      "product_id": "",
-      "product_name": "Huile d'Olive Vierge Extra",
-      "packaging": "Flexitank 24 000L",
-      "quantity": 21,
-      "unit": "tonnes",
-      "unit_price": 6500,
-      "currency": "EUR",
-      "total_amount": 136500,
-      "paid_amount": 136500,
-      "remaining_amount": 0,
-      "payment_status": "paid",
-      "order_status": "delivered",
-      "order_date": "2026-10-21",
-      "payments": [
-        {
-          "id": "pay-1792614878990-cz49",
-          "date": "2026-10-21",
-          "amount": 136500,
-          "method": "wire_transfer",
-          "reference": "sqdqsdqs",
-          "notes": ""
-        }
-      ],
-      "delivery_installments": [
-        {
-          "id": "del-1792614861284-i5vb",
-          "date": "2026-10-21",
-          "quantity": 24,
-          "bl_number": "qsdqsd",
-          "notes": ""
+      "id": "cert-iso22000",
+      "logo": "/images/certs/iso22000.svg",
+      "slug": "iso-22000",
+      "active": true,
+      "created_at": "2026-10-21T19:24:21.073Z",
+      "translations": {
+        "ar": {
+          "name": "أيزو 22000:2018",
+          "issuer": "المنظمة الدولية للمعايير",
+          "description": "نظام إدارة سلامة الأغذية عبر كامل مراحل الاستخلاص والتخزين والتصدير."
         },
-        {
-          "id": "del-1792614888117-sqb1",
-          "date": "2026-10-21",
-          "quantity": 1,
-          "bl_number": "dfsdfsdf",
-          "notes": ""
+        "en": {
+          "name": "ISO 22000:2018",
+          "issuer": "International Organization for Standardization",
+          "description": "Food safety management system covering our entire processing and shipping chain."
         },
-        {
-          "id": "del-1792614894282-ctrm",
-          "date": "2026-10-21",
-          "quantity": 1111,
-          "bl_number": "qsdsqd",
-          "notes": ""
+        "es": {
+          "name": "ISO 22000:2018",
+          "issuer": "ISO",
+          "description": "Sistema de gestión de la inocuidad de los alimentos."
+        },
+        "fr": {
+          "name": "ISO 22000:2018",
+          "issuer": "Organisation Internationale de Normalisation",
+          "description": "Système de management de la sécurité des denrées alimentaires de la source au port."
+        },
+        "it": {
+          "name": "ISO 22000:2018",
+          "issuer": "ISO",
+          "description": "Sistema di gestione della sicurezza alimentare lungo l intera catena di fornitura."
         }
-      ],
-      "delivered_quantity": 1136,
-      "remaining_quantity": 0,
-      "delivery_status": "delivered",
-      "is_deleted": false,
-      "notes": "",
-      "created_at": "2026-10-21T20:34:07.329Z"
+      }
+    },
+    {
+      "id": "cert-ifs",
+      "logo": "/images/certs/ifs.svg",
+      "slug": "ifs-food",
+      "active": true,
+      "created_at": "2026-10-21T19:24:21.073Z",
+      "translations": {
+        "ar": {
+          "name": "معيار IFS Food",
+          "issuer": "المعايير الدولية المميزة",
+          "description": "اعتماد دولي للجودة ومراقبة العمليات الإنتاجية للأسواق الأوروبية."
+        },
+        "en": {
+          "name": "IFS Food Standard",
+          "issuer": "International Featured Standards",
+          "description": "Benchmark quality and safety certification for international distribution."
+        },
+        "es": {
+          "name": "IFS Food Standard",
+          "issuer": "IFS",
+          "description": "Auditoría de excelencia para la industria alimentaria."
+        },
+        "fr": {
+          "name": "IFS Food Standard",
+          "issuer": "International Featured Standards",
+          "description": "Audit d excellence pour les fabricants et conditionneurs de produits alimentaires."
+        },
+        "it": {
+          "name": "IFS Food Standard",
+          "issuer": "IFS",
+          "description": "Certificazione di qualità per la trasformazione e il confezionamento alimentare."
+        }
+      }
+    },
+    {
+      "id": "cert-bio",
+      "logo": "/images/certs/organic.svg",
+      "slug": "bio-organic",
+      "active": true,
+      "created_at": "2026-10-21T19:24:21.073Z",
+      "translations": {
+        "fr": {
+          "name": "Certificat Agriculture Biologique (UE / USDA)",
+          "issuer": "Organismes Agréés & Ecocert",
+          "description": "Certification attestant de l absence d intrants de synthèse et du respect des cycles naturels."
+        }
+      }
+    },
+    {
+      "id": "cert-halal",
+      "logo": "/images/certs/halal.svg",
+      "slug": "halal",
+      "active": true,
+      "created_at": "2026-10-21T19:24:21.073Z",
+      "translations": {
+        "ar": {
+          "name": "شهادة حلال الدولية",
+          "issuer": "الهيئات الإسلامية المعتمدة",
+          "description": "مطابقة تامة لمتطلبات الشريعة الإسلامية ومناسبة لكافة الأسواق العالمية."
+        },
+        "en": {
+          "name": "Halal Certification",
+          "issuer": "International Islamic Authorities",
+          "description": "Full compliance with Islamic dietary guidelines for global Muslim markets."
+        },
+        "es": {
+          "name": "Certificación Halal",
+          "issuer": "Autoridades Halal Internacionales",
+          "description": "Cumplimiento de las normas alimentarias islámicas."
+        },
+        "fr": {
+          "name": "Certification Halal",
+          "issuer": "Autorités Islamiques Internationales",
+          "description": "Conformité stricte aux préceptes de la loi islamique pour les marchés musulmans mondiaux."
+        },
+        "it": {
+          "name": "Certificazione Halal",
+          "issuer": "Autorità Halal Internazionali",
+          "description": "Piena conformità ai requisiti alimentari islamici."
+        }
+      }
+    },
+    {
+      "id": "cert-kosher",
+      "logo": "/images/certs/kosher.svg",
+      "slug": "kosher",
+      "active": true,
+      "created_at": "2026-10-21T19:24:21.073Z",
+      "translations": {
+        "ar": {
+          "name": "شهادة كوشير (Kosher)",
+          "issuer": "هيئات الاعتماد الدينية الدولية",
+          "description": "اعتماد النقاء والامتثال للمعايير الغذائية المعتمدة للمستهلكين حول العالم."
+        },
+        "en": {
+          "name": "Kosher Certification",
+          "issuer": "International Rabbinical Agencies",
+          "description": "Certified purity and strict adherence to kosher food laws."
+        },
+        "es": {
+          "name": "Certificación Kosher",
+          "issuer": "Agencias Rabínicas",
+          "description": "Certificación de pureza bajo las leyes dietéticas kosher."
+        },
+        "fr": {
+          "name": "Certification Casher (Kosher)",
+          "issuer": "Organismes Rabbiniques Internationaux",
+          "description": "Vérification méticuleuse de la pureté du produit selon la cacherout."
+        },
+        "it": {
+          "name": "Certificazione Kosher",
+          "issuer": "Agenzie Rabbiniche Internazionali",
+          "description": "Garanzia di purezza e conformità agli standard alimentari kosher."
+        }
+      }
     }
   ],
-  "media": []
+  "content_blocks": [
+    {
+      "locale": "fr",
+      "about_text": "Fondée sur une rigueur d'ingénierie agroalimentaire et le respect des traditions oléicoles ancestrales, la société Authentic Bio Huile Company s'impose comme un acteur de confiance pour l'approvisionnement des industriels, embouteilleurs et négociants internationaux.",
+      "hero_badge": "Commerce International & Huiles Bio Certifiées",
+      "hero_title": "L'Excellence Oléicole Tunisienne au Service du Marché Mondial",
+      "updated_at": "2026-10-21T19:24:21.073Z",
+      "about_title": "Notre Histoire & Nos Terroirs",
+      "export_text": "De la validation de lot en laboratoire accrédité COI jusqu au scellage des conteneurs au port d embarquement, ABH gère l intégralité de la chaîne documentaire et sanitaire.",
+      "about_vision": "Devenir la référence tunisienne de référence pour l'approvisionnement B2B en huiles végétales pures et biologiques certifiées.",
+      "export_title": "Logistique & Export Maritime Mondial",
+      "about_mission": "Garantir aux importateurs du monde entier une huile d'olive tunisienne d'une pureté absolue, aux taux d'acidité maîtrisés, accompagnée de toute la certification internationale requise.",
+      "hero_subtitle": "Authentic Bio Huile Company (ABH) sélectionne, conditionne et exporte des huiles d'olive extra vierges et biologiques d'exception en vrac maritime vers plus de 25 pays.",
+      "about_subtitle": "De Bouhajla au cœur du gouvernorat de Kairouan, berceau de l olivier méditerranéen",
+      "export_subtitle": "Flexitanks 24 000L, départs hebdomadaires depuis Radès, Sousse et Bizerte",
+      "about_who_we_are": "Immatriculée au Registre National des Entreprises (RNE 1956962P), ABH est une société à responsabilité limitée de commerce international spécialisée dans le négoce et l'exportation de produits oléicoles et d'huiles biologiques à haute valeur ajoutée.",
+      "hero_cta_primary": "Demander une Cotation (RFQ)",
+      "why_choose_title": "Pourquoi Choisir ABH Company ?",
+      "hero_cta_secondary": "Découvrir nos Spécifications",
+      "about_mill_heritage": "Située à Bouhajla dans la plaine fertile de Kairouan, notre structure bénéficie d'un microclimat sec et ensoleillé qui confère à la variété Chemlali une concentration exceptionnelle en polyphénols protecteurs.",
+      "why_choose_subtitle": "Des standards physico-chimiques inflexibles et une logistique portuaire sans faille"
+    },
+    {
+      "locale": "en",
+      "about_text": "Authentic Bio Huile Company stands as a trusted international partner for industrial food manufacturers, bottle packers, and global commodity traders.",
+      "hero_badge": "International Trading & Certified Organic Oils",
+      "hero_title": "Tunisian Olive Oil Excellence for the Global Market",
+      "updated_at": "2026-10-21T19:24:21.073Z",
+      "about_title": "Our Heritage & Terroirs",
+      "export_text": "From certified laboratory batch verification to customs clearance, ABH manages end-to-end export documentation: EUR.1, COI, and phytosanitary certificates.",
+      "about_vision": "To be the premier Mediterranean partner for reliable bulk bio oil procurement.",
+      "export_title": "Worldwide Bulk Maritime Logistics",
+      "about_mission": "To deliver pristine Tunisian olive oil with guaranteed chemical parameters and complete international compliance.",
+      "hero_subtitle": "Authentic Bio Huile Company (ABH) sources, processes, and ships exceptional bulk virgin and organic olive oils in maritime containers across 25+ countries worldwide.",
+      "about_subtitle": "From Bouhajla in Kairouan, the cradle of Mediterranean olive cultivation",
+      "export_subtitle": "24,000L Flexitanks with weekly sailings from Rades, Sousse, and Bizerte ports",
+      "about_who_we_are": "Registered with the National Business Registry (RNE 1956962P), ABH is an international trading SARL dedicated to high-grade organic and vegetable oils.",
+      "hero_cta_primary": "Request a Quote (RFQ)",
+      "why_choose_title": "Why Partner with ABH Company?",
+      "hero_cta_secondary": "View Bulk Catalog",
+      "about_mill_heritage": "Bouhajla enjoys optimal sunshine and arid conditions, giving our Chemlali olives unparalleled polyphenol density and stability.",
+      "why_choose_subtitle": "Uncompromising quality standards and seamless maritime logistics"
+    }
+  ]
 }
