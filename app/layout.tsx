@@ -4,6 +4,7 @@ import './globals.css';
 import { LanguageProvider } from '@/lib/i18n/context';
 import { SiteSettingsProvider } from '@/lib/context/site-settings-context';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import { Analytics } from '@vercel/analytics/react';
 
 const cormorant = Cormorant_Garamond({
   subsets: ['latin'],
@@ -264,6 +265,7 @@ export default function RootLayout({
           <LanguageProvider>
             {children}
             <SpeedInsights />
+            <Analytics />
           </LanguageProvider>
         </SiteSettingsProvider>
       </body>
