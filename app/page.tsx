@@ -3,9 +3,13 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { motion } from 'framer-motion';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { QuoteModal } from '@/components/ui/QuoteModal';
+import { Reveal, RevealContainer, RevealItem } from '@/components/motion/Reveal';
+import { Counter } from '@/components/motion/Counter';
+import { SplitLine } from '@/components/motion/SplitTitle';
 import {
   ArrowRight,
   ShieldCheck,
@@ -18,7 +22,6 @@ import {
   Ship,
   Boxes,
   Factory,
-  Check,
   FileCheck2,
 } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n/context';
@@ -132,6 +135,12 @@ export default function HomePage() {
     },
   ];
 
+  const trustBadges = [
+    { text: 'Conformité COI Garantie' },
+    { text: 'Contrôle Qualité Lot par Lot' },
+    { text: 'Départs Maritimes Hebdomadaires' },
+  ];
+
   return (
     <>
       <Header />
@@ -150,116 +159,163 @@ export default function HomePage() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
               {/* Left Column: Headlines */}
               <div className="lg:col-span-7 space-y-5 sm:space-y-6 text-center lg:text-left">
-                <div className="inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur-md px-3 py-1 sm:px-3.5 sm:py-1.5 text-[11px] sm:text-xs font-semibold text-abh-amber border border-white/15">
-                  <Sparkles className="h-3.5 w-3.5 text-abh-amber shrink-0" />
+                {/* Badge entrance */}
+                <motion.div
+                  initial={{ opacity: 0, y: -12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                  className="inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur-md px-3 py-1 sm:px-3.5 sm:py-1.5 text-[11px] sm:text-xs font-semibold text-abh-amber border border-white/15 shadow-sm"
+                >
+                  <Sparkles className="h-3.5 w-3.5 text-abh-amber shrink-0 animate-pulse" />
                   <span className="truncate">Société de Commerce International — RNE 1956962P</span>
-                </div>
+                </motion.div>
 
+                {/* Hero Editorial Title with Split-Line Mask Reveal */}
                 <h1 className="text-3xl sm:text-5xl lg:text-6xl font-heading font-bold tracking-tight text-white leading-[1.15]">
                   <span className="block text-abh-amber text-lg sm:text-2xl font-serif font-medium mb-2 tracking-normal">
-                    ABH Company — Authentic Bio Huile
+                    <SplitLine delay={0.15}>ABH Company — Authentic Bio Huile</SplitLine>
                   </span>
-                  L Excellence des Huiles Bio & d Olive Tunisiennes en <span className="text-gradient-gold">Vrac Maritime</span>
+                  <span className="block">
+                    <SplitLine delay={0.28}>L Excellence des Huiles Bio & d Olive</SplitLine>
+                  </span>
+                  <span className="block">
+                    <SplitLine delay={0.4}>
+                      Tunisiennes en <span className="text-gradient-gold">Vrac Maritime</span>
+                    </SplitLine>
+                  </span>
                 </h1>
 
-                <p className="text-sm sm:text-lg text-gray-300 max-w-2xl mx-auto lg:mx-0 font-light leading-relaxed">
+                {/* Hero Paragraph with smooth fade-up */}
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.75, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  className="text-sm sm:text-lg text-gray-300 max-w-2xl mx-auto lg:mx-0 font-light leading-relaxed"
+                >
                   Basée à Bouhajla au cœur du gouvernorat de Kairouan, <b>Authentic Bio Huile Company (ABH)</b> sélectionne, stocke sous azote et exporte des huiles d exception en Flexitanks 24 000L et fûts vers les cinq continents.
-                </p>
+                </motion.p>
 
-                <div className="pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4">
+                {/* CTA Buttons */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.75, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                  className="pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4"
+                >
                   <button
                     type="button"
                     onClick={() => setQuoteModalOpen(true)}
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-abh-amber to-abh-copper px-7 py-3.5 text-xs sm:text-sm font-bold text-white shadow-lg shadow-abh-amber/25 hover:shadow-xl hover:scale-[1.02] transition-all"
+                    className="group relative w-full sm:w-auto inline-flex items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-abh-amber via-[#e6b74a] to-abh-copper px-7 py-3.5 text-xs sm:text-sm font-bold text-white shadow-lg shadow-abh-amber/25 hover:shadow-xl hover:scale-[1.02] active:scale-[0.99] transition-all duration-300"
                   >
                     <span>Demander une Cotation (RFQ)</span>
-                    <ArrowRight className="h-4 w-4" />
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </button>
 
                   <Link
                     href="/products"
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-white/10 backdrop-blur-md px-7 py-3.5 text-xs sm:text-sm font-semibold text-white hover:bg-white/15 border border-white/20 transition-colors"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-white/10 backdrop-blur-md px-7 py-3.5 text-xs sm:text-sm font-semibold text-white hover:bg-white/15 border border-white/20 transition-all hover:scale-[1.01]"
                   >
                     <span>Découvrir le Catalogue</span>
                   </Link>
-                </div>
+                </motion.div>
 
-                {/* Trust badges */}
+                {/* Trust badges with staggered entrance */}
                 <div className="pt-4 sm:pt-6 border-t border-white/10 flex flex-wrap items-center justify-center lg:justify-start gap-4 sm:gap-6 text-xs text-gray-400">
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-abh-amber shrink-0" />
-                    <span>Conformité COI Garantie</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-abh-amber shrink-0" />
-                    <span>Contrôle Qualité Lot par Lot</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-abh-amber shrink-0" />
-                    <span>Départs Maritimes Hebdomadaires</span>
-                  </div>
+                  {trustBadges.map((badge, i) => (
+                    <motion.div
+                      key={badge.text}
+                      initial={{ opacity: 0, y: 15 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{
+                        duration: 0.55,
+                        delay: 0.7 + i * 0.12,
+                        ease: [0.22, 1, 0.36, 1],
+                      }}
+                      className="flex items-center gap-2"
+                    >
+                      <CheckCircle2 className="h-4 w-4 text-abh-amber shrink-0" />
+                      <span>{badge.text}</span>
+                    </motion.div>
+                  ))}
                 </div>
               </div>
 
-              {/* Right Column: Hero Visual Card */}
+              {/* Right Column: Hero Visual Card with subtle smooth zoom and floating badge */}
               <div className="lg:col-span-5">
-                <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-white/15 bg-white/5 backdrop-blur-md p-2">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.96, y: 20 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  transition={{ duration: 0.9, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                  className="relative rounded-2xl overflow-hidden shadow-2xl border border-white/15 bg-white/5 backdrop-blur-md p-2 group"
+                >
                   <div className="relative aspect-[4/3] rounded-xl overflow-hidden">
-                    <Image
-                      src="/images/facility/storage-tanks.jpg"
-                      alt="Installations industrielles ABH Company Kairouan"
-                      fill
-                      className="object-cover"
-                      priority
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-abh-midnight/90 via-transparent to-transparent" />
-                    <div className="absolute bottom-4 left-4 right-4 p-3 rounded-xl bg-abh-midnight/80 backdrop-blur-md border border-white/15 text-white">
+                    <motion.div
+                      initial={{ scale: 1.08 }}
+                      animate={{ scale: 1 }}
+                      transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
+                      className="w-full h-full relative"
+                    >
+                      <Image
+                        src="/images/facility/storage-tanks.jpg"
+                        alt="Installations industrielles ABH Company Kairouan"
+                        fill
+                        className="object-cover transition-transform duration-1000 group-hover:scale-105"
+                        priority
+                      />
+                    </motion.div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-abh-midnight/90 via-transparent to-transparent pointer-events-none" />
+                    <motion.div
+                      initial={{ opacity: 0, y: 15 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                      className="absolute bottom-4 left-4 right-4 p-3 rounded-xl bg-abh-midnight/85 backdrop-blur-md border border-white/15 text-white shadow-lg"
+                    >
                       <div className="flex items-center justify-between">
                         <div>
                           <p className="text-xs text-abh-amber font-semibold uppercase tracking-wider">Cuvisterie Inox Sous Azote</p>
                           <p className="text-sm font-bold">Capacité de Stockage & Export Sécurisée</p>
                         </div>
-                        <span className="rounded-full bg-emerald-500/20 px-2.5 py-1 text-[10px] font-bold text-emerald-400 border border-emerald-500/30">
+                        <span className="rounded-full bg-emerald-500/20 px-2.5 py-1 text-[10px] font-bold text-emerald-400 border border-emerald-500/30 flex items-center gap-1">
+                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
                           ACTIF
                         </span>
                       </div>
-                    </div>
+                    </motion.div>
                   </div>
-                </div>
+                </motion.div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* ================= STATS SECTION ================= */}
+        {/* ================= STATS SECTION WITH ANIMATED COUNTERS ================= */}
         <section className="relative -mt-8 sm:-mt-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-20">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          <RevealContainer stagger={0.1} delayChildren={0.1} className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             {stats.map((stat, i) => {
               const Icon = stat.icon;
               return (
-                <div
-                  key={i}
-                  className="rounded-2xl bg-white p-3.5 sm:p-6 shadow-premium border border-abh-border text-center card-hover"
-                >
-                  <div className="mx-auto flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-xl bg-abh-sand/40 text-abh-sapphire mb-2.5 sm:mb-3">
-                    <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-abh-amber" />
+                <RevealItem key={i}>
+                  <div className="group rounded-2xl bg-white p-3.5 sm:p-6 shadow-premium border border-abh-border text-center transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:border-abh-amber/50">
+                    <div className="mx-auto flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-xl bg-abh-sand/40 text-abh-sapphire mb-2.5 sm:mb-3 group-hover:scale-110 group-hover:bg-abh-amber/10 transition-all duration-300">
+                      <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-abh-amber" />
+                    </div>
+                    <div className="text-2xl sm:text-3xl font-heading font-bold text-abh-sapphire mb-0.5 sm:mb-1">
+                      <Counter value={stat.value} duration={1.6} />
+                    </div>
+                    <div className="text-[11px] sm:text-xs font-medium text-abh-slate leading-tight">
+                      {stat.label}
+                    </div>
                   </div>
-                  <div className="text-2xl sm:text-3xl font-heading font-bold text-abh-sapphire mb-0.5 sm:mb-1">
-                    {stat.value}
-                  </div>
-                  <div className="text-[11px] sm:text-xs font-medium text-abh-slate leading-tight">
-                    {stat.label}
-                  </div>
-                </div>
+                </RevealItem>
               );
             })}
-          </div>
+          </RevealContainer>
         </section>
 
         {/* ================= PRODUCTS PREVIEW ================= */}
         <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-14">
-            <div className="inline-flex items-center gap-2 rounded-full bg-abh-sand/50 px-3 py-1 text-xs font-semibold text-abh-sapphire mb-3">
+          <Reveal className="text-center max-w-2xl mx-auto mb-14">
+            <div className="inline-flex items-center gap-2 rounded-full bg-abh-sand/50 px-3 py-1 text-xs font-semibold text-abh-sapphire mb-3 border border-abh-border/60">
               <Boxes className="h-3.5 w-3.5 text-abh-amber" />
               <span>Gamme Oléicole B2B</span>
             </div>
@@ -269,70 +325,76 @@ export default function HomePage() {
             <p className="text-sm text-abh-slate mt-2">
               Chaque produit est soumis à une batterie d analyses physico-chimiques complètes avant scellage des conteneurs.
             </p>
-          </div>
+          </Reveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <RevealContainer stagger={0.12} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {productsPreview.map((prod) => (
-              <div
-                key={prod.slug}
-                className="group rounded-2xl bg-white overflow-hidden border border-abh-border shadow-card card-hover flex flex-col justify-between"
-              >
-                <div>
-                  <div className="relative aspect-[4/3] overflow-hidden bg-abh-pearl">
-                    <Image
-                      src={prod.image}
-                      alt={prod.title}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                    <div className="absolute top-3 left-3 rounded-full bg-abh-midnight/80 backdrop-blur-md px-3 py-1 text-[11px] font-semibold text-abh-amber border border-white/20">
-                      {prod.badge}
+              <RevealItem key={prod.slug}>
+                <div className="group rounded-2xl bg-white overflow-hidden border border-abh-border shadow-card flex flex-col justify-between h-full transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_16px_36px_rgba(43,76,40,0.14)] hover:border-abh-amber/60">
+                  <div>
+                    {/* Image with smooth zoom and acidity badge shimmer */}
+                    <div className="relative aspect-[4/3] overflow-hidden bg-abh-pearl">
+                      <Image
+                        src={prod.image}
+                        alt={prod.title}
+                        fill
+                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-108"
+                      />
+                      {/* Acidity / category badge with subtle golden shimmer */}
+                      <div className="relative overflow-hidden inline-block absolute top-3 left-3 rounded-full bg-abh-midnight/85 backdrop-blur-md px-3 py-1 text-[11px] font-semibold text-abh-amber border border-white/20 shadow-sm before:absolute before:inset-0 before:-translate-x-full group-hover:before:translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/30 before:to-transparent before:transition-transform before:duration-1000">
+                        {prod.badge}
+                      </div>
+                    </div>
+
+                    <div className="p-5">
+                      <div className="flex items-center justify-between text-xs text-abh-slate mb-1">
+                        <span>Acidité Max :</span>
+                        <span className="font-mono font-bold text-abh-sapphire bg-abh-sand/40 px-2 py-0.5 rounded text-[11px] border border-abh-border/60">
+                          {prod.acidity}
+                        </span>
+                      </div>
+                      <h3 className="text-lg font-heading font-bold text-abh-sapphire mb-2 group-hover:text-abh-amber transition-colors">
+                        {prod.title}
+                      </h3>
+                      <p className="text-xs text-abh-slate leading-relaxed mb-4">
+                        {prod.desc}
+                      </p>
                     </div>
                   </div>
 
-                  <div className="p-5">
-                    <div className="flex items-center justify-between text-xs text-abh-slate mb-1">
-                      <span>Acidité Max :</span>
-                      <span className="font-mono font-bold text-abh-sapphire">{prod.acidity}</span>
-                    </div>
-                    <h3 className="text-lg font-heading font-bold text-abh-sapphire mb-2 group-hover:text-abh-amber transition-colors">
-                      {prod.title}
-                    </h3>
-                    <p className="text-xs text-abh-slate leading-relaxed mb-4">
-                      {prod.desc}
-                    </p>
+                  <div className="p-5 pt-0">
+                    <Link
+                      href={`/products/${prod.slug}`}
+                      className="w-full inline-flex items-center justify-center gap-1.5 rounded-xl border border-abh-border py-2 text-xs font-semibold text-abh-sapphire hover:bg-abh-sapphire hover:text-white hover:border-abh-sapphire transition-all duration-300"
+                    >
+                      <span>Consulter la Fiche Technique</span>
+                      <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+                    </Link>
                   </div>
                 </div>
-
-                <div className="p-5 pt-0">
-                  <Link
-                    href={`/products/${prod.slug}`}
-                    className="w-full inline-flex items-center justify-center gap-1.5 rounded-xl border border-abh-border py-2 text-xs font-semibold text-abh-sapphire hover:bg-abh-sapphire hover:text-white transition-colors"
-                  >
-                    <span>Consulter la Fiche Technique</span>
-                    <ArrowRight className="h-3.5 w-3.5" />
-                  </Link>
-                </div>
-              </div>
+              </RevealItem>
             ))}
-          </div>
+          </RevealContainer>
 
-          <div className="mt-12 text-center">
+          <Reveal delay={0.2} className="mt-12 text-center">
             <Link
               href="/products"
-              className="inline-flex items-center gap-2 text-sm font-semibold text-abh-amber hover:text-abh-copper transition-colors"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-abh-amber hover:text-abh-copper transition-colors group"
             >
               <span>Voir l ensemble des spécifications physico-chimiques</span>
-              <ArrowRight className="h-4 w-4" />
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
-          </div>
+          </Reveal>
         </section>
 
         {/* ================= WHY CHOOSE ABH ================= */}
-        <section className="py-20 bg-abh-midnight text-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="py-20 bg-abh-midnight text-white relative overflow-hidden">
+          {/* Subtle ambient light */}
+          <div className="absolute top-1/2 left-0 w-72 h-72 rounded-full bg-abh-amber/10 blur-3xl pointer-events-none" />
+
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-              <div className="lg:col-span-5 space-y-6">
+              <Reveal direction="left" className="lg:col-span-5 space-y-6">
                 <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-abh-amber border border-white/15">
                   <ShieldCheck className="h-3.5 w-3.5" />
                   <span>Rigueur & Fiabilité</span>
@@ -341,7 +403,7 @@ export default function HomePage() {
                   Pourquoi les Négociants Internationaux Choisissent ABH ?
                 </h2>
                 <p className="text-sm text-gray-300 leading-relaxed">
-                  L approvisionnement en vrac maritime exige une traçabilité sans faille, une inertage sous azote maîtrisé pour éviter toute oxydation et une gestion documentaire douanière irréprochable.
+                  L approvisionnement en vrac maritime exige une traçabilité sans faille, un inertage sous azote maîtrisé pour éviter toute oxydation et une gestion documentaire douanière irréprochable.
                 </p>
 
                 <div className="space-y-4">
@@ -375,49 +437,57 @@ export default function HomePage() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </Reveal>
 
-              <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="rounded-2xl bg-white/5 border border-white/10 p-6 backdrop-blur-md">
-                  <Factory className="h-8 w-8 text-abh-amber mb-3" />
-                  <h3 className="text-base font-bold text-white mb-1">Capacité Industrielle</h3>
-                  <p className="text-xs text-gray-400 leading-relaxed">
-                    Installations de pointe avec pont-bascule certifié et quais de chargement dédiés aux camions-citernes et conteneurs Flexitank.
-                  </p>
-                </div>
+              <RevealContainer stagger={0.12} className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <RevealItem>
+                  <div className="rounded-2xl bg-white/5 border border-white/10 p-6 backdrop-blur-md transition-all duration-300 hover:bg-white/[0.08] hover:border-abh-amber/50 hover:-translate-y-1">
+                    <Factory className="h-8 w-8 text-abh-amber mb-3" />
+                    <h3 className="text-base font-bold text-white mb-1">Capacité Industrielle</h3>
+                    <p className="text-xs text-gray-400 leading-relaxed">
+                      Installations de pointe avec pont-bascule certifié et quais de chargement dédiés aux camions-citernes et conteneurs Flexitank.
+                    </p>
+                  </div>
+                </RevealItem>
 
-                <div className="rounded-2xl bg-white/5 border border-white/10 p-6 backdrop-blur-md">
-                  <Ship className="h-8 w-8 text-abh-amber mb-3" />
-                  <h3 className="text-base font-bold text-white mb-1">Proximité des Ports</h3>
-                  <p className="text-xs text-gray-400 leading-relaxed">
-                    Accès rapide aux terminaux maritimes de Radès, Sousse et Bizerte avec des liaisons régulières vers l Europe, l Asie et les Amériques.
-                  </p>
-                </div>
+                <RevealItem>
+                  <div className="rounded-2xl bg-white/5 border border-white/10 p-6 backdrop-blur-md transition-all duration-300 hover:bg-white/[0.08] hover:border-abh-amber/50 hover:-translate-y-1">
+                    <Ship className="h-8 w-8 text-abh-amber mb-3" />
+                    <h3 className="text-base font-bold text-white mb-1">Proximité des Ports</h3>
+                    <p className="text-xs text-gray-400 leading-relaxed">
+                      Accès rapide aux terminaux maritimes de Radès, Sousse et Bizerte avec des liaisons régulières vers l Europe, l Asie et les Amériques.
+                    </p>
+                  </div>
+                </RevealItem>
 
-                <div className="rounded-2xl bg-white/5 border border-white/10 p-6 backdrop-blur-md">
-                  <FileCheck2 className="h-8 w-8 text-abh-amber mb-3" />
-                  <h3 className="text-base font-bold text-white mb-1">Analyses Certifiées</h3>
-                  <p className="text-xs text-gray-400 leading-relaxed">
-                    Double vérification analytique par laboratoire accrédité indépendant avant chaque chargement maritime.
-                  </p>
-                </div>
+                <RevealItem>
+                  <div className="rounded-2xl bg-white/5 border border-white/10 p-6 backdrop-blur-md transition-all duration-300 hover:bg-white/[0.08] hover:border-abh-amber/50 hover:-translate-y-1">
+                    <FileCheck2 className="h-8 w-8 text-abh-amber mb-3" />
+                    <h3 className="text-base font-bold text-white mb-1">Analyses Certifiées</h3>
+                    <p className="text-xs text-gray-400 leading-relaxed">
+                      Double vérification analytique par laboratoire accrédité indépendant avant chaque chargement maritime.
+                    </p>
+                  </div>
+                </RevealItem>
 
-                <div className="rounded-2xl bg-white/5 border border-white/10 p-6 backdrop-blur-md">
-                  <Award className="h-8 w-8 text-abh-amber mb-3" />
-                  <h3 className="text-base font-bold text-white mb-1">Labels de Confiance</h3>
-                  <p className="text-xs text-gray-400 leading-relaxed">
-                    Production certifiée BRC Food, ISO 22000, IFS Food, Agriculture Biologique (Ecocert), Halal et Kosher.
-                  </p>
-                </div>
-              </div>
+                <RevealItem>
+                  <div className="rounded-2xl bg-white/5 border border-white/10 p-6 backdrop-blur-md transition-all duration-300 hover:bg-white/[0.08] hover:border-abh-amber/50 hover:-translate-y-1">
+                    <Award className="h-8 w-8 text-abh-amber mb-3" />
+                    <h3 className="text-base font-bold text-white mb-1">Labels de Confiance</h3>
+                    <p className="text-xs text-gray-400 leading-relaxed">
+                      Production certifiée BRC Food, ISO 22000, IFS Food, Agriculture Biologique (Ecocert), Halal et Kosher.
+                    </p>
+                  </div>
+                </RevealItem>
+              </RevealContainer>
             </div>
           </div>
         </section>
 
         {/* ================= PACKAGING SECTION ================= */}
         <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-14">
-            <div className="inline-flex items-center gap-2 rounded-full bg-abh-sand/50 px-3 py-1 text-xs font-semibold text-abh-sapphire mb-3">
+          <Reveal className="text-center max-w-2xl mx-auto mb-14">
+            <div className="inline-flex items-center gap-2 rounded-full bg-abh-sand/50 px-3 py-1 text-xs font-semibold text-abh-sapphire mb-3 border border-abh-border/60">
               <Boxes className="h-3.5 w-3.5 text-abh-amber" />
               <span>Logistique de Conditionnement</span>
             </div>
@@ -427,109 +497,110 @@ export default function HomePage() {
             <p className="text-sm text-abh-slate mt-2">
               Des solutions d emballage sécurisées et agréées contact alimentaire adaptées à vos impératifs de manutention.
             </p>
-          </div>
+          </Reveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <RevealContainer stagger={0.12} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {packagings.map((pkg, i) => (
-              <div
-                key={i}
-                className="rounded-2xl bg-white p-6 border border-abh-border shadow-card card-hover flex flex-col justify-between"
-              >
-                <div>
-                  <div className="relative aspect-video rounded-xl overflow-hidden mb-4 bg-abh-pearl">
-                    <Image
-                      src={pkg.image}
-                      alt={pkg.title}
-                      fill
-                      className="object-cover"
-                    />
+              <RevealItem key={i}>
+                <div className="group rounded-2xl bg-white p-6 border border-abh-border shadow-card flex flex-col justify-between h-full transition-all duration-500 hover:-translate-y-2 hover:shadow-xl hover:border-abh-amber/60">
+                  <div>
+                    <div className="relative aspect-video rounded-xl overflow-hidden mb-4 bg-abh-pearl">
+                      <Image
+                        src={pkg.image}
+                        alt={pkg.title}
+                        fill
+                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                      />
+                    </div>
+                    <div className="text-xs font-bold text-abh-amber uppercase tracking-wider mb-1">
+                      {pkg.capacity}
+                    </div>
+                    <h3 className="text-base font-heading font-bold text-abh-sapphire mb-2 group-hover:text-abh-amber transition-colors">
+                      {pkg.title}
+                    </h3>
+                    <p className="text-xs text-abh-slate leading-relaxed mb-4">
+                      {pkg.desc}
+                    </p>
                   </div>
-                  <div className="text-xs font-bold text-abh-amber uppercase tracking-wider mb-1">
-                    {pkg.capacity}
+                  <div className="pt-3 border-t border-abh-border/60 text-[11px] text-abh-slate">
+                    <span className="font-semibold text-abh-sapphire">Idéal pour : </span>
+                    {pkg.ideal}
                   </div>
-                  <h3 className="text-base font-heading font-bold text-abh-sapphire mb-2">
-                    {pkg.title}
-                  </h3>
-                  <p className="text-xs text-abh-slate leading-relaxed mb-4">
-                    {pkg.desc}
-                  </p>
                 </div>
-                <div className="pt-3 border-t border-abh-border/60 text-[11px] text-abh-slate">
-                  <span className="font-semibold text-abh-sapphire">Idéal pour : </span>
-                  {pkg.ideal}
-                </div>
-              </div>
+              </RevealItem>
             ))}
-          </div>
+          </RevealContainer>
         </section>
 
         {/* ================= FAQ SECTION ================= */}
         <section className="py-20 bg-abh-pearl/60 border-t border-abh-border">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-12">
+            <Reveal className="text-center mb-12">
               <h2 className="text-3xl font-heading font-bold text-abh-sapphire">
                 Questions Fréquentes (Export B2B)
               </h2>
               <p className="text-xs sm:text-sm text-abh-slate mt-1">
                 Toutes les réponses pour faciliter votre premier approvisionnement auprès d ABH Company.
               </p>
-            </div>
+            </Reveal>
 
-            <div className="space-y-3">
+            <RevealContainer stagger={0.08} className="space-y-3">
               {faqs.map((faq, index) => {
                 const isOpen = openFaq === index;
                 return (
-                  <div
-                    key={index}
-                    className="rounded-xl bg-white border border-abh-border overflow-hidden shadow-xs transition-all"
-                  >
-                    <button
-                      type="button"
-                      onClick={() => toggleFaq(index)}
-                      className="w-full flex items-center justify-between p-4 sm:p-5 text-left text-xs sm:text-sm font-bold text-abh-sapphire hover:text-abh-amber transition-colors"
-                    >
-                      <span>{faq.q}</span>
-                      <ChevronDown
-                        className={`h-4 w-4 shrink-0 transition-transform duration-200 text-abh-amber ${
-                          isOpen ? 'rotate-180' : ''
-                        }`}
-                      />
-                    </button>
-                    {isOpen && (
-                      <div className="px-4 pb-5 sm:px-5 text-xs text-abh-slate leading-relaxed border-t border-gray-100 pt-3">
-                        {faq.a}
-                      </div>
-                    )}
-                  </div>
+                  <RevealItem key={index}>
+                    <div className="rounded-xl bg-white border border-abh-border overflow-hidden shadow-xs transition-all hover:border-abh-amber/40">
+                      <button
+                        type="button"
+                        onClick={() => toggleFaq(index)}
+                        className="w-full flex items-center justify-between p-4 sm:p-5 text-left text-xs sm:text-sm font-bold text-abh-sapphire hover:text-abh-amber transition-colors"
+                      >
+                        <span>{faq.q}</span>
+                        <ChevronDown
+                          className={`h-4 w-4 shrink-0 transition-transform duration-300 text-abh-amber ${
+                            isOpen ? 'rotate-180' : ''
+                          }`}
+                        />
+                      </button>
+                      {isOpen && (
+                        <div className="px-4 pb-5 sm:px-5 text-xs text-abh-slate leading-relaxed border-t border-gray-100 pt-3 animate-fade-in">
+                          {faq.a}
+                        </div>
+                      )}
+                    </div>
+                  </RevealItem>
                 );
               })}
-            </div>
+            </RevealContainer>
           </div>
         </section>
 
         {/* ================= CTA BANNER ================= */}
         <section className="relative overflow-hidden bg-gradient-to-r from-abh-sapphire via-abh-midnight to-abh-sapphire py-16 text-white text-center">
+          <div className="absolute inset-0 opacity-15 bg-[radial-gradient(#D4930D_1px,transparent_1px)] [background-size:20px_20px] pointer-events-none" />
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-6">
-            <div className="inline-flex items-center gap-2 rounded-full bg-abh-amber/20 px-3.5 py-1 text-xs font-semibold text-abh-amber border border-abh-amber/30">
-              <Sparkles className="h-3.5 w-3.5" />
-              <span>Campagne Oléicole 2025 / 2026</span>
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-heading font-bold">
-              Prêt à Réserver vos Volumes d Huile d Olive Tunisienne ?
-            </h2>
-            <p className="text-sm text-gray-300 max-w-xl mx-auto font-light">
-              Contactez directement notre direction commerciale pour recevoir nos cotations Incoterms actualisées et convenir d un calendrier d expéditions.
-            </p>
-            <div>
-              <button
-                type="button"
-                onClick={() => setQuoteModalOpen(true)}
-                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-abh-amber to-abh-copper px-8 py-3.5 text-sm font-bold text-white shadow-xl hover:scale-105 transition-all"
-              >
-                <span>Solliciter une Cotation Immédiate</span>
-                <ArrowRight className="h-4 w-4" />
-              </button>
-            </div>
+            <Reveal className="space-y-6">
+              <div className="inline-flex items-center gap-2 rounded-full bg-abh-amber/20 px-3.5 py-1 text-xs font-semibold text-abh-amber border border-abh-amber/30">
+                <Sparkles className="h-3.5 w-3.5" />
+                <span>Campagne Oléicole 2025 / 2026</span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-heading font-bold">
+                Prêt à Réserver vos Volumes d Huile d Olive Tunisienne ?
+              </h2>
+              <p className="text-sm text-gray-300 max-w-xl mx-auto font-light">
+                Contactez directement notre direction commerciale pour recevoir nos cotations Incoterms actualisées et convenir d un calendrier d expéditions.
+              </p>
+              <div>
+                <button
+                  type="button"
+                  onClick={() => setQuoteModalOpen(true)}
+                  className="group relative inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-abh-amber to-abh-copper px-8 py-3.5 text-sm font-bold text-white shadow-xl hover:scale-105 active:scale-95 transition-all duration-300 hover:shadow-abh-amber/30"
+                >
+                  <span>Solliciter une Cotation Immédiate</span>
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </button>
+              </div>
+            </Reveal>
           </div>
         </section>
       </main>

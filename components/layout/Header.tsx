@@ -6,12 +6,12 @@ import { usePathname } from 'next/navigation';
 import { ABHLogo } from '@/components/ui/ABHLogo';
 import { LanguageSelector } from './LanguageSelector';
 import { QuoteModal } from '@/components/ui/QuoteModal';
-import { Menu, X, ArrowUpRight, ShieldCheck, Ship, Sparkles, Lock } from 'lucide-react';
+import { Menu, X, ArrowUpRight, Sparkles, Lock } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n/context';
 
 export function Header() {
   const pathname = usePathname();
-  const { t, dir } = useLanguage();
+  const { t } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [quoteModalOpen, setQuoteModalOpen] = useState(false);
@@ -20,9 +20,13 @@ export function Header() {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
-    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const isHome = pathname === '/';
+  const isTransparent = isHome && !scrolled;
 
   const navLinks = [
     { href: '/', label: t('nav.home') },
@@ -36,22 +40,36 @@ export function Header() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 bg-white/95 backdrop-blur-md border-b border-abh-border/80 ${
-          scrolled
-            ? 'shadow-sm pt-[max(env(safe-area-inset-top,0px),0.5rem)] pb-2 sm:py-2.5'
-            : 'pt-[max(env(safe-area-inset-top,0px),0.75rem)] pb-3 sm:py-3.5 shadow-xs'
+        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+          isTransparent
+            ? 'bg-transparent border-b border-white/10 pt-[max(env(safe-area-inset-top,0px),0.75rem)] pb-3 sm:py-3.5 shadow-none'
+            : 'bg-white/95 backdrop-blur-md border-b border-abh-border/80 shadow-premium pt-[max(env(safe-area-inset-top,0px),0.5rem)] pb-2 sm:py-2.5'
         }`}
       >
         <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
             {/* Logo: Compact on mobile, standard on desktop */}
             <div className="shrink-0">
-              <ABHLogo size="sm" className="sm:hidden" />
-              <ABHLogo size="md" className="hidden sm:inline-flex" />
+              <ABHLogo
+                size="sm"
+                className="sm:hidden"
+                variant={isTransparent ? 'dark' : 'auto'}
+              />
+              <ABHLogo
+                size="md"
+                className="hidden sm:inline-flex"
+                variant={isTransparent ? 'dark' : 'auto'}
+              />
             </div>
 
-            {/* Desktop Navigation with high-contrast background & crisp text */}
-            <nav className="hidden lg:flex items-center gap-1 rounded-full bg-abh-sand/50 p-1 border border-abh-border/80 shadow-xs">
+            {/* Desktop Navigation */}
+            <nav
+              className={`hidden lg:flex items-center gap-1 rounded-full p-1 transition-all duration-300 ${
+                isTransparent
+                  ? 'bg-white/10 backdrop-blur-md border border-white/15 shadow-sm'
+                  : 'bg-abh-sand/50 border border-abh-border/80 shadow-xs'
+              }`}
+            >
               {navLinks.map((link) => {
                 const isActive =
                   link.href === '/' ? pathname === '/' : pathname.startsWith(link.href);
@@ -61,7 +79,11 @@ export function Header() {
                     href={link.href}
                     className={`rounded-full px-4 py-1.5 text-xs font-semibold transition-all duration-200 ${
                       isActive
-                        ? 'bg-abh-sapphire text-white shadow-xs'
+                        ? isTransparent
+                          ? 'bg-abh-amber text-abh-midnight font-bold shadow-xs'
+                          : 'bg-abh-sapphire text-white shadow-xs'
+                        : isTransparent
+                        ? 'text-white/90 hover:text-abh-amber hover:bg-white/10'
                         : 'text-abh-midnight hover:text-abh-amber hover:bg-white/90'
                     }`}
                   >
@@ -73,7 +95,7 @@ export function Header() {
 
             {/* Right actions */}
             <div className="hidden sm:flex items-center gap-3">
-              <LanguageSelector />
+              <LanguageSelector variant={isTransparent ? 'dark' : 'light'} />
 
               <button
                 type="button"
@@ -87,11 +109,15 @@ export function Header() {
 
             {/* Mobile menu button */}
             <div className="flex items-center gap-2 lg:hidden">
-              <LanguageSelector />
+              <LanguageSelector variant={isTransparent ? 'dark' : 'light'} />
               <button
                 type="button"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="rounded-xl p-2 text-abh-midnight hover:bg-abh-sand/40 border border-abh-border/60 transition-colors"
+                className={`rounded-xl p-2 transition-colors border ${
+                  isTransparent
+                    ? 'text-white hover:bg-white/10 border-white/20'
+                    : 'text-abh-midnight hover:bg-abh-sand/40 border-abh-border/60'
+                }`}
                 aria-label="Menu"
               >
                 {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -103,7 +129,7 @@ export function Header() {
         {/* Mobile menu drawer backdrop */}
         {mobileMenuOpen && (
           <div
-            className="lg:hidden fixed inset-0 bg-black/50 backdrop-blur-xs z-30 animate-fade-in"
+            className="lg:hidden fixed inset-0 bg-black/60 backdrop-blur-xs z-30 animate-fade-in"
             onClick={() => setMobileMenuOpen(false)}
           />
         )}

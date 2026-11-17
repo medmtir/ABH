@@ -5,6 +5,8 @@ import { LanguageProvider } from '@/lib/i18n/context';
 import { SiteSettingsProvider } from '@/lib/context/site-settings-context';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Analytics } from '@vercel/analytics/react';
+import { SmoothScroll } from '@/components/motion/SmoothScroll';
+import { ScrollProgressBar } from '@/components/motion/ScrollProgressBar';
 
 const cormorant = Cormorant_Garamond({
   subsets: ['latin'],
@@ -263,7 +265,10 @@ export default function RootLayout({
       <body className="min-h-screen bg-abh-pearl text-abh-midnight antialiased selection:bg-abh-amber selection:text-white">
         <SiteSettingsProvider>
           <LanguageProvider>
-            {children}
+            <SmoothScroll>
+              <ScrollProgressBar />
+              {children}
+            </SmoothScroll>
             <SpeedInsights />
             <Analytics />
           </LanguageProvider>
